@@ -1,3 +1,4 @@
 /yuvacentral_env
 yuvacentral.sock
 /yuvacentral/__pycache__
+/yuvacentral/aws_key.py

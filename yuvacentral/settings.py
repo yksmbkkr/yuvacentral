@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import posixpath
+from .aws_key import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -142,9 +143,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-AWS_ACCESS_KEY_ID = 'AKIAJWNV5WEYXO6TOYVA'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'yuvacentral'
+AWS_ACCESS_KEY_ID = access_id
+AWS_SECRET_ACCESS_KEY = access_key
+AWS_STORAGE_BUCKET_NAME = bucket_name
 
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_OBJECT_PARAMETERS = {
