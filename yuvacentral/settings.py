@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'db4ed6e0-d452-4efc-88b9-85d802a554ca'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['206.189.141.255']
+ALLOWED_HOSTS = ['206.189.141.255', 'yuva.net.in','www.yuva.net.in']
 
 
 # Application definition
