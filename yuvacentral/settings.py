@@ -25,9 +25,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'db4ed6e0-d452-4efc-88b9-85d802a554ca'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+if os.name=='nt':
+    DEBUG = True
+else:
+    DEBUG = False
+#DEBUG=True
 
-ALLOWED_HOSTS = ['206.189.141.255', 'yuva.net.in','www.yuva.net.in']
+ALLOWED_HOSTS = ['206.189.141.255', 'yuva.net.in','www.yuva.net.in','localhost']
 
 
 # Application definition
@@ -79,23 +83,26 @@ WSGI_APPLICATION = 'yuvacentral.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
-
-DATABASES = {
+if os.name=='nt':
+    DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'yuvacentral',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+else:
+    DATABASES = {
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+       'NAME': 'yuvacentral',
 	'USER': 'adminyash',
 	'PASSWORD': '1234admin',
 	'HOST': 'localhost',
 	'PORT': '',
+        }
     }
-}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
