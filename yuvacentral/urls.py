@@ -19,4 +19,5 @@ urlpatterns = [
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('landing_page.urls', namespace = 'landing')),
+    url(r'^account/', include('account.urls', namespace = 'account')),
 ]

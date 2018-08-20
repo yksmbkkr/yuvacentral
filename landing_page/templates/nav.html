@@ -17,6 +17,19 @@
       </div>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
+            {%if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'landing:login'%}" >
+                  Logout
+                </a>
+              </li>
+            {%else%}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'landing:login'%}" >
+                 <i class="material-icons">layers</i> Login
+                </a>
+              </li>
+            {%endif%}
           <!--<li class="dropdown nav-item">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
               <i class="material-icons">apps</i> Components

@@ -39,6 +39,7 @@ ALLOWED_HOSTS = ['206.189.141.255', 'yuva.net.in','www.yuva.net.in','localhost']
 INSTALLED_APPS = [
     # Add your apps here to enable them
     'landing_page',
+    'account',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
