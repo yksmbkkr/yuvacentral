@@ -129,6 +129,41 @@
           </div>
         </div>-->
       </div>
+        {%if elist%}
+    <div class="section text-center">
+        <div class="row">
+            <div class="col-md-8 ml-auto mr-auto">
+                <h2 class="title">
+                    Upcoming Events
+                </h2>
+            </div>
+            <div class="col-md-10 ml-auto mr-auto">
+                {%for e in up_eve%}
+                <div class="col-md-4 col-sm-12 mr-auto ml-auto mt-3">
+                    <div class="card mb-3">
+                          <img class="card-img-top" src="{{e.pic.url}}" alt="Card image cap">
+                          <div class="card-body">
+                            <h4 class="card-title">{{e.name}}</h4>
+                            <p class="card-text">{{e.short_info}}</p>
+                                  <h5><b>Expected Date</b></h5>
+                                  <p class="card-text">{{e.date}}</p>
+                              <h5><b>Expected Venue</b></h5>
+                                  <p class="card-text">{{e.venue}}</p>
+                              <h5><b>Contact Person</b></h5>
+                                  <p class="card-text">{{e.poc_name}}</p>
+                                  <p class="card-text">{{e.poc_number}}</p>
+                              
+                          </div>
+                        <div class="card-footer">
+                            <a class="btn btn-primary btn-block" href="{{e.fb_link}}">Facebook Page</a>
+                        </div>
+                        </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+        {%endif%}
       <div class="section text-center">
         <h3 class="title">Will Unleash Full Potential of This Portal Soon</h3>
           <!--

@@ -1,0 +1,96 @@
+{%extends 'manage/dash_home.html'%}
+
+{%block body%}
+
+<div class="container-fluid">
+    <div class="row">
+        
+        {%if form.errors%}
+        <div class="col-md-10 col-sm-12 mr-auto ml-auto mt-4">
+        {%for field in form.fields%}
+        {%for error in field.errors%}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>{{field.name}}</strong>  : {{error}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+        {%endfor%}
+        {%endfor%}
+            </div>
+        {%endif%}
+        <div class="col-md-10 col-sm-12 mr-auto ml-auto mt-4">
+            <form method="post" enctype="multipart/form-data">
+                
+                   
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <div class="custom-file">
+                            {{form.pic}}   
+                            <label class="custom-file-label" for="{{form.pic.id_for_label}}">Choose Cover Pic 1920*1080 recommended</label>
+                                </div>
+                        </div>
+                    </div>
+                        
+
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            {{form.name}}   
+                            {{form.name.label_tag}}
+                        </div>
+                    </div>
+                  
+                    <div class="form-group">
+                        {{form.short_info.label_tag}}
+                            {{form.short_info}}   
+                            
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            {{form.date}}   
+                            {{form.date.label_tag}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{form.venue.label_tag}}
+                            {{form.venue}}   
+                            
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            {{form.poc_name}}   
+                            {{form.poc_name.label_tag}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            {{form.poc_number}}   
+                            {{form.poc_number.label_tag}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            {{form.fb_link}}   
+                            {{form.fb_link.label_tag}}
+                        </div>
+                    </div>
+                    {%csrf_token%}
+                <button class="btn btn-primary btn-block" type="submit">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+{%block script%}
+<script>
+            $('#id_pic').on('change',function(){
+                //get the file name
+                var fileName = $(this).val();
+                //replace the "Choose a file" label
+                $(this).next('.custom-file-label').html(fileName);
+            })
+        </script>
+{%endblock%}

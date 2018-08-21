@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import posixpath
 from .aws_key import *
+from django.contrib.messages import constants as messages
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,12 +42,15 @@ INSTALLED_APPS = [
     # Add your apps here to enable them
     'landing_page',
     'account',
+    'manage_dashboard',
+    'django_cleanup',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'imagekit',
     'storages',
 ]
 
@@ -73,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -144,24 +150,35 @@ USE_TZ = True
 #STATIC_URL = '/static/'
 
 #STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
+#MAX_UPLOAD_SIZE = 1048576
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
 
 #----------------AWS----------------------------
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+if DEBUG==False:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static'),
+    ]
 
-AWS_ACCESS_KEY_ID = access_id
-AWS_SECRET_ACCESS_KEY = access_key
-AWS_STORAGE_BUCKET_NAME = bucket_name
+    AWS_ACCESS_KEY_ID = access_id
+    AWS_SECRET_ACCESS_KEY = access_key
+    AWS_STORAGE_BUCKET_NAME = bucket_name
 
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-AWS_LOCATION = 'static'
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+    AWS_LOCATION = 'static'
 
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-DEFAULT_FILE_STORAGE = 'yuvacentral.storage_backends.MediaStorage' 
+    DEFAULT_FILE_STORAGE = 'yuvacentral.storage_backends.MediaStorage' 
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
+    MEDIA_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['media']))
+    MEDIA_URL = '/media/'
