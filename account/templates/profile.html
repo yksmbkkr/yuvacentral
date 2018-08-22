@@ -105,5 +105,14 @@
     {%include 'footer.html'%}
   <!--   Core JS Files   -->
   {%include 'scripts.html'%}
+    {%block scripts%}
+
+<script type="text/javascript">
+     $(document).ready(function() {
+$(".js-example-basic-single").select2();
+});
+</script>
+{%endblock%}
 </body>
 {%endblock%}
+

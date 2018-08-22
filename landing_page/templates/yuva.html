@@ -138,16 +138,17 @@
                 </h2>
             </div>
             <div class="col-md-10 ml-auto mr-auto">
+                <div class="row">
                 {%for e in up_eve%}
                 <div class="col-md-4 col-sm-12 mr-auto ml-auto mt-3">
                     <div class="card mb-3">
-                          <img class="card-img-top" src="{{e.pic.url}}" alt="Card image cap">
+                          <img class="card-img-top" src="{{e.pic.url}}" alt="{{e.name|slugify}}-image">
                           <div class="card-body">
                             <h4 class="card-title">{{e.name}}</h4>
                             <p class="card-text">{{e.short_info}}</p>
-                                  <h5><b>Expected Date</b></h5>
+                                  <h5><b>Date</b></h5>
                                   <p class="card-text">{{e.date}}</p>
-                              <h5><b>Expected Venue</b></h5>
+                              <h5><b>Venue</b></h5>
                                   <p class="card-text">{{e.venue}}</p>
                               <h5><b>Contact Person</b></h5>
                                   <p class="card-text">{{e.poc_name}}</p>
@@ -160,6 +161,7 @@
                         </div>
                 </div>
                 {%endfor%}
+                </div>
             </div>
         </div>
     </div>
