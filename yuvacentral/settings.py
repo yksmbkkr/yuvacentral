@@ -158,7 +158,7 @@ MESSAGE_TAGS = {
 
 #----------------AWS----------------------------
 
-if os.name=='nt':
+if os.name!='nt':
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'static'),
     ]
