@@ -7,9 +7,9 @@ from django.conf import settings
 class up_events(models.Model):
     event_id = models.IntegerField(primary_key=True)
     pic = ProcessedImageField(upload_to = 'upcoming_events',
-                               processors = [ResizeToFill(1920,1080)],
+                               processors = [ResizeToFill(400,300)],
                                format = 'PNG',
-                               options={'quality':90})
+                               options={'quality':50})
     name = models.CharField(max_length = 100)
     short_info = models.CharField(max_length = 500)
     date = models.CharField(max_length = 20)
