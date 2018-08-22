@@ -156,6 +156,20 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
+DEFAULT_FROM_EMAIL = 'noreply@yuvainternship.com'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+EMAIL_HOST='smtp.sendgrid.net'
+EMAIL_HOST_USER='apikey'
+EMAIL_HOST_PASSWORD = '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'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+
+LOGIN_URL = 'landing:login'
+LOGOUT_REDIRECT_URL = 'landing:login'
+LOGIN_REDIRECT_URL='account:profile'
+
 #----------------AWS----------------------------
 
 if os.name!='nt':

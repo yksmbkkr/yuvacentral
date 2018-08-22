@@ -15,13 +15,49 @@
                 <h4 class="card-title">Login</h4>
               </div>
               <div class="card-body">
+                  {%if form.errors%}
+                     <div class="row">
+                      <div class="col-sm-12 mt-1 ml-auto mr-auto">
+                          <div class="alert alert-danger">
+                            <div class="container">
+                              <div class="alert-icon">
+                                <i class="material-icons">error_outline</i>
+                              </div>
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                              </button>
+                              <b>Error</b> Username Password didn't match. Try Again...
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                  {%endif%}
+                  {%if messages%}
+                     <div class="row">
+                         {%for message in messages%}
+                      <div class="col-sm-12 mt-1 ml-auto mr-auto">
+                          <div class="alert alert-{{message.tags}}">
+                            <div class="container">
+                              <div class="alert-icon">
+                                <i class="material-icons">error_outline</i>
+                              </div>
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                              </button>
+                              <b></b> {{message}}
+                            </div>
+                          </div>
+                      </div>
+                         {%endfor%}
+                  </div>
+                  {%endif%}
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
                       <i class="material-icons">face</i>
                     </span>
                   </div>
-                  <input id="id_username" type="text" class="form-control" placeholder="Username" name="username">
+                  <input id="id_username" type="text" class="form-control" placeholder="Username" name="username" required>
                 </div>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -29,7 +65,7 @@
                       <i class="material-icons">lock_outline</i>
                     </span>
                   </div>
-                  <input id="id_password" type="password" class="form-control" placeholder="Password" name="password">
+                  <input id="id_password" type="password" class="form-control" placeholder="Password" name="password" required>
                 </div>
               </div>
                 {%csrf_token%}

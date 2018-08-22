@@ -1,0 +1,10 @@
+{% autoescape off %}
+Hi {{ user.username}},
+
+Please Click on the link below to activate your YUVA Account.
+
+http://{{domain}}{% url 'account:activate'  uidb64=uid token=token %}
+
+Please inform us if you have not triggered this mail.
+
+{% endautoescape %}
