@@ -17,13 +17,6 @@
       </div>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-            {%if user.is_authenticated and user.user_check.manager_status%}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'manage_dashboard:add_upcoming_events'%}" >
-                  Logout
-                </a>
-              </li>
-            {%endif%}
             {%if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'landing:logout'%}" >
