@@ -30,6 +30,13 @@
                 </a>
               </li>
             {%endif%}
+            {%if user.user_check.manager_status %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'dashboard:add_upcoming_events'%}" >
+                  Admin Dash
+                </a>
+              </li>
+            {%endif%}
           <!--<li class="dropdown nav-item">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
               <i class="material-icons">apps</i> Components
