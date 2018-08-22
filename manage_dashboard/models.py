@@ -12,7 +12,7 @@ class up_events(models.Model):
                                options={'quality':50})
     name = models.CharField(max_length = 100)
     short_info = models.CharField(max_length = 500)
-    date = models.CharField(max_length = 20)
+    date = models.CharField(max_length = 50)
     venue = models.CharField(max_length = 200)
     poc_name = models.CharField(max_length = 100)
     poc_number = models.CharField(max_length = 100)
