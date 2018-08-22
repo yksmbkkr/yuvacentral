@@ -100,6 +100,7 @@ def profile(request):
             finalform = form.save(commit=False)
             finalform.user = request.user
             finalform.save()
+            a_models.user_check.objects.filter(User=request.user).update(profile_status=True)
             messages.success(request,"Profile saved successfully")
             return redirect('account:profile')
     return render(request,'profile.html',{'form':form})

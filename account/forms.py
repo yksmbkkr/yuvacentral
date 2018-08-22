@@ -20,7 +20,7 @@ class registration_form(UserCreationForm):
 class profile_form(forms.ModelForm):
     name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Name'}))
     phone = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Phone Number'}))
-    college = forms.ModelChoiceField(a_models.college_list_yuva.objects.all(),empty_label='Select College', required=True, widget=forms.Select(attrs={'class':'form-control selectpicker show-tick','data-live-search':'true','data-style':'btn-primary'}))
+    college = forms.ModelChoiceField(a_models.college_list_yuva.objects.all(),empty_label='Select College', required=True, widget=forms.Select(attrs={'class':'form-control selectpicker show-tick','data-live-search':'true','data-style':'btn-primary','style':'width:fit !important;'}))
     class Meta:
         model = a_models.profile
         fields = ('name', 'phone', 'college',)
