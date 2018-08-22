@@ -30,7 +30,7 @@ SECRET_KEY = 'db4ed6e0-d452-4efc-88b9-85d802a554ca'
 if os.name=='nt':
     DEBUG = True
 else:
-    DEBUG = False
+    DEBUG = True
 #DEBUG=True
 
 ALLOWED_HOSTS = ['206.189.141.255', 'yuva.net.in','www.yuva.net.in','localhost']
@@ -158,7 +158,7 @@ MESSAGE_TAGS = {
 
 #----------------AWS----------------------------
 
-if DEBUG==False:
+if os.name=='nt':
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'static'),
     ]
