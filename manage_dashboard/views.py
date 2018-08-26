@@ -4,6 +4,8 @@ from manage_dashboard import forms as m_forms
 from manage_dashboard.custom_generators import *
 from account.decorators import *
 from manage_dashboard import models as m_models
+from django.contrib.auth.models import User
+from account import models as a_models
 
 # Create your views here.
 
@@ -72,3 +74,26 @@ def make_event_live(request, id = None, status = None):
         #event_obj.update(to_post = False)
         messages.warning(request,"Event "+event_obj.name+" is offline now.")
     return redirect('dashboard:list_upcoming_events')
+
+@login_required
+@is_profile_created
+@is_manager
+def dash_home(request):
+    live_count = m_models.up_events.objects.filter(to_post = True).count()
+    offline_count = m_models.up_events.objects.filter(to_post = False).count()
+    total_count = live_count+offline_count
+    user_count = User.objects.all().count()
+    user_with_email_confirmed = a_models.user_check.objects.filter(email_confirmation_status = True).count()
+    user_profile_completed = a_models.user_check.objects.filter(profile_status = True).count()
+    user_managers = a_models.user_check.objects.filter(manager_status = True).count()
+    arg = {
+        'lc':live_count,
+        'oc':offline_count,
+        'tc':total_count,
+        'dh':'active',
+        'uc':user_count,
+        'uec':user_with_email_confirmed,
+        'upc':user_profile_completed,
+        'umc':user_managers
+        }
+    return render(request,'manage/dashboard.html',arg)
