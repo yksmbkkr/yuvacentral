@@ -18,3 +18,7 @@ class up_events(models.Model):
     poc_number = models.CharField(max_length = 100)
     fb_link = models.CharField(max_length = 200)
     to_post = models.BooleanField(default = False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        ordering = ['-created_at','-updated_at']
