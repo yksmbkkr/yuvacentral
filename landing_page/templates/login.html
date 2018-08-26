@@ -70,6 +70,7 @@
               </div>
                 {%csrf_token%}
               <div class="footer text-center">
+                  <input type="hidden" name="next" value="{{ next }}" />
                 <button type="submit" class="btn btn-primary btn-link btn-lg">Login</button>
                   <a href="{%url 'account:forgot_password'%}" class="btn btn-primary btn-link btn-lg">Forgot Password</a>
               </div>
