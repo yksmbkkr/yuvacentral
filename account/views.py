@@ -6,6 +6,7 @@ from django.contrib import messages
 import datetime
 from django.utils import timezone
 from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth.forms import PasswordResetForm
 from django.template.loader import get_template
 from django.template import Context
 from django.contrib.auth.decorators import login_required
@@ -127,3 +128,23 @@ def create_reactivation(request):
     logout(request)
     messages.warning(request,"Successfully resent confirmation mail.")
     return redirect('landing:login')
+
+def forgot_password(request):
+    if request.user.is_authenticated():
+        messages.warning(request,"You are already logged in. Logout and try.")
+        return redirect('account:profile')
+    form = a_forms.single_field_form()
+    if request.method=='POST':
+        form = a_forms.single_field_form(request.POST)
+        if form.is_valid():
+            emailad = form.cleaned_data['field1']
+            if User.objects.filter(email=emailad).count()==0:
+                messages.error(request, "Email ID "+emailad+" is not registerd with us.")
+                return redirect('account:forgot_password')
+            pass_form = PasswordResetForm({'email':emailad})
+            if pass_form.is_valid():
+                print("working")
+                pass_form.save(request=request, subject_template_name = 'password_reset_subject.txt', email_template_name='password_reset_email.html', from_email="no-reply@yuva.net.in", )
+                messages.success(request, 'Password reset email is sent to the provided address. Check inbox and spambox.')
+                return redirect('account:forgot_password')
+    return render(request,'forgot-password.html')

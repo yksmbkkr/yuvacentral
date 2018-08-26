@@ -1,0 +1,86 @@
+{%extends 'manage/dash_home.html'%}
+
+{%block body%}
+
+<div class="container-fluid">
+    <div class="row">
+        
+        {%for message in messages%}
+        <div class="col-md-10 col-sm-12 mr-auto ml-auto">
+        
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+  {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+       
+            </div>
+        {%endfor%}
+        <div class="col-md-12 ml-auto mr-auto">
+        <h4 class="title text-center">Live On Front Page</h4>
+        </div>
+        <div class="col-md-12 ml-auto mr-auto">
+                <div class="row">
+                {%for e in up_eve%}
+                <div class="col-md-4 col-sm-12 mr-auto ml-auto mt-3">
+                    <div class="card mb-3">
+                          <img class="card-img-top" src="{{e.pic.url}}" alt="{{e.name|slugify}}-image">
+                          <div class="card-body">
+                            <h4 class="card-title">{{e.name}}</h4>
+                            <p class="card-text">{{e.short_info}}</p>
+                                  <h5><b>Date</b></h5>
+                                  <p class="card-text">{{e.date}}</p>
+                              <h5><b>Venue</b></h5>
+                                  <p class="card-text">{{e.venue}}</p>
+                              <h5><b>Contact Person</b></h5>
+                                  <p class="card-text">{{e.poc_name}}</p>
+                                  <p class="card-text">{{e.poc_number}}</p>
+                              
+                          </div>
+                        <div class="card-footer">
+                           
+                            <a class="btn btn-secondary btn-block" href="{{e.fb_link}}">Facebook Page</a>
+                             <a class="btn btn-info btn-block" href="{% url 'dashboard:edit_event' e.event_id %}">Edit Event</a>
+                             <a class="btn btn-danger btn-block" href="{% url 'dashboard:event_status' e.event_id 0 %}">Make Event Offline</a>
+                        </div>
+                        </div>
+                </div>
+                {%endfor%}
+                </div>
+            </div>
+        <div class="col-md-12 ml-auto mr-auto">
+        <h4 class="title text-center">Offline Events</h4>
+        </div>
+         <div class="col-md-12 ml-auto mr-auto">
+                <div class="row">
+                {%for e in up_eve_not%}
+                <div class="col-md-4 col-sm-12 mr-auto ml-auto mt-3">
+                    <div class="card mb-3">
+                          <img class="card-img-top" src="{{e.pic.url}}" alt="{{e.name|slugify}}-image">
+                          <div class="card-body">
+                            <h4 class="card-title">{{e.name}}</h4>
+                            <p class="card-text">{{e.short_info}}</p>
+                                  <h5><b>Date</b></h5>
+                                  <p class="card-text">{{e.date}}</p>
+                              <h5><b>Venue</b></h5>
+                                  <p class="card-text">{{e.venue}}</p>
+                              <h5><b>Contact Person</b></h5>
+                                  <p class="card-text">{{e.poc_name}}</p>
+                                  <p class="card-text">{{e.poc_number}}</p>
+                              
+                          </div>
+                        <div class="card-footer">
+                            <a class="btn btn-secondary btn-block" href="{{e.fb_link}}">Facebook Page</a>
+                            <a class="btn btn-info btn-block" href="{% url 'dashboard:edit_event' e.event_id %}">Edit Event</a>
+                             <a class="btn btn-warning btn-block" href="{% url 'dashboard:event_status' e.event_id 1 %}">Make Event Live</a>
+                        </div>
+                        </div>
+                </div>
+                {%endfor%}
+                </div>
+            </div>
+    </div>
+</div>
+
+{%endblock%}

@@ -17,3 +17,4 @@ class up_events(models.Model):
     poc_name = models.CharField(max_length = 100)
     poc_number = models.CharField(max_length = 100)
     fb_link = models.CharField(max_length = 200)
+    to_post = models.BooleanField(default = False)

@@ -28,9 +28,14 @@
             <span>Charts</span></a>
         </li>
     -->
-        <li class="nav-item {{u_eve}}">
-          <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Upcoming Events</span></a>
+    <li class="nav-item dropdown {{u_eve}}">
+          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Upcoming Events</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+            <a class="dropdown-item" href="{% url 'dashboard:list_upcoming_events'%}">List</a>
+            <a class="dropdown-item" href="{% url 'dashboard:add_upcoming_events'%}">Add</a>
+          </div>
         </li>
       </ul>

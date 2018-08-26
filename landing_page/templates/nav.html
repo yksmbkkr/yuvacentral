@@ -19,14 +19,24 @@
         <ul class="navbar-nav ml-auto">
             {%if user.is_authenticated %}
             <li class="nav-item">
+                <a class="nav-link" href="{% url 'account:profile'%}" >
+                  <i class="material-icons">account_circle</i>Profile
+                </a>
+              </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'landing:logout'%}" >
-                  Logout
+                  <i class="material-icons">meeting_room</i>Logout
                 </a>
               </li>
             {%else%}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'landing:login'%}" >
                  <i class="material-icons">layers</i> Login
+                </a>
+              </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'account:register_yuva'%}" >
+                 <i class="material-icons">account_box</i> Register
                 </a>
               </li>
             {%endif%}
