@@ -101,7 +101,7 @@ def profile(request):
             finalform = form.save(commit=False)
             finalform.user = request.user
             finalform.save()
-            a_models.user_check.objects.filter(User=request.user).update(profile_status=True)
+            a_models.user_check.objects.filter(user=request.user).update(profile_status=True)
             messages.success(request,"Profile saved successfully")
             return redirect('account:profile')
     return render(request,'profile.html',{'form':form})
@@ -157,7 +157,7 @@ def change_mail(request):
         if form.is_valid():
             usr = request.user
             email = form.cleaned_data['field1']
-            if User.objects.filter(email = eamil).count()>0:
+            if User.objects.filter(email = email).count()>0:
                 messages.error(request, email+" is already associated with another account. Use forget password option to recover password.")
                 return redirect('landing:login')
             usr.email = email
