@@ -42,10 +42,10 @@
                           </div>
                         <div class="card-footer">
                             {%if e.reg_link_status%}
-                            <a class="btn btn-secondary btn-block" href="{{e.reg_link}}">Registraion Link</a>
+                            <a class="btn btn-secondary btn-block" href="{{e.reg_link}}" target="_blank">Registraion Link</a>
                             {%endif%}
                            {%if e.fb_link_status%}
-                            <a class="btn btn-secondary btn-block" href="{{e.fb_link}}">Facebook Page</a>
+                            <a class="btn btn-secondary btn-block" href="{{e.fb_link}}" target="_blank">Facebook Page</a>
                             {%endif%}
                              <a class="btn btn-info btn-block" href="{% url 'dashboard:edit_event' e.event_id %}">Edit Event</a>
                              <a class="btn btn-danger btn-block" href="{% url 'dashboard:event_status' e.event_id 0 %}">Make Event Offline</a>
@@ -80,10 +80,10 @@
                           </div>
                         <div class="card-footer">
                             {%if e.reg_link_status%}
-                            <a class="btn btn-secondary btn-block" href="{{e.reg_link}}">Registration Link</a>
+                            <a class="btn btn-secondary btn-block" href="{{e.reg_link}}" target="_blank">Registration Link</a>
                             {%endif%}
                            {%if e.fb_link_status%}
-                            <a class="btn btn-secondary btn-block" href="{{e.fb_link}}">Facebook Page</a>
+                            <a class="btn btn-secondary btn-block" href="{{e.fb_link}}" target="_blank">Facebook Page</a>
                             {%endif%}
                             <a class="btn btn-info btn-block" href="{% url 'dashboard:edit_event' e.event_id %}">Edit Event</a>
                              <a class="btn btn-warning btn-block" href="{% url 'dashboard:event_status' e.event_id 1 %}">Make Event Live</a>
