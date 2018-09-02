@@ -126,7 +126,7 @@ def create_reactivation(request):
                     })
     user.email_user(subject,message)
     logout(request)
-    messages.warning(request,"Successfully resent confirmation mail.")
+    messages.warning(request,"Successfully resent confirmation mail. You need to creconfirm your account. Check your inbox and spambox.")
     return redirect('landing:login')
 
 def forgot_password(request):
@@ -148,3 +148,20 @@ def forgot_password(request):
                 messages.success(request, 'Password reset email is sent to the provided address. Check inbox and spambox.')
                 return redirect('account:forgot_password')
     return render(request,'forgot-password.html')
+
+@login_required
+def change_mail(request):
+    form = a_forms.single_field_form()
+    if request.method=='POST':
+        form = a_forms.single_field_form(request.POST)
+        if form.is_valid():
+            usr = request.user
+            email = form.cleaned_data['field1']
+            if User.objects.filter(email = eamil).count()>0:
+                messages.error(request, email+" is already associated with another account. Use forget password option to recover password.")
+                return redirect('landing:login')
+            usr.email = email
+            usr.save()
+            messages.success(request,"Your email address is updated successfully.")
+            return redirect('account:create_reactivation')
+    return render(request, "email-update.html",{'form':form})

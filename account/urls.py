@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^forgot-password/$',a_views.forgot_password, name = 'forgot_password'),
     url(r'^activation-status/$',a_views.activation_status, name = 're_activate'),
     url(r'^reactivate/$',a_views.create_reactivation, name = 'create_reactivation'),
-
+    url(r'^update-email/$',a_views.change_mail, name = 'update_email'),
     url(r'^password_reset/done/$', auth_views.password_reset_done, {'template_name':'password_reset_done.html'}, name='password_reset_done'),
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_views.password_reset_confirm, {'template_name':'password_reset_confirm.html'}, name='password_reset_confirm'),

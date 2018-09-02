@@ -139,13 +139,16 @@
             </div>
             <div class="col-md-10 ml-auto mr-auto">
                 <div class="row">
+                     {%endif%}
                 {%for e in up_eve%}
                 <div class="col-md-4 col-sm-12 mr-auto ml-auto mt-3">
                     <div class="card mb-3">
                           <img class="card-img-top" src="{{e.pic.url}}" alt="{{e.name|slugify}}-image">
                           <div class="card-body">
                             <h4 class="card-title">{{e.name}}</h4>
+                              {%autoescape off%}
                             <p class="card-text">{{e.short_info}}</p>
+                              {%endautoescape%}
                                   <h5><b>Date</b></h5>
                                   <p class="card-text">{{e.date}}</p>
                               <h5><b>Venue</b></h5>
@@ -155,12 +158,27 @@
                                   <p class="card-text">{{e.poc_number}}</p>
                               
                           </div>
+                       
                         <div class="card-footer">
+                            <div class="row">
+                             {%if e.reg_link_status%}
+                                <div class="col-sm-12">
+                            <a class="btn btn-info btn-lg btn-block" href="{{e.reg_link}}">Register Here</a>
+                            {%endif%}
+                                    </div>
+                               
+                             {%if e.fb_link_status%}
+                                 <div class="col-sm-12">
                             <a class="btn btn-primary btn-block" href="{{e.fb_link}}">Facebook Page</a>
+                                    </div>
+                            {%endif%}
+                           </div>
                         </div>
+                        
                         </div>
                 </div>
                 {%endfor%}
+                     {%if elist%}
                 </div>
             </div>
         </div>
