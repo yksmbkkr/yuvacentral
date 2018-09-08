@@ -1,11 +1,17 @@
 from django.shortcuts import render, redirect, Http404
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.core.mail import send_mail, get_connection
 from django.contrib.auth.decorators import login_required
+from random import *
+import string
 from manage_dashboard import forms as m_forms
 from manage_dashboard.custom_generators import *
 from account.decorators import *
 from manage_dashboard import models as m_models
 from django.contrib.auth.models import User
 from account import models as a_models
+from account import forms as a_forms
 
 # Create your views here.
 
@@ -97,3 +103,43 @@ def dash_home(request):
         'umc':user_managers
         }
     return render(request,'manage/dashboard.html',arg)
+
+@login_required
+@is_profile_created
+@is_manager
+def add_manager(request):
+    form = a_forms.single_field_form()
+    if request.method=='POST':
+        form = a_forms.single_field_form(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['field1']
+            if User.objects.filter(username = email).count()<1:
+                username = email
+            else:
+                messages.error(request,"Unable to verify. Use defferent email address")
+                return redirect('dashboard:add_manager')
+            try:
+                usr = User.objects.get(email=email)
+                usr.manager_status = True
+                usr.save()
+                subject = 'YUVA Account - Admin level privileges granted'
+                message = render_to_string('manage/existing_add_manager_email.html',{
+                    'user':usr,
+                    })
+                usr.email_user(subject,message)
+                messages.success(request, "Admin privileges granted to the user")
+            except User.DoesNotExist:
+                min_char = 12
+                max_char = 20
+                allchar = string.ascii_letters + string.punctuation + string.digits
+                passwd = "".join(choice(allchar) for x in range(randint(min_char, max_char)))
+                usr = User.objects.create_user(username = username, email = email, password=passwd)
+                user_check_obj = a_models.user_check(user=usr, manager_status=True, email_confirmation_status=True)
+                user_check_obj.save()
+                subject = 'YUVA Account - Account created | Admin level privileges granted'
+                message = render_to_string('manage/new_add_manager_email.html',{
+                    'user':usr,
+                    })
+                usr.email_user(subject,message)
+                messages.success(request, "Account with admin level privileges created and mail is sent.")
+    return render(request,'manage/add_manager.html', {'am':'active'})

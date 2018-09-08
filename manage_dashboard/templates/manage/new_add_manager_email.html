@@ -1,0 +1,12 @@
+{% autoescape off %}
+Greetings {{ user.get_username }},
+
+A account with admin level privileges is created for you.
+Username - {{ user.get_username }}
+Password - Use forgot password button to create new password.
+
+You have been provided Admin level privileges to the YUVA Portal.
+
+Sincerely,
+Team YUVA
+{% endautoescape %}

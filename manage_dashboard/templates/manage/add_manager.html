@@ -1,0 +1,58 @@
+{%extends 'manage/dash_home.html'%}
+
+{%block body%}
+
+<div class="container-fluid">
+    <div class="row">
+        {%for message in messages%}
+        <div class="col-md-10 col-sm-12 mr-auto ml-auto mt-4">
+        
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+  {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+       
+            </div>
+        {%endfor%}
+        
+        {%if form.errors%}
+        <div class="col-md-10 col-sm-12 mr-auto ml-auto mt-4">
+        
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  {{form.errors}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+       
+            </div>
+        {%endif%}
+        <div class="col-md-10 mr-auto ml-auto mt-4">
+            <div class="jubotron jumbotron-fluid">
+                <div class="container">
+                    <p class="lead">Enter the email address of user whom you want to provide manager level privileges.<br />If user isn't already registered then an account with manager privileges will be created and mailed to the provided email address.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-12 mr-auto ml-auto mt-2">
+            <form method="post" action="{%url 'dashboard:add_manager'%}">
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input type="email" name="field1" class="form-control" placeholder="Email Address" required id="id_field1" />   
+                            <label for="id_field1">Email Address</label>
+                            <div class="invalid-feedback">
+                                Please provide a valid email address.
+                              </div>
+                        </div>
+                    </div>
+                    {%csrf_token%}
+                <button class="btn btn-primary btn-block" type="submit">Create</button>
+            </form>
+           
+        </div>
+    </div>
+</div>
+
+{%endblock%}
