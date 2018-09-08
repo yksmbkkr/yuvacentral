@@ -156,7 +156,7 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
-DEFAULT_FROM_EMAIL = 'noreply@yuvainternship.com'
+DEFAULT_FROM_EMAIL = 'noreply@yuva.net.in'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 EMAIL_HOST='smtp.sendgrid.net'
