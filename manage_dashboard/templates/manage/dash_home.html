@@ -1,3 +1,4 @@
+{%load pwa%}
 {%load static%}
 
 <!DOCTYPE html>
@@ -7,8 +8,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="YUVA admin console">
+    <meta name="author" content="Yash Kulshreshtha">
 
     <title>YUVA Admin Dashboard</title>
     <link href="{% static 'manage/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
@@ -16,6 +17,8 @@
     <link href="{% static 'manage/vendor/datatables/dataTables.bootstrap4.css'%}" rel="stylesheet">
     <link href="{% static 'manage/css/sb-admin.css'%}" rel="stylesheet">
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+      {% progressive_web_app_meta %}
+      
       {%block head%}
       {%endblock%}
   </head>

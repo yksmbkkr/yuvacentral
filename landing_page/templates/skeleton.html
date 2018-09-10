@@ -1,3 +1,4 @@
+{% load pwa %}
 {%load static%}
 
 <!DOCTYPE html>
@@ -14,6 +15,7 @@
     {%endblock%}
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    {% progressive_web_app_meta %}
     <!--********************icons****************************-->
     <meta name="description" content="Youth United for Vision and Action">
     <meta name="keywords" content="yuva YUVA delhi youth">
