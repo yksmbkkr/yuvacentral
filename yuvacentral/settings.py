@@ -192,17 +192,19 @@ if os.name!='nt':
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
     DEFAULT_FILE_STORAGE = 'yuvacentral.storage_backends.MediaStorage' 
+    PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
 else:
     STATIC_URL = '/static/'
     STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
     MEDIA_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['media']))
     MEDIA_URL = '/media/'
+    PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static', 'js', 'serviceworker.js')
 
-PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
+#PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
 
 PWA_APP_NAME = 'YUVA'
 PWA_APP_DESCRIPTION = "Youth United for Vision and Action"
-PWA_APP_THEME_COLOR = '#9c27b0'
+PWA_APP_THEME_COLOR = '#f59402'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_START_URL = '/'
 PWA_APP_ICONS = [

@@ -1,4 +1,4 @@
-var staticCacheName = 'intern';
+var staticCacheName = 'YUVA';
 
 self.addEventListener('install', function (event) {
     event.waitUntil(
