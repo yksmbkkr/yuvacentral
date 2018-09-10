@@ -192,7 +192,7 @@ if os.name!='nt':
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
     DEFAULT_FILE_STORAGE = 'yuvacentral.storage_backends.MediaStorage' 
-    PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static', 'js', 'serviceworker.js')
+    PWA_SERVICE_WORKER_PATH = STATIC_URL+'js/serviceworker.js',
 else:
     STATIC_URL = '/static/'
     STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
