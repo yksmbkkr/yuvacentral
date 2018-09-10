@@ -30,7 +30,7 @@ SECRET_KEY = 'db4ed6e0-d452-4efc-88b9-85d802a554ca'
 if os.name=='nt':
     DEBUG = True
 else:
-    DEBUG = True
+    DEBUG = False
 #DEBUG=True
 
 ALLOWED_HOSTS = ['206.189.141.255', 'yuva.net.in','www.yuva.net.in','localhost']
@@ -192,7 +192,7 @@ if os.name!='nt':
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
     DEFAULT_FILE_STORAGE = 'yuvacentral.storage_backends.MediaStorage' 
-    PWA_SERVICE_WORKER_PATH = STATIC_URL+'js/serviceworker.js',
+    PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static', 'js', 'serviceworker.js')
 else:
     STATIC_URL = '/static/'
     STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
