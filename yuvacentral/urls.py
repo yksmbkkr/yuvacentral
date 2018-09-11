@@ -5,11 +5,20 @@ Definition of urls for yuvacentral.
 from django.conf.urls import include, url
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.sitemaps.views import sitemap
+
+
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 from django.contrib.auth import views as auth_views
+
+from .sitemaps import StaticViewSitemap
+
+sitemaps = {
+    'static': StaticViewSitemap,
+}
 
 urlpatterns = [
     # Examples:
@@ -29,6 +38,7 @@ urlpatterns = [
         auth_views.password_reset_confirm, {'template_name':'password_reset_confirm.html'}, name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete, {'template_name':'password_reset_complete.html'}, name='password_reset_complete'),
     url('', include('pwa.urls')),
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]
 #if settings.DEBUG:
 #    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -34,6 +34,7 @@ else:
 #DEBUG=True
 
 ALLOWED_HOSTS = ['206.189.141.255', 'yuva.net.in','www.yuva.net.in','localhost']
+SITE_ID = 1
 
 
 # Application definition
@@ -53,6 +54,8 @@ INSTALLED_APPS = [
     'imagekit',
     'storages',
     'pwa',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE_CLASSES = [
