@@ -12,6 +12,7 @@ from manage_dashboard import models as m_models
 from django.contrib.auth.models import User
 from account import models as a_models
 from account import forms as a_forms
+from vimarsh18 import models as v18_models
 
 # Create your views here.
 
@@ -143,3 +144,10 @@ def add_manager(request):
                 usr.email_user(subject,message)
                 messages.success(request, "Account with admin level privileges created and mail is sent.")
     return render(request,'manage/add_manager.html', {'am':'active'})
+
+@login_required
+@is_profile_created
+@is_manager
+def volunteer_list(request):
+    v_list = v18_models.volunteer.objects.all()
+    return render(request,'manage/vv_list.html',{'vvl':'active', 'vlist':v_list})

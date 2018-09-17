@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^list-upcoming-events/$', m_views.upcoming_events_list, name='list_upcoming_events'),
     url(r'^event-status/(?P<id>[\d]+)/(?P<status>[0-1])/$', m_views.make_event_live, name='event_status'),
     url(r'^add-manager/$', m_views.add_manager, name='add_manager'),
+    url(r'^vimarsh-volunteer-list/$', m_views.volunteer_list, name='vv_list'),
 ]
