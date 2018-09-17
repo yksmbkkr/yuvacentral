@@ -13,7 +13,7 @@ self.addEventListener('install', function (event) {
 
 self.addEventListener('fetch', function(evt) {
     console.log('The service worker is serving the asset.');
-    evt.respondWith(fromCache(evt.request));
+    
     evt.waitUntil(
         update(evt.request)
         .then(refresh)
