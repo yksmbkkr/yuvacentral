@@ -93,7 +93,7 @@ def profile(request):
                 form.save()
                 messages.success(request,"Changes in your profile saved successfully")
                 return redirect('account:profile')
-        return render(request,'profile.html',{'form':form})
+        return render(request,'profile.html',{'form':form, 'profile_pill':'active'})
     form = a_forms.profile_form()
     if request.method=='POST':
         form = a_forms.profile_form(request.POST)
@@ -104,7 +104,7 @@ def profile(request):
             a_models.user_check.objects.filter(user=request.user).update(profile_status=True)
             messages.success(request,"Profile saved successfully")
             return redirect('account:profile')
-    return render(request,'profile.html',{'form':form})
+    return render(request,'profile.html',{'form':form, 'profile_pill':'active'})
 
 @login_required
 def activation_status(request):
@@ -165,3 +165,6 @@ def change_mail(request):
             messages.success(request,"Your email address is updated successfully.")
             return redirect('account:create_reactivation')
     return render(request, "email-update.html",{'form':form})
+
+def activities(request):
+    return render(request, 'activities.html',{'activities_pill':'active'})

@@ -1,0 +1,89 @@
+{%extends 'skeleton.html'%}
+
+{%load static%}
+
+{%block body%}
+<body>
+ {%include 'nav.html'%}
+    <div class="page-header header-filter" data-parallax="true" style="background-image: url('{%static 'assets/img/img_404_back.jpg'%}'); background-size: cover; background-position: top center; height: 50vh !important;">
+        <div class="container">
+      <div class="row">
+            <div class="col-md-8 ml-auto mr-auto">
+              <div class="brand text-center">
+                <h1>YUVA</h1>
+                  {%if request.user.profile.name%}
+                   <h3 class="title text-center">Hi {{request.user.profile.name}}</h3>
+                  {% else %}
+                <h3 class="title text-center">Hi {{request.user.username}}</h3>
+                  {%endif%}
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="main main-raised">
+
+        <div class="container">
+          <div class="section text-center">
+            <h3 class="title">Your Activities</h3>
+              <p class="text-danger">This page is currently under maintenance. There might be some anamolies in data displayed here. Thank you for your patience.</p>
+             
+                  {%if messages%}
+                     <div class="row">
+                         {%for message in messages%}
+                      <div class="col-sm-12 mt-1 ml-auto mr-auto">
+                          <div class="alert alert-{{message.tags}}">
+                            <div class="container">
+                              <div class="alert-icon">
+                                <i class="material-icons">error_outline</i>
+                              </div>
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                              </button>
+                              <b></b> {{message}}
+                            </div>
+                          </div>
+                      </div>
+                         {%endfor%}
+                  </div>
+                  {%endif%}
+            <div class="row">
+                <div class="col-md-3 ml-auto mr-auto">
+                {% include 'profile-pills.html' %}
+                </div>
+                <div class="col-md-8 col-sm-12 ml-auto mr-auto">
+                    <div class="row text-left">
+                        <div class="col-sm-12 ml-auto mr-auto">
+                            <h4 class="title">Registrations</h4>
+                            {% if rlist%}
+                            {% else %}
+                            <p>No data available</p>
+                            {%endif%}
+                        </div>
+                        <div class="col-sm-12 ml-auto mr-auto">
+                            <h4 class="title">Volunteering in </h4>
+                            {% if rlist%}
+                            {% else %}
+                            <p>No data available</p>
+                            {%endif%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {%include 'footer.html'%}
+  <!--   Core JS Files   -->
+  {%include 'scripts.html'%}
+    {%block scripts%}
+
+<script type="text/javascript">
+     $(document).ready(function() {
+$(".js-example-basic-single").select2();
+});
+</script>
+{%endblock%}
+</body>
+{%endblock%}
+

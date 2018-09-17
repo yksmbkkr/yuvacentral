@@ -1,0 +1,28 @@
+Dear {{name}},
+Thank you for volunteering.
+Your registration for volunteering is done successfuly.
+
+Further Intructions will be conveyed to you by phone or email.
+
+Program Information:
+Program Name : Vimarsh
+Date : 26-27-28 October
+			
+Volunteer Registration Information : 
+Registration No. : {{reg_no}}
+Name : {{name}}
+Phone No : {{phone}}
+College : {{college}}
+Course : {{course}}
+Branch : {{branch}}
+Year : {{year}}
+Areas of Interest : {{interest}}
+
+
+If you have any questions regarding your registration or 
+any other query, feel free to contact us at
+contact@yuva.net.in
+
+- Regards YUVA
+
+(Do not reply to this mail. Its an unmonitored mailbox)

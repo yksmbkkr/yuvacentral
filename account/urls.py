@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', a_views.activation, name = 'activate'),
     url(r'^register/$',a_views.register_yuva, name = 'register_yuva'),
     url(r'^profile/$',a_views.profile, name = 'profile'),
+    url(r'^activities/$',a_views.activities, name = 'activities'),
     url(r'^forgot-password/$',a_views.forgot_password, name = 'forgot_password'),
     url(r'^activation-status/$',a_views.activation_status, name = 're_activate'),
     url(r'^reactivate/$',a_views.create_reactivation, name = 'create_reactivation'),

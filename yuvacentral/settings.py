@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'landing_page',
     'account',
     'manage_dashboard',
+    'vimarsh18',
     'django_cleanup',
     'django.contrib.admin',
     'django.contrib.auth',
