@@ -3,10 +3,14 @@ from vimarsh18 import forms as v18_forms
 from vimarsh18 import reg_no_generator
 from account.views import messages
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 from vimarsh18 import models as v18_models
 from vimarsh18 import email_sender
+from account.decorators import *
 
 # Create your views here.
+@login_required
+@is_profile_created
 def volunteer_registration(request):
     if v18_models.volunteer.objects.filter(user=request.user).count()>0 :
         messages.warning(request, 'You have already registered as voluteer. Your volunteer registration number is '+request.user.volunteer.reg_no+'. This is also emailed to your registered email ID.')
