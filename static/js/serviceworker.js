@@ -1,53 +1,72 @@
 var CACHE = 'YUVA';
 
 self.addEventListener('install', function (event) {
-    event.waitUntil(
-        caches.open(CACHE).then(function (cache) {
-            return cache.addAll([
-                '/',
-                '/login'
-            ]);
-        })
-    );
+    evt.waitUntil(precache());
 });
 
 self.addEventListener('fetch', function(evt) {
     console.log('The service worker is serving the asset.');
     
-    evt.waitUntil(
-        update(evt.request)
-        .then(refresh)
-    );
+    evt.respondWith(fromNetwork(evt.request, 400).catch(function () {
+        return fromCache(evt.request);
+      }));
 });
 
-function fromCache(request) {
+function precache() {
     return caches.open(CACHE).then(function (cache) {
-        return cache.match(request);
+      return cache.addAll([
+        '/login'
+      ]);
+    });
+  }
+
+  function fromNetwork(request, timeout) {
+    return new Promise(function (fulfill, reject) {
+        var timeoutId = setTimeout(reject, timeout);
+        fetch(request).then(function (response) {
+            clearTimeout(timeoutId);
+            fulfill(response);
+        }, reject);
     });
 }
 
-function update(request) {
+function fromCache(request) {
     return caches.open(CACHE).then(function (cache) {
-      return fetch(request).then(function (response) {
-        return cache.put(request, response.clone()).then(function () {
-          return response;
-        });
+      return cache.match(request).then(function (matching) {
+        return matching || Promise.reject('no-match');
       });
     });
   }
 
-  function refresh(response) {
-    return self.clients.matchAll().then(function (clients) {
-      clients.forEach(function (client) {
-        var message = {
-            type: 'refresh',
-            url: response.url,
-            eTag: response.headers.get('ETag')
-        };
-        client.postMessage(JSON.stringify(message));
-    });
-  });
-}
+
+// function fromCache(request) {
+//     return caches.open(CACHE).then(function (cache) {
+//         return cache.match(request);
+//     });
+// }
+
+// function update(request) {
+//     return caches.open(CACHE).then(function (cache) {
+//       return fetch(request).then(function (response) {
+//         return cache.put(request, response.clone()).then(function () {
+//           return response;
+//         });
+//       });
+//     });
+//   }
+
+//   function refresh(response) {
+//     return self.clients.matchAll().then(function (clients) {
+//       clients.forEach(function (client) {
+//         var message = {
+//             type: 'refresh',
+//             url: response.url,
+//             eTag: response.headers.get('ETag')
+//         };
+//         client.postMessage(JSON.stringify(message));
+//     });
+//   });
+// }
 
 
 // self.addEventListener('fetch', function (event) {
