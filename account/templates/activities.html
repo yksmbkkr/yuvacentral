@@ -62,7 +62,20 @@
                         </div>
                         <div class="col-sm-12 ml-auto mr-auto">
                             <h4 class="title">Volunteering in </h4>
-                            {% if rlist%}
+                            {% if vol_list%}
+                            <div class="row">
+                                {%for vol in vol_list %}
+                               <div class="col-sm-12 col-md-4  float-left"> 
+                                <div class="card">
+                                  <div class="card-body">
+                                    <h4 class="card-title">Vimarsh 18</h4>
+                                    <p class="card-text">Registration Number : {{vol.reg_no}}</p>
+                                      <p class="card-text">Area of Interest : {{vol.interest}}</p>
+                                  </div>
+                                </div>
+                               </div>
+                                {% endfor %}
+                            </div>
                             {% else %}
                             <p>No data available</p>
                             {%endif%}

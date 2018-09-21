@@ -26,6 +26,7 @@ from account import forms as a_forms
 from account import models as a_models
 from account.tokens import email_confirmation_token
 from account.decorators import *
+from vimarsh18 import models as v18_models
 
 # Create your views here.
 
@@ -35,6 +36,7 @@ def template_test(request):
     return render(request,'profile.html',{'form':form})
 
 def register_yuva(request):
+    v = str(request.GET.get('v','no'))
     if request.user.is_authenticated():
         return redirect('account:profile')
     form = a_forms.registration_form()
@@ -62,6 +64,8 @@ def register_yuva(request):
                     })
             user.email_user(subject,message)
             messages.info(request, 'Account created successfully. Check your inbox and spambox and confirm your account.')
+            if v=='v':
+                return redirect('vimarsh18:volunteer_reg_false')
             return redirect('account:profile')
     return render(request,'register.html',{'form':form})
 
@@ -166,5 +170,8 @@ def change_mail(request):
             return redirect('account:create_reactivation')
     return render(request, "email-update.html",{'form':form})
 
+@login_required
+@is_profile_created
 def activities(request):
-    return render(request, 'activities.html',{'activities_pill':'active'})
+    volunteering_list = v18_models.volunteer.objects.filter(user=request.user)
+    return render(request, 'activities.html',{'activities_pill':'active','vol_list':volunteering_list})

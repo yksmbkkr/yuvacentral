@@ -1,0 +1,130 @@
+{%extends 'skeleton.html'%}
+
+{%load static%}
+
+{%block body%}
+<body>
+ {%include 'nav.html'%}
+    <div class="page-header header-filter" data-parallax="true" style="background-image: url('{%static 'assets/img/img_404_back.jpg'%}'); background-size: cover; background-position: top center; height: 50vh !important;">
+        <div class="container">
+      <div class="row">
+            <div class="col-md-8 ml-auto mr-auto">
+              <div class="brand text-center">
+                <h1>VIMARSH - 18</h1>
+                  {%if request.user.profile.name%}
+                   <h3 class="title text-center">Hi {{request.user.profile.name}}</h3>
+                  {% else %}
+                <h3 class="title text-center">Hi {{request.user.username}}</h3>
+                  {%endif%}
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="main main-raised">
+
+        <div class="container">
+          <div class="section text-center">
+            <h3 class="title">Fill the form</h3>
+              {%if form1.errors%}
+                     <div class="row">
+                      <div class="col-sm-12 mt-1 ml-auto mr-auto">
+                          <div class="alert alert-danger">
+                            <div class="container">
+                              <div class="alert-icon">
+                                <i class="material-icons">error_outline</i>
+                              </div>
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                              </button>
+                                
+                              <b>Error</b> {{form1.errors}}<br/>
+                                
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                  {%endif%}
+              {%if form2.errors%}
+                     <div class="row">
+                      <div class="col-sm-12 mt-1 ml-auto mr-auto">
+                          <div class="alert alert-danger">
+                            <div class="container">
+                              <div class="alert-icon">
+                                <i class="material-icons">error_outline</i>
+                              </div>
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                              </button>
+                                
+                              <b>Error</b> {{form2.errors}}<br/>
+                                
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                  {%endif%}
+                  {%if messages%}
+                     <div class="row">
+                         {%for message in messages%}
+                      <div class="col-sm-12 mt-1 ml-auto mr-auto">
+                          <div class="alert alert-{{message.tags}}">
+                            <div class="container">
+                              <div class="alert-icon">
+                                <i class="material-icons">error_outline</i>
+                              </div>
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                              </button>
+                              <b></b> {{message}}
+                            </div>
+                          </div>
+                      </div>
+                         {%endfor%}
+                  </div>
+                  {%endif%}
+            <div class="row">
+                <div class="col-md-8 col-sm-12 ml-auto mr-auto">
+                    <form method="post">
+                      <div class="form-group">
+                        {{form1.name}}
+                      </div>
+                        <div class="form-group">
+                        {{form1.phone}}
+                      </div>
+                      <div class="form-group">
+                        {{form1.college}}
+                      </div>
+                      <div class="form-group">
+                        {{form2.course}}
+                      </div>
+                        <div class="form-group">
+                        {{form2.branch}}
+                      </div>
+                      <div class="form-group">
+                        {{form2.year}}
+                      </div>
+                        <div class="form-group">
+                        {{form2.interest}}
+                      </div>
+                        {%csrf_token%}
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {%include 'footer.html'%}
+  <!--   Core JS Files   -->
+  {%include 'scripts.html'%}
+    {%block scripts%}
+
+<script type="text/javascript">
+     $(document).ready(function() {
+$(".js-example-basic-single").select2();
+});
+</script>
+{%endblock%}
+</body>
+{%endblock%}
