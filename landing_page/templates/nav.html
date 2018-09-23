@@ -24,6 +24,11 @@
               </li>
             {%if user.is_authenticated %}
             <li class="nav-item">
+                <a class="nav-link" href="{% url 'vimarsh18:volunteer_reg'%}" >
+                 <i class="material-icons">assignment_ind</i> VIMARSH18 Volunteer Registration
+                </a>
+              </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'account:profile'%}" >
                   <i class="material-icons">account_circle</i>Profile
                 </a>
@@ -34,7 +39,11 @@
                 </a>
               </li>
             {%else%}
-           
+           <li class="nav-item">
+                <a class="nav-link" href="{% url 'account:register_yuva'%}?v=v" >
+                 <i class="material-icons">assignment_ind</i> VIMARSH18 Volunteer Registration
+                </a>
+              </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'landing:login'%}" >
                  <i class="material-icons">layers</i> Login
@@ -45,10 +54,12 @@
                  <i class="material-icons">account_box</i> Register
                 </a>
               </li>
+            
             {%endif%}
             {%if user.user_check.manager_status %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'dashboard:dashboard_home'%}" >
+                    <i class="material-icons">settings_applications</i>
                   Admin Dash
                 </a>
               </li>
