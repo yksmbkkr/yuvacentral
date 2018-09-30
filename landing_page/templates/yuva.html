@@ -42,7 +42,7 @@
     <script>
         if ('serviceWorker' in navigator){
     navigator.serviceWorker.getRegistration().then(
-        function(registrations){
+        function(registration){
             registration.unregister();
             
         }
