@@ -20,6 +20,23 @@
 <meta property="og:site_name" content="YUVA" />
 <meta property="article:author" content="Yash Kulshreshtha" />
 <!--Created and designed by Yash Kulshreshtha visit: https://www.facebook.com/yksmbkkr -->
+   <script>
+       navigator.serviceWorker.getRegistration().then(
+    function(registrations){
+        for(let registration of registrations){
+            registration.unregister().then(function(){
+                return self.clients.matchAll();
+            }).then(function(clients){
+                clients.forEach(client => {
+                    if(client.url && "navigate" in client){
+                        client.navigate(client.url);
+                    }
+                })
+            });
+        }
+    }
+);
+   </script>
     <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
