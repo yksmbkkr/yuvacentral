@@ -18,6 +18,14 @@ Branch : {{branch}}
 Year : {{year}}
 Areas of Interest : {{interest}}
 
+The event is scheduled at Ambedkar International Center, 15 Janpath, 
+New Delhi from 22nd to 24th October 2018.
+ 
+The preliminary meeting for the volunteers has been scheduled on 2nd October 2018 at 10:30 AM 
+at Kirorimal College, North Campus, DU (Nearest Metro Station : Vishwavidyalaya).
+ 
+Hope to see you.
+
 
 If you have any questions regarding your registration or 
 any other query, feel free to contact us at
