@@ -10,6 +10,7 @@ class user_check(models.Model):
     email_confirmation_status = models.BooleanField(default = False)
     profile_status = models.BooleanField(default = False)
     manager_status = models.BooleanField(default = False)
+    profession = models.CharField(default = 'student', max_length = 20)
 
     def __str__(self):
         return self.user.username

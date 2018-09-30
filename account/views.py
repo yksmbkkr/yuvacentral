@@ -40,9 +40,12 @@ def register_yuva(request):
     if request.user.is_authenticated():
         return redirect('account:profile')
     form = a_forms.registration_form()
+    form2 = a_forms.profession_choice_form()
     if request.method=='POST':
         form = a_forms.registration_form(request.POST)
-        if form.is_valid():
+        form2 = a_forms.profession_choice_form(request.POST)
+        if form.is_valid() and form2.is_valid():
+            prof = form2.cleaned_data.get('profession')
             emailad = form.cleaned_data.get('email')
             if User.objects.filter(email=emailad).count() > 0 :
                 messages.error(request, 'User with the submitted email id is already registered.')
@@ -52,7 +55,7 @@ def register_yuva(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            user_check_obj = a_models.user_check(user=request.user)
+            user_check_obj = a_models.user_check(user=request.user, profession = prof)
             user_check_obj.save()
             current_site = get_current_site(request)
             subject = 'YUVA Account - Confirm Your Email Address'
@@ -67,7 +70,7 @@ def register_yuva(request):
             if v=='v':
                 return redirect('vimarsh18:volunteer_reg_false')
             return redirect('account:profile')
-    return render(request,'register.html',{'form':form})
+    return render(request,'register.html',{'form':form, 'form2':form2})
 
 def activation(request, uidb64, token):
     try:

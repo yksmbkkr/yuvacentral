@@ -6,8 +6,19 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from account import models as a_models
 
+prof_choice = (
+    ('','Select profession'),
+    ('student','Student'),
+    ('teaching','Teacher/Professor'),
+    ('other','Others')
+    )
+
 class single_field_form(forms.Form):
     field1 = forms.CharField()
+
+class profession_choice_form(forms.Form):
+    profession =  forms.ChoiceField(choices=prof_choice, required=True, widget=forms.Select(attrs={'class':'js-example-basic-single form-control', 'data-placeholder':'Select'}))
+    
 
 
 class registration_form(UserCreationForm):
