@@ -67,8 +67,10 @@ def register_yuva(request):
                     })
             user.email_user(subject,message)
             messages.info(request, 'Account created successfully. Check your inbox and spambox and confirm your account.')
-            if v=='v':
+            if v=='vl':
                 return redirect('vimarsh18:volunteer_reg_false')
+            if v=='v':
+                return redirect('vimarsh18:participant_reg_false')
             return redirect('account:profile')
     return render(request,'register.html',{'form':form, 'form2':form2})
 

@@ -16,3 +16,16 @@ def volunteer_email(user = None):
     msg = EmailMultiAlternatives(subject, text_content, from_email, to)
     msg.attach_alternative(html_content, "text/html")
     msg.send(fail_silently=False)            
+
+def participant_email(user = None):
+    plaintext = get_template('emails/participant_email.txt')
+    htmly = get_template('emails/participant_email.html')
+    fail_silently=False
+    d = { 'name': user.profile.name, 'phone':user.profile.phone, 'email':user.email, }
+    subject, from_email = 'Participant Registration Notification - Vimarsh 2018', 'Vimarsh - YUVA <vimarsh@yuva.net.in>'
+    to = [str(user.email),]
+    text_content = plaintext.render(d)
+    html_content = htmly.render(d)
+    msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+    msg.attach_alternative(html_content, "text/html")
+    msg.send(fail_silently=False)   

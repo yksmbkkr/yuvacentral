@@ -1,0 +1,25 @@
+Dear {{name}},
+Thank you for registering for Vimarsh 18.
+
+Further Intructions, if any, will be conveyed to you by phone or email.
+
+Program Name : Vimarsh
+Date : 22-23-24 October
+Venue : Ambedkar International Center, 15 Janpath, New Delhi
+			
+Registration Information : 
+Registration No. : {{reg_no}}
+Name : {{name}}
+Phone No : {{phone}}
+
+ 
+Hope to see you.
+
+
+If you have any questions regarding your registration or 
+any other query, feel free to contact us at
+contact@yuva.net.in
+
+- Regards YUVA
+
+(Do not reply to this mail. Its an unmonitored mailbox)

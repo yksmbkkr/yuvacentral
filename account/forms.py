@@ -39,16 +39,25 @@ class profile_form(forms.ModelForm):
         model = a_models.profile
         fields = ('name', 'phone', 'college',)
 
+year_choice = (
+    ('','Select Course Year (currently studying)'),
+    ('1','1'),
+    ('2','2'),
+    ('3','3'),
+    ('4','4'),
+    ('5','5'),
+    )
+
 class student_info_form(forms.ModelForm):
-    course = forms.CharField()
-    year = forms.CharField()
+    course = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Course'}))
+    year = forms.ChoiceField(choices=year_choice, required=True, widget=forms.Select(attrs={'class':'js-example-basic-single form-control', 'data-placeholder':'Select Course Year (currently studying)'}))
     class Meta:
         model = a_models.student_info
         fields = ('course', 'year',)
 
 class other_info_form(forms.ModelForm):
-    designation = forms.CharField()
-    institution = forms.CharField()
+    designation = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Designation'}))
+    institution = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Institution/Organization/Company'}))
     class Meta:
-        model = a_models.student_info
+        model = a_models.other_info
         fields = ('designation', 'institution',)

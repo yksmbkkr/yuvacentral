@@ -59,6 +59,74 @@ def volunteer_registration_false(request):
             return redirect('account:activities')
     return render(request,  'volunteer_false.html',{'form1':profile_form, 'form2':volunteer_form})
 
+@login_required
+@is_profile_created
+def participant_registration(request):
+    if v18_models.participant.objects.filter(user=request.user).count()>0 :
+        messages.warning(request, 'You have already registered for VIMARSH18. Your registration number is '+request.user.participant.reg_no+'. This is also emailed to your registered email ID.')
+        return redirect('account:activities')
+    if request.user.user_check.profession == 'student':
+        form = a_forms.student_info_form()
+    else:
+        form = a_forms.other_info_form()
+    form2 = v18_forms.multiple_choice_form()
+    if request.method=='POST':
+        if request.user.user_check.profession == 'student':
+            form = a_forms.student_info_form(request.POST)
+        else:
+            form = a_forms.other_info_form(request.POST)
+        form2 = v18_forms.multiple_choice_form(request.POST)
+        if form.is_valid() and form2.is_valid():
+            finalform = form.save(commit=False)
+            finalform.user = request.user
+            finalform.save()
+            choices = form2.cleaned_data.get('choice')
+            reg_no = reg_no_generator.participant_reg_no_generator()
+            p_obj = v18_models.participant(user = request.user, reg_no = reg_no, choice = choices)
+            p_obj.save()
+            email_sender.participant_email(user=request.user)
+            messages.success(request,'Vimarsh 2018 registration successful check your inbox-spambox for further instructions, registration id.')
+            return redirect('account:activities')
+    return render(request,'participant.html',{'form':form, 'form2':form2})
+
+@login_required
+def participant_registration_false(request):
+    if v18_models.participant.objects.filter(user=request.user).count()>0 :
+        messages.warning(request, 'You have already registered for VIMARSH18. Your registration number is '+request.user.participant.reg_no+'. This is also emailed to your registered email ID.')
+        return redirect('account:activities')
+    if a_models.profile.objects.filter(user=request.user).count()>0:
+        return redirect('vimarsh18:participant_reg')
+    if request.user.user_check.profession == 'student':
+        form = a_forms.student_info_form()
+    else:
+        form = a_forms.other_info_form()
+    form2 = v18_forms.multiple_choice_form()
+    profile_form = a_forms.profile_form()
+    if request.method=='POST':
+        if request.user.user_check.profession == 'student':
+            form = a_forms.student_info_form(request.POST)
+        else:
+            form = a_forms.other_info_form(request.POST)
+        form2 = v18_forms.multiple_choice_form(request.POST)
+        profile_form = a_forms.profile_form(request.POST)
+        if form.is_valid() and form2.is_valid() and profile_form.is_valid():
+            profile_final = profile_form.save(commit=False)
+            profile_final.user = request.user
+            profile_final.save()
+            a_models.user_check.objects.filter(user=request.user).update(profile_status=True)
+            messages.success(request,"Profile saved successfully")
+            finalform = form.save(commit=False)
+            finalform.user = request.user
+            finalform.save()
+            choices = form2.cleaned_data.get('choice')
+            reg_no = reg_no_generator.participant_reg_no_generator()
+            p_obj = v18_models.participant(user = request.user, reg_no = reg_no, choice = choices)
+            p_obj.save()
+            email_sender.participant_email(user=request.user)
+            messages.success(request,'Vimarsh 2018 registration successful check your inbox-spambox for further instructions, registration id.')
+            return redirect('account:activities')
+    return render(request,'participant_false.html',{'form':form, 'form2':form2, 'form3':profile_form})
+
 def payment_successful(request):
     return render(request, 'payment_successful.html')
 

@@ -32,3 +32,6 @@ class volunteer_form(forms.ModelForm):
             'year',
             'interest',
             }
+
+class multiple_choice_form(forms.Form):
+    choice = forms.MultipleChoiceField(choices = areaOfInterest, required = True, widget  = forms.SelectMultiple(attrs={'class':'js-example-basic-multiple form-control', 'data-placeholder':'Select area of Interest'}))

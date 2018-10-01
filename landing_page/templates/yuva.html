@@ -224,8 +224,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                  Not just want to participate, but more; Be a volunteer in Vimarsh - 18  and get a chance to experience how such big enclave is organised.
                              </p>
                               {%if request.user.is_authenticated %}
+                              <a class="btn btn-warning btn-block" href="{% url 'vimarsh18:participant_reg' %}">Register for Vimarsh</a>
                               <a class="btn btn-info btn-block" href="{% url 'vimarsh18:volunteer_reg' %}">Be Volunteer</a>
                               {%else%}
+                               <a class="btn btn-block btn-warning" data-toggle="modal" data-target="#participantModal">Register for Vimarsh</a>
                               <a class="btn btn-block btn-info" data-toggle="modal" data-target="#volunteerModal">Be Volunteer</a>
                               {%endif%}
                           </div>
@@ -411,6 +413,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               
               <div class="col-sm-10 mr-auto ml-auto">
                   <a class="btn btn-info btn-block" href="{% url 'vimarsh18:volunteer_reg' %}">Login</a>
+              </div>
+              <div class="col-sm-10 mr-auto ml-auto">
+                  <a class="btn btn-info btn-block" href="{% url 'account:register_yuva' %}?v=v">Register</a>
+              </div>
+          </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+     <div class="modal fade" id="participantModal" tabindex="-1" role="dialog" aria-labelledby="participantModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+          <div class="row">
+              
+              <div class="col-sm-10 mr-auto ml-auto">
+                  <a class="btn btn-info btn-block" href="{% url 'vimarsh18:participant_reg' %}">Login</a>
               </div>
               <div class="col-sm-10 mr-auto ml-auto">
                   <a class="btn btn-info btn-block" href="{% url 'account:register_yuva' %}?v=v">Register</a>

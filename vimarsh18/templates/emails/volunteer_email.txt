@@ -6,7 +6,7 @@ Further Intructions will be conveyed to you by phone or email.
 
 Program Information:
 Program Name : Vimarsh
-Date : 26-27-28 October
+Date : 22-23-24 October
 			
 Volunteer Registration Information : 
 Registration No. : {{reg_no}}
