@@ -38,3 +38,17 @@ class profile_form(forms.ModelForm):
     class Meta:
         model = a_models.profile
         fields = ('name', 'phone', 'college',)
+
+class student_info_form(forms.ModelForm):
+    course = forms.CharField()
+    year = forms.CharField()
+    class Meta:
+        model = a_models.student_info
+        fields = ('course', 'year',)
+
+class other_info_form(forms.ModelForm):
+    designation = forms.CharField()
+    institution = forms.CharField()
+    class Meta:
+        model = a_models.student_info
+        fields = ('designation', 'institution',)

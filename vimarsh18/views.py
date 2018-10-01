@@ -58,3 +58,12 @@ def volunteer_registration_false(request):
             volunteer_final.save()
             return redirect('account:activities')
     return render(request,  'volunteer_false.html',{'form1':profile_form, 'form2':volunteer_form})
+
+def payment_successful(request):
+    return render(request, 'payment_successful.html')
+
+def payment_failed(request):
+    return render(request, 'payment_failed.html')
+
+def payment_pending(request):
+    return render(request, 'payment_pending.html')

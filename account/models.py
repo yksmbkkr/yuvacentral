@@ -33,3 +33,20 @@ class profile(models.Model):
     college = models.ForeignKey(college_list_yuva,on_delete=models.PROTECT)
     def __str__(self):
         return self.user.username
+
+class student_info(models.Model):
+    user = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True)
+    course = models.CharField(max_length=20)
+    year = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.user.username
+
+
+class other_info(models.Model):
+    user = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True)
+    designation = models.CharField(max_length=50)
+    institution = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.user.username

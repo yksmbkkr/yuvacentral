@@ -17,3 +17,10 @@ class volunteer(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class participant(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    reg_no = models.CharField(max_length=10, unique=True)
+
+    def __str__(self):
+        return self.user.username
