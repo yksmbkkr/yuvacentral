@@ -25,7 +25,7 @@
 
         <div class="container">
           <div class="section text-center">
-            <h3 class="title">Participation form</h3>
+            <h3 class="title">Confirm Reciept Payment</h3>
               {%if form.errors%}
                      <div class="row">
                       <div class="col-sm-12 mt-1 ml-auto mr-auto">
@@ -66,36 +66,13 @@
                   {%endif%}
             <div class="row">
                 <div class="col-md-8 col-sm-12 ml-auto mr-auto">
-                    <form method="post">
-                      <div class="form-group">
-                        {{form.course}}
-                      </div>
-                      <div class="form-group">
-                        {{form.year}}
-                      </div>
+                    <form method="post" action="{% url 'vimarsh18:pay_reciept'%}">
                         <div class="form-group">
-                        {{form.designation}}
-                      </div>
-                    <div class="form-group">
-                        {{form.institution}}
-                      </div>
-                    <div class="form-group">
-                        {{form2.choice}}
-                      </div>
-                         <div class="form-check">
-                            <label class="form-check-label">
-                              <input required class="form-check-input" type="checkbox" value=""> I agree to pay Rs. 150 registration fee of Vimarsh 2018.
-                              <span class="form-check-sign">
-                                <span class="check"></span>
-                              </span>
-                            </label>
-                          </div>
-                        <div class="form-group">
-                        {{form2.pay_choice}}
+                        <input type="text" name="field1" class="form-control" placeholder="Reciept Number" maxlength="30" required id="id_field1" />
                       </div>
                        
                         {%csrf_token%}
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <button type="submit" class="btn btn-primary">Confirm</button>
                     </form>
                 </div>
             </div>

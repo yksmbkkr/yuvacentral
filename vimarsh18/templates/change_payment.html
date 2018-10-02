@@ -25,7 +25,7 @@
 
         <div class="container">
           <div class="section text-center">
-            <h3 class="title">Participation form</h3>
+            <h3 class="title">Change Payment Method</h3>
               {%if form.errors%}
                      <div class="row">
                       <div class="col-sm-12 mt-1 ml-auto mr-auto">
@@ -66,36 +66,17 @@
                   {%endif%}
             <div class="row">
                 <div class="col-md-8 col-sm-12 ml-auto mr-auto">
+                    <p class="h4 text-primary">
+                        Your Current Payment method is</p> <p class="h4 text-danger"><b>"{{cp}}"</b> 
+                    </p>
                     <form method="post">
                       <div class="form-group">
-                        {{form.course}}
-                      </div>
-                      <div class="form-group">
-                        {{form.year}}
-                      </div>
-                        <div class="form-group">
-                        {{form.designation}}
-                      </div>
-                    <div class="form-group">
-                        {{form.institution}}
-                      </div>
-                    <div class="form-group">
-                        {{form2.choice}}
-                      </div>
-                         <div class="form-check">
-                            <label class="form-check-label">
-                              <input required class="form-check-input" type="checkbox" value=""> I agree to pay Rs. 150 registration fee of Vimarsh 2018.
-                              <span class="form-check-sign">
-                                <span class="check"></span>
-                              </span>
-                            </label>
-                          </div>
-                        <div class="form-group">
-                        {{form2.pay_choice}}
+                        {{form.pay_choice}}
                       </div>
                        
                         {%csrf_token%}
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <button type="submit" class="btn btn-primary">Change</button>
+                      <a class="btn btn-secondary" href="{% url 'account:activities'%}">Cancel</a>
                     </form>
                 </div>
             </div>

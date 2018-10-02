@@ -8,18 +8,23 @@ from vimarsh18 import models as v18_models
 from vimarsh18 import email_sender
 from account.decorators import *
 from account import forms as a_forms
+from django.shortcuts import HttpResponseRedirect
+from manage_dashboard import models as m_models
+from django.contrib.auth.models import User
 
 # Create your views here.
 @login_required
 @is_profile_created
 def volunteer_registration(request):
+    messages.error(request,"Volunteer registrations are closed.")
+    return redirect('account:activities')
     if v18_models.volunteer.objects.filter(user=request.user).count()>0 :
         messages.warning(request, 'You have already registered as voluteer. Your volunteer registration number is '+request.user.volunteer.reg_no+'. This is also emailed to your registered email ID.')
         return redirect('account:activities')
     form=v18_forms.volunteer_form()
     if request.method=='POST':
         form = v18_forms.volunteer_form(request.POST)
-        if form.is_valid():
+        if form.is_valid:
             finalform = form.save(commit=False)
             finalform.user = request.user
             reg_no = reg_no_generator.volunteer_reg_no_generator()
@@ -33,6 +38,8 @@ def volunteer_registration(request):
 
 @login_required
 def volunteer_registration_false(request):
+    messages.error(request,"Volunteer registrations are closed.")
+    return redirect('account:activities')
     if v18_models.volunteer.objects.filter(user=request.user).count()>0 :
         messages.warning(request, 'You have already registered as voluteer. Your volunteer registration number is '+request.user.volunteer.reg_no+'. This is also emailed to your registered email ID.')
         return redirect('account:activities')
@@ -81,11 +88,18 @@ def participant_registration(request):
             finalform.user = request.user
             finalform.save()
             choices = form2.cleaned_data.get('choice')
+            pay_mode = form2.cleaned_data.get('pay_choice')
             reg_no = reg_no_generator.participant_reg_no_generator()
-            p_obj = v18_models.participant(user = request.user, reg_no = reg_no, choice = choices)
+            p_obj = v18_models.participant(user = request.user, reg_no = reg_no, choice = choices, pay_mode = pay_mode)
             p_obj.save()
             email_sender.participant_email(user=request.user)
+            if pay_mode == 'pay_online':
+                return HttpResponseRedirect('https://www.payumoney.com/paybypayumoney/#/3627569A7B7F8520CC840B9947D94BCA')
             messages.success(request,'Vimarsh 2018 registration successful check your inbox-spambox for further instructions, registration id.')
+            if pay_mode == 'pay_college':
+                return redirect('vimarsh18:pay_reciept')
+            if pay_mode == 'pay_venue':
+                return redirect('account:activities')
             return redirect('account:activities')
     return render(request,'participant.html',{'form':form, 'form2':form2})
 
@@ -119,13 +133,92 @@ def participant_registration_false(request):
             finalform.user = request.user
             finalform.save()
             choices = form2.cleaned_data.get('choice')
+            pay_mode = form2.cleaned_data.get('pay_choice')
             reg_no = reg_no_generator.participant_reg_no_generator()
-            p_obj = v18_models.participant(user = request.user, reg_no = reg_no, choice = choices)
+            p_obj = v18_models.participant(user = request.user, reg_no = reg_no, choice = choices, pay_mode = pay_mode)
             p_obj.save()
             email_sender.participant_email(user=request.user)
+            if pay_mode == 'pay_online':
+                return HttpResponseRedirect('https://www.payumoney.com/paybypayumoney/#/3627569A7B7F8520CC840B9947D94BCA')
             messages.success(request,'Vimarsh 2018 registration successful check your inbox-spambox for further instructions, registration id.')
+            if pay_mode == 'pay_college':
+                return redirect('vimarsh18:pay_reciept')
+            if pay_mode == 'pay_venue':
+                return redirect('account:activities')
             return redirect('account:activities')
     return render(request,'participant_false.html',{'form':form, 'form2':form2, 'form3':profile_form})
+
+@login_required
+@is_profile_created
+def pay_reciept(request):
+    if v18_models.participant.objects.filter(user = request.user).count() <1:
+        messages.error(request, "You have not yet registered for vimarsh. Please register first")
+        return redirect('account:activities')
+    if request.user.participant.payment_status:
+        messages.info(request, "We have already recieved your payment. ")
+        return redirect('account:activities')
+    if not request.user.participant.pay_mode == 'pay_college':
+        messages.warning(request, "Before proceeding change your payment method. ")
+        return redirect('account:activities')
+    form = v18_forms.single_field_form()
+    if request.method == 'POST':
+        form = v18_forms.single_field_form(request.POST)
+        if form.is_valid():
+            num = form.cleaned_data.get('field1')
+            if m_models.vimarsh18_reciept.objects.filter(number = num).count() > 1 :
+                messages.error(request, "Invalid reciept. Contact yuva team of your college or contact@yuva.net.in")
+                return redirect('vimarsh18:pay_reciept')
+            if m_models.vimarsh18_reciept.objects.filter(number = num).count() < 1 :
+                messages.error(request, "This reciept has not yet been generated. Ask yuva co-ordinator of your college to generate reciept or mail us at contact@yuva.net.in")
+                return redirect('vimarsh18:pay_reciept')
+            reciept_obj = m_models.vimarsh18_reciept.objects.get(number = num)
+            if reciept_obj.status:
+                messages.error(request, "This reciept is already redeemed. Report this issue at contact@yuva.net.in immedietly.")
+                return redirect('vimarsh18:pay_reciept')
+            m_models.vimarsh18_reciept.objects.filter(number = num).update(used_by = request.user, status = True)
+            v18_models.participant.objects.filter(user = request.user).update(payment_status = True)
+            subject = 'VIMARSH - Payment Confirmed'
+            message = render_to_string('emails/payment_confirmed_email.html',{
+                    'user':request.user,
+                    'number':num,
+                    })
+            request.user.email_user(subject,message)
+            messages.success(request, "Your payment is confirmed.")
+            return redirect('account:activities')
+    return render(request, 'pay_reciept.html')
+
+@login_required
+@is_profile_created
+def change_payment_mode(request):
+    if v18_models.participant.objects.filter(user = request.user).count() <1:
+        messages.error(request, "You have not yet registered for vimarsh. Please register first")
+        return redirect('account:activities')
+    if request.user.participant.payment_status:
+        messages.info(request, "We have already recieved your payment. ")
+        return redirect('account:activities')
+    form = v18_forms.single_choice_form()
+    current_method = request.user.participant.pay_mode
+    if current_method == 'pay_online':
+        current_method = "Pay Online"
+    elif current_method == 'pay_college':
+        current_method = "Pay/Paid at College"
+    else:
+        current_method = "Will pay at venue during Vimarsh"
+    if request.method == 'POST':
+        form = v18_forms.single_choice_form(request.POST)
+        if form.is_valid():
+            current_method = request.user.participant.pay_mode
+            if current_method == 'pay_online':
+                current_method = "Pay Online"
+            elif current_method == 'pay_college':
+                current_method = "Pay/Paid at College"
+            else:
+                current_method = "Will pay at venue during Vimarsh"
+            new_method = form.cleaned_data.get('pay_choice')
+            v18_models.participant.objects.filter(user = request.user).update(pay_mode = new_method)
+            messages.success(request, "Payment Method changed successfully.")
+            return redirect('account:activities')
+    return render(request, 'change_payment.html', {'form':form, 'cp' : current_method})
 
 def payment_successful(request):
     return render(request, 'payment_successful.html')

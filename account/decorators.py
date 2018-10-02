@@ -33,8 +33,8 @@ def is_manager(f):
         check_obj = a_models.user_check.objects.get(user = request.user)
         if not check_obj.manager_status:
             logout(request)
-            messages.danger(request, "You do not have permission to visit that area.")
-            return redirect('account:login')
+            messages.error(request, "You do not have permission to visit that area.")
+            return redirect('landing:login')
         return f(request, *args, **kwargs)
 
     wrap.__doc__ = f.__doc__

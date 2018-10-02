@@ -2,6 +2,8 @@ from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from django.conf import settings
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 class up_events(models.Model):
@@ -25,3 +27,12 @@ class up_events(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         ordering = ['-created_at','-updated_at']
+
+class vimarsh18_reciept(models.Model):
+    number = models.CharField(max_length = 20, unique = True)
+    status = models.BooleanField(default = False)
+    creator = models.ForeignKey(User, on_delete=models.PROTECT, related_name = 'reciept_manager')
+    used_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='reciept_user',null=True, default=None)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+

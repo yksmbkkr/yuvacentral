@@ -10,7 +10,6 @@ from manage_dashboard.custom_generators import *
 from account.decorators import *
 from manage_dashboard import models as m_models
 from django.contrib.auth.models import User
-from account import models as a_models
 from account import forms as a_forms
 from vimarsh18 import models as v18_models
 
@@ -144,6 +143,75 @@ def add_manager(request):
                 usr.email_user(subject,message)
                 messages.success(request, "Account with admin level privileges created and mail is sent.")
     return render(request,'manage/add_manager.html', {'am':'active'})
+
+@login_required
+@is_profile_created
+@is_manager
+def add_reciept_manager(request):
+    form = a_forms.single_field_form()
+    if request.method=='POST':
+        form = a_forms.single_field_form(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['field1']
+            if User.objects.filter(email = email).count()<1:
+                messages.error(request,"No such user is registered.")
+                return redirect('dashboard:add_reciept_manager')
+            usr = User.objects.get(email = email)
+            a_models.user_check.objects.filter(user = usr).update(reciept_manager_status = True)
+            subject = 'YUVA Account - Reciept generation privileges granted'
+            message = render_to_string('manage/add_reciept_manager_email.html',{
+                    'user':usr,
+                    })
+            usr.email_user(subject,message)
+            messages.success(request, "Reciept generation privileges granted to the user")
+            return redirect('dashboard:add_reciept_manager')
+    return render(request, 'manage/add_reciept_manager.html', {'arm': 'active'})
+
+@login_required
+@is_profile_created
+def generate_reciept(request):
+    if not request.user.user_check.reciept_manager_status == True:
+        messages.error(request,"You don't have permission to generate reciepts. Contact admin at admin@yuva.net.in ")
+        return redirect('account:activities')
+    form = a_forms.single_field_form()
+    if request.method=='POST':
+        form = a_forms.single_field_form(request.POST)
+        if form.is_valid():
+            creator = request.user
+            reciept_number = form.cleaned_data.get('field1')
+            if m_models.vimarsh18_reciept.objects.filter(number = reciept_number).count() >0:
+                reciept = m_models.vimarsh18_reciept.objects.get(number = reciept_number)
+                messages.error(request, "Reciept with number "+reciept_number+" already exists. It is created by "+
+                               reciept.creator.username+". You can contact him or her at "+reciept.creator.email)
+                return redirect('dashboard:generate_reciept')
+            reciept_obj = m_models.vimarsh18_reciept(number = reciept_number, creator = creator)
+            reciept_obj.save()
+            messages.success(request, "Reciept with number "+reciept_number+" is created successfully by "+creator.username)
+            return redirect('dashboard:generate_reciept')
+    return render(request, 'manage/generate_reciept.html',{'gr':'active'})
+
+@login_required
+@is_profile_created
+@is_manager
+def online_payment_confirmation(request):
+    form = a_forms.single_field_form()
+    if request.method=='POST':
+        form = a_forms.single_field_form(request.POST)
+        if form.is_valid():
+            reg_no = form.cleaned_data.get('field1')
+            if v18_models.participant.objects.filter(reg_no = reg_no).count() < 1:
+                messages.error(request, "No participant with registration number "+reg_no+" exists.")
+                return redirect('dashboard:online_payment_confirmation')
+            v18_models.participant.objects.filter(reg_no = reg_no).update(payment_status = True)
+            messages.success(request, "Payment of participant with registration number "+reg_no+" is confirmed.")
+            usr = v18_models.participant.objects.get(reg_no = reg_no).user
+            subject = 'VIMARSH 2018 - Payment Confirmation'
+            message = render_to_string('manage/online_payment_confirmation_email.html',{
+                    'user':usr,
+                    })
+            usr.email_user(subject,message)
+            return redirect('dashboard:online_payment_confirmation')
+    return render(request, 'manage/online_payment_confirmation.html', {'opc':'active'})
 
 @login_required
 @is_profile_created

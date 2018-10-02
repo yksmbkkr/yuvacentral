@@ -49,7 +49,7 @@ def register_yuva(request):
             emailad = form.cleaned_data.get('email')
             if User.objects.filter(email=emailad).count() > 0 :
                 messages.error(request, 'User with the submitted email id is already registered.')
-                return redirect('account:register')
+                return redirect('account:register_yuva')
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
@@ -179,4 +179,5 @@ def change_mail(request):
 @is_profile_created
 def activities(request):
     volunteering_list = v18_models.volunteer.objects.filter(user=request.user)
-    return render(request, 'activities.html',{'activities_pill':'active','vol_list':volunteering_list})
+    p_list = v18_models.participant.objects.filter(user=request.user)
+    return render(request, 'activities.html',{'activities_pill':'active','vol_list':volunteering_list, 'plist':p_list})

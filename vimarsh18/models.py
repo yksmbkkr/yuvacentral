@@ -14,14 +14,16 @@ class volunteer(models.Model):
     branch = models.CharField(max_length=20)
     year = models.CharField(max_length=10)
     interest = models.CharField(max_length=50)
-
+    
     def __str__(self):
         return self.user.username
 
 class participant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     reg_no = models.CharField(max_length=10, unique=True)
-    choice = models.CharField(max_length=100)
+    choice = models.CharField(max_length=200)
+    pay_mode = models.CharField(max_length = 20, default = 'pay_venue')
+    payment_status = models.BooleanField(default = False)
 
     def __str__(self):
         return self.user.username

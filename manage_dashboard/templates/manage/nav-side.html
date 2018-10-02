@@ -50,10 +50,22 @@
             <span>Add Admin</span>
           </a>
         </li>
+    <li class="nav-item {{arm}}">
+          <a class="nav-link" href="{% url 'dashboard:add_reciept_manager'%}">
+            <i class="fas fa-fw fa-credit-card"></i>
+            <span>Add Reciept Manager</span>
+          </a>
+        </li>
     <li class="nav-item {{vvl}}">
           <a class="nav-link" href="{% url 'dashboard:vv_list'%}">
             <i class="fas fa-fw fa-briefcase "></i>
             <span>Vimarsh Volunteer List</span>
+          </a>
+        </li>
+    <li class="nav-item {{opc}}">
+          <a class="nav-link" href="{% url 'dashboard:online_payment_confirmation'%}">
+            <i class="fas fa-fw fa-database"></i>
+            <span>Online Payment Confirmation</span>
           </a>
         </li>
       </ul>
