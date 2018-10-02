@@ -19,7 +19,7 @@ def volunteer_registration(request):
     form=v18_forms.volunteer_form()
     if request.method=='POST':
         form = v18_forms.volunteer_form(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             finalform = form.save(commit=False)
             finalform.user = request.user
             reg_no = reg_no_generator.volunteer_reg_no_generator()
