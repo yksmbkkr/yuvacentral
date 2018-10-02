@@ -225,10 +225,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                              </p>
                               {%if request.user.is_authenticated %}
                               <a class="btn btn-warning btn-block" href="{% url 'vimarsh18:participant_reg' %}">Register for Vimarsh</a>
-                              <a class="btn btn-info btn-block" href="{% url 'vimarsh18:volunteer_reg' %}">Be Volunteer</a>
+                              
                               {%else%}
                                <a class="btn btn-block btn-warning" data-toggle="modal" data-target="#participantModal">Register for Vimarsh</a>
-                              <a class="btn btn-block btn-info" data-toggle="modal" data-target="#volunteerModal">Be Volunteer</a>
+                              
                               {%endif%}
                           </div>
                       </div>

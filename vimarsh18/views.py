@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 @login_required
 @is_profile_created
 def volunteer_registration(request):
-    messages.error(request,"Volunteer registrations are closed.")
+    messages.error(request,"As of now we have received enough registrations for volunteering therefore volunteer registrations are suspended temporarily. If you are interested leave a mail to cantact@yuva.net.in")
     return redirect('account:activities')
     if v18_models.volunteer.objects.filter(user=request.user).count()>0 :
         messages.warning(request, 'You have already registered as voluteer. Your volunteer registration number is '+request.user.volunteer.reg_no+'. This is also emailed to your registered email ID.')
@@ -38,7 +38,7 @@ def volunteer_registration(request):
 
 @login_required
 def volunteer_registration_false(request):
-    messages.error(request,"Volunteer registrations are closed.")
+    messages.error(request,"As of now we have received enough registrations for volunteering therefore volunteer registrations are suspended temporarily. If you are interested leave a mail to cantact@yuva.net.in")
     return redirect('account:activities')
     if v18_models.volunteer.objects.filter(user=request.user).count()>0 :
         messages.warning(request, 'You have already registered as voluteer. Your volunteer registration number is '+request.user.volunteer.reg_no+'. This is also emailed to your registered email ID.')
