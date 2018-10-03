@@ -21,3 +21,17 @@ class profileAdmin(admin.ModelAdmin):
 @admin.register(a_models.college_list_yuva)
 class college_list_yuva(admin.ModelAdmin):
     search_fields = ('college_name',)
+
+@admin.register(a_models.student_info)
+class student_infoAdmin(admin.ModelAdmin):
+    list_display = ('user_username', )
+    search_fields = ('user__username',)
+    def user_username(self,obj):
+        return obj.user.username
+
+@admin.register(a_models.other_info)
+class other_infoAdmin(admin.ModelAdmin):
+    list_display = ('user_username', )
+    search_fields = ('user__username',)
+    def user_username(self,obj):
+        return obj.user.username
