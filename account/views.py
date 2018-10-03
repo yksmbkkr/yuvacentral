@@ -88,7 +88,7 @@ def activation(request, uidb64, token):
         messages.success(request,"Your Email ID is confirmed successfully")
         return redirect('account:profile')
     else:
-        messages.danger(request,"Either this activation link is invalid or expired ! Try Again...")
+        messages.error(request,"Either this activation link is invalid or expired ! Try Again...")
         return redirect('account:re_activate')
 
 @login_required

@@ -62,6 +62,24 @@
             <span>Vimarsh Volunteer List</span>
           </a>
         </li>
+    <li class="nav-item {{pl}}">
+          <a class="nav-link" href="{% url 'dashboard:p_list'%}">
+            <i class="fas fa-fw fa-users "></i>
+            <span>Vimarsh Participant List</span>
+          </a>
+        </li>
+    <li class="nav-item {{rml}}">
+          <a class="nav-link" href="{% url 'dashboard:rm_list'%}">
+            <i class="fas fa-fw fa-money-bill-alt"></i>
+            <span>Vimarsh Reciept Manager List</span>
+          </a>
+        </li>
+    <li class="nav-item {{rl}}">
+          <a class="nav-link" href="{% url 'dashboard:r_list'%}">
+            <i class="fas fa-fw fa-rupee-sign"></i>
+            <span>Vimarsh Reciept List</span>
+          </a>
+        </li>
     <li class="nav-item {{opc}}">
           <a class="nav-link" href="{% url 'dashboard:online_payment_confirmation'%}">
             <i class="fas fa-fw fa-database"></i>

@@ -92,6 +92,16 @@ def dash_home(request):
     user_with_email_confirmed = a_models.user_check.objects.filter(email_confirmation_status = True).count()
     user_profile_completed = a_models.user_check.objects.filter(profile_status = True).count()
     user_managers = a_models.user_check.objects.filter(manager_status = True).count()
+    participants = v18_models.participant.objects.all().count()
+    participants_paid = v18_models.participant.objects.filter(payment_status = True).count()
+    participants_pay_online = v18_models.participant.objects.filter(pay_mode = 'pay_online').count()
+    participants_pay_college = v18_models.participant.objects.filter(pay_mode = 'pay_college').count()
+    participants_pay_venue = v18_models.participant.objects.filter(pay_mode = 'pay_venue').count()
+    participants_pay_online_paid = v18_models.participant.objects.filter(pay_mode = 'pay_online', payment_status = True).count()
+    participants_pay_college_paid = v18_models.participant.objects.filter(pay_mode = 'pay_college', payment_status = True).count()
+    participants_pay_venue_paid = v18_models.participant.objects.filter(pay_mode = 'pay_venue', payment_status = True).count()
+    reciepts_generated = m_models.vimarsh18_reciept.objects.all().count()
+    reciepts_used = m_models.vimarsh18_reciept.objects.filter(status = True).count()
     arg = {
         'lc':live_count,
         'oc':offline_count,
@@ -100,7 +110,17 @@ def dash_home(request):
         'uc':user_count,
         'uec':user_with_email_confirmed,
         'upc':user_profile_completed,
-        'umc':user_managers
+        'umc':user_managers,
+        'participants':participants,
+        'participants_paid':participants_paid,
+        'participants_pay_online':participants_pay_online,
+        'participants_pay_college':participants_pay_college,
+        'participants_pay_venue':participants_pay_venue,
+        'participants_pay_online_paid':participants_pay_online_paid,
+        'participants_pay_college_paid':participants_pay_college_paid,
+        'participants_pay_venue_paid':participants_pay_venue_paid,
+        'reciepts_generated':reciepts_generated,
+        'reciepts_used':reciepts_used
         }
     return render(request,'manage/dashboard.html',arg)
 
@@ -219,3 +239,29 @@ def online_payment_confirmation(request):
 def volunteer_list(request):
     v_list = v18_models.volunteer.objects.all()
     return render(request,'manage/vv_list.html',{'vvl':'active', 'vlist':v_list})
+
+@login_required
+@is_profile_created
+@is_manager
+def participant_list(request):
+    p_list = v18_models.participant.objects.all()
+    return render(request, 'manage/plist.html',{'plist':p_list, 'pl':'active'})
+
+@login_required
+@is_profile_created
+@is_manager
+def reciept_list(request):
+    r_list = m_models.vimarsh18_reciept.objects.all()
+    return render(request, 'manage/rlist.html',{'rlist':r_list, 'rl':'active'})
+
+def reciept_manager_list(request):
+    rm_llist = a_models.profile.objects.filter(user__user_check__reciept_manager_status = True)
+    rm_list = []
+    for r in rm_llist:
+        c = r.user.reciept_manager.all().filter(status=True).count()
+        temp = {
+            'r':r,
+            'c':c
+            }
+        rm_list.append(temp)
+    return render(request, 'manage/rmlist.html',{'rmlist':rm_list, 'rml':'active'})

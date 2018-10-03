@@ -14,5 +14,8 @@ urlpatterns = [
     url(r'^add-recipt-manager/$', m_views.add_reciept_manager, name='add_reciept_manager'),
     url(r'^generate-reciept/$', m_views.generate_reciept, name='generate_reciept'),
     url(r'^vimarsh-volunteer-list/$', m_views.volunteer_list, name='vv_list'),
+    url(r'^vimarsh-participant-list/$', m_views.participant_list, name='p_list'),
+    url(r'^vimarsh-reciept-manager-list/$', m_views.reciept_manager_list, name='rm_list'),
+    url(r'^vimarsh-reciept-list/$', m_views.reciept_list, name='r_list'),
     url(r'^online-payment-confirmation/$', m_views.online_payment_confirmation, name='online_payment_confirmation'),
 ]
