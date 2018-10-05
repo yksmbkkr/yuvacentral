@@ -37,7 +37,7 @@ class profile(models.Model):
 
 class student_info(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True)
-    course = models.CharField(max_length=20)
+    course = models.CharField(max_length=60)
     year = models.CharField(max_length=10)
 
     def __str__(self):
