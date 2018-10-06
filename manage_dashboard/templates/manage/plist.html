@@ -46,7 +46,7 @@
                           <td>{{p.user.user_check.profession}}</td>
                           <td>{{p.user.reciept_user.all.0}}</td>
                           <td>{{p.pay_mode}}</td>
-                            <td>{{p.payment_status}}</td>
+                            <td>{{p.payment_status| yesno:"Done,Pending"}}</td>
                         </tr>
                        {%endfor%}
                    </tbody>
