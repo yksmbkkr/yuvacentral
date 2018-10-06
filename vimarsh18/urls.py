@@ -12,5 +12,6 @@ urlpatterns = [
         url(r'^pay-failed/$',v18_views.payment_failed),
         url(r'^pay-pending/$',v18_views.payment_pending),
         url(r'^pay-reciept/$',v18_views.pay_reciept, name = 'pay_reciept'),
+        url(r'^try/$',v18_views.idtry),
         url(r'^change-payment/$',v18_views.change_payment_mode, name = 'change_payment'),
     ]

@@ -265,3 +265,64 @@ def reciept_manager_list(request):
             }
         rm_list.append(temp)
     return render(request, 'manage/rmlist.html',{'rmlist':rm_list, 'rml':'active'})
+
+@login_required
+@is_profile_created
+@is_manager
+def speaker(request, id = None):
+    s_list = v18_models.speaker.objects.all()
+    if id==None:
+        form = m_forms.speaker_form()
+        if request.method == 'POST':
+            form = m_forms.speaker_form(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Speaker added successfully")
+                return redirect('dashboard:speaker')
+        return render(request, 'manage/speaker.html', {'form':form, 'spk':'active', 'slist':s_list})
+    else:
+        try:
+            speaker_obj = v18_models.speaker.objects.get(id = id)
+        except v18_models.speaker.DoesNotExist:
+            messages.error(request, "No such speaker exists")
+            return redirect('dashboard:speaker')
+        form = m_forms.speaker_form(instance = speaker_obj)
+        if request.method == 'POST':
+            form = m_forms.speaker_form(request.POST, request.FILES,  instance = speaker_obj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Speaker updated successfully")
+                return redirect('dashboard:speaker')
+        return render(request, 'manage/speaker.html', {'form':form, 'spk':'active', 'slist':s_list})
+
+@login_required
+@is_profile_created
+@is_manager
+def session_vim(request, id =None):
+    s_list = v18_models.session_vim.objects.all()
+    if id == None:
+        form = m_forms.session_vim_form()
+        if request.method=='POST':
+            form = m_forms.session_vim_form(request.POST)
+            if form.is_valid():
+                sid = session_vim_id_generator()
+                finalform = form.save(commit = False)
+                finalform.sid = sid
+                finalform.save()
+                messages.success(request, "Session created successfully")
+                return redirect('dashboard:session_vim')
+        return render(request, 'manage/session_vim.html', {'form':form, 'snvm':'active','slist':s_list})
+    else:
+        try:
+            session_vim_obj = v18_models.session_vim.objects.get(sid = str(id))
+        except v18_models.session_vim.DoesNotExist:
+            messages.error(request,"Session does not exist.")
+            return redirect('dashboard:session_vim')
+        form = m_forms.session_vim_form(instance = session_vim_obj)
+        if request.method == 'POST':
+            form = m_forms.session_vim_form(request.POST, instance = session_vim_obj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Session updated successfuly")
+                return redirect('dashboard:session_vim')
+        return render(request, 'manage/session_vim.html', {'form':form, 'snvm':'active', 'slist':s_list})

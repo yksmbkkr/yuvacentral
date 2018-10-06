@@ -2,7 +2,7 @@ from django.shortcuts import render
 from vimarsh18 import forms as v18_forms
 from vimarsh18 import reg_no_generator
 from account.views import messages
-from django.shortcuts import redirect
+from django.shortcuts import redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from vimarsh18 import models as v18_models
 from vimarsh18 import email_sender
@@ -11,6 +11,7 @@ from account import forms as a_forms
 from django.shortcuts import HttpResponseRedirect
 from manage_dashboard import models as m_models
 from django.contrib.auth.models import User
+from vimarsh18 import id_generator as idg
 
 # Create your views here.
 @login_required
@@ -149,7 +150,6 @@ def participant_registration_false(request):
     return render(request,'participant_false.html',{'form':form, 'form2':form2, 'form3':profile_form})
 
 @login_required
-@is_profile_created
 def pay_reciept(request):
     if v18_models.participant.objects.filter(user = request.user).count() <1:
         messages.error(request, "You have not yet registered for vimarsh. Please register first")
@@ -219,6 +219,13 @@ def change_payment_mode(request):
             messages.success(request, "Payment Method changed successfully.")
             return redirect('account:activities')
     return render(request, 'change_payment.html', {'form':form, 'cp' : current_method})
+
+@login_required
+def idtry(request):
+    image = idg.try_qr(request.user)
+    response = HttpResponse(content_type="image/png")
+    image.save(response, "PNG")
+    return response
 
 def payment_successful(request):
     return render(request, 'payment_successful.html')

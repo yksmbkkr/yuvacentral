@@ -19,3 +19,6 @@ class participantAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'reg_no')
     def get_usrname(self, obj):
         return obj.user.username
+
+admin.site.register(qr_code_reg)
+admin.site.register(speaker)

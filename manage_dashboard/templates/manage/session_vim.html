@@ -1,0 +1,130 @@
+{%extends 'manage/dash_home.html'%}
+{% load static %}
+{% load app_filters %}
+
+{%block head%}
+<link href="{% static 'manage/css/github.min.css'%}" rel="stylesheet">
+<link href="{% static 'manage/css/bootstrap-clockpicker.min.css'%}" rel="stylesheet">
+<link href="{% static 'manage/css/jquery-clockpicker.min.css'%}" rel="stylesheet">
+{%endblock%}
+
+{%block body%}
+
+<div class="container-fluid">
+    <div class="row">
+         {%for message in messages%}
+        <div class="col-md-10 col-sm-12 mr-auto ml-auto">
+        
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+  {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+       
+            </div>
+        {%endfor%}
+        
+        {%if form.errors%}
+        <div class="col-md-10 col-sm-12 mr-auto ml-auto mt-4">
+        
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  {{form.errors}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+       
+            </div>
+        {%endif%}
+        <div class="col-md-10 col-sm-12 mr-auto ml-auto mt-4">
+            <h4>Session</h4>
+            <form method="post" enctype="multipart/form-data">
+                
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            {{form.topic}}   
+                            {{form.topic.label_tag}}
+                        </div>
+                    </div>
+                  
+                    <div class="form-group">
+                        {{form.info.label_tag}}
+                            {{form.info}}   
+                    </div>
+
+                <div class="form-group">
+                            {{form.day.label_tag}}
+                            {{form.day}}   
+                    </div>
+
+                <div class="form-group">
+                            {{form.domain.label_tag}}
+                            {{form.domain}}   
+                    </div>
+
+                <div class="form-group">
+                    {{form.start_time.label_tag}}
+                        <div class="input-group clockpicker" data-autoclose="true" data-donetext="Done">
+                            {{form.start_time}}   
+                            
+                        </div>
+                    </div>
+
+                <div class="form-group">
+                    {{form.end_time.label_tag}}
+                        <div class="input-group clockpicker" data-autoclose="true" data-donetext="Done">
+                            {{form.end_time}}   
+                            
+                        </div>
+                    </div>
+                    
+                    {%csrf_token%}
+                <button class="btn btn-primary btn-block" type="submit">Save</button>
+            </form>
+        </div>
+        <div class="col-md-10 col-sm-12 mr-auto ml-auto mt-4">
+            <h5>Sessions</h5>
+                <div class="row">
+                {%for s in slist%}
+                <div class="col-md-3 col-sm-12 mr-auto ml-auto mt-3">
+                    <div class="card mb-3">
+                          <div class="card-body">
+                            <h4 class="card-title"> <a href="{%url 'dashboard:edit_session_vim' s.sid %}">{{s.topic}}</a> </h4>
+                              {%autoescape off%}
+                            <p class="card-text">{{s.info}}</p>
+                              {%endautoescape%}
+                               <p class="card-text">Domain: {{s.domain|get_vimarsh_domain}}<br />
+                              Day: {{s.day|get_vimarsh_day}}<br />
+                              Start : {{s.start_time}}<br />
+                              End : {{s.end_time}}
+                              </p>
+                              
+                          </div>
+                        </div>
+                </div>
+                {%endfor%}
+                </div>
+            </div>
+    </div>
+</div>
+
+{%endblock%}
+{%block script%}
+<script>
+    $(document).ready(function () {
+        $('.clockpicker').clockpicker();
+        $('#id_pic').on('change', function () {
+            //get the file name
+            var fileName = $(this).val();
+            //replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(fileName);
+        });
+    });
+        </script>
+<script src="{% static 'manage/js/highlight.min.js' %}"></script>
+<script src="{% static 'manage/js/html5shiv.js' %}"></script>
+<script src="{% static 'manage/js/respond.min.js' %}"></script>
+<script src="{% static 'manage/js/bootstrap-clockpicker.min.js' %}"></script>
+<script src="{% static 'manage/js/jquery-clockpicker.min.js' %}"></script>
+{%endblock%}
