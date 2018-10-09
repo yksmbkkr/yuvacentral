@@ -1,0 +1,165 @@
+{%extends 'skeleton.html'%}
+{%load static%}
+{%block body%}
+<body class="landing-page sidebar-collapse">
+    {%include 'nav.html'%}
+    <div class="page-header header-filter" data-parallax="true" style="background-image: url('{% static 'assets/img/vimarsh18/aic_vim2.jpg' %}')">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1 class="title">VIMARSH '18</h1>
+          <h4>Vimarsh is back with its Edition 3.0. Get Ready for power pact 3 days!</h4>
+          <br>
+            {%if user.is_authenticated%}
+            <a href="{%url 'vimarsh18:participant_reg' %}" target="_blank" class="btn btn-yuva btn-raised btn-lg">
+            Register Now
+          </a>
+            {%else%}
+          <a data-toggle="modal" data-target="#participantModal" class="btn btn-yuva btn-raised btn-lg">
+            Register Now
+          </a>
+            {%endif%}
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="main main-raised">
+        <div class="container">
+            <div class="section text-center">
+                <div class="row">
+                    <div class="col-md-8 ml-auto mr-auto">
+                        <h2 class="title">
+                            Vimarsh 2018
+                        </h2>
+                        <h5 class="description text-custom">
+                            Vimarsh is the three-day annual student conclave of YUVA. 
+                            The conclave has emerged as a powerful avenue for students to get mentorship from experts from respective fields. 
+                            The conclave is categorised into specific disciplines, wherein students interact with stalwarts to learn about issues and seek mentorship on excelling in the discipline. 
+                            Hundreds of students across Delhi campuses attend the conclave every year. 
+                            In the past, reputed institutions including the Neeti Aayog, Finance Ministry, News 18, Bharat Prakashan, Gandhi Darshan Samiti, have partnered and participated in VIMARSH. <br />
+                           <b class="text-primary"> Vimarsh is back with its Edition 3.0 ! </b>
+                        </h5>
+                    </div>
+                    <div class="col-md-8 ml-auto mr-auto">
+                        <div class="features">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="info">
+                                        <div class="icon icon-success">
+                                            <i class="material-icons">map</i>
+                                        </div>
+                                        <h4 class="info-title">
+                                            Where
+                                        </h4>
+                                        <p class="h5 text-custom">
+                                           Dr. Ambedkar International center, <br />
+                                            15, Janpath, New Delhi-110001<br />
+                                            Nearest metro station - Central Secretariat, Gate No. 2
+                                        </p>
+                                    </div>
+                                </div>
+                                 <div class="col-md-4">
+                                    <div class="info">
+                                        <div class="icon icon-warning">
+                                            <i class="material-icons">date_range</i>
+                                        </div>
+                                        <h4 class="info-title">
+                                            When
+                                        </h4>
+                                        <p class="h5 text-custom">
+                                           October 22-24, 2018
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="info">
+                                        <div class="icon icon-primary">
+                                            <i class="material-icons">list</i>
+                                        </div>
+                                        <h4 class="info-title">
+                                            Domains
+                                        </h4>
+                                        <p class="h5 text-custom">
+                                           Law and Polity<br />
+                                            Science and Technology<br />
+                                             Language, Literature and Journalism<br />
+                                            Generic
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 ml-auto mr-auto">
+                        <h2 class="title">
+                            Agenda for October 22-23-24, 2018
+                        </h2>
+                        <h5 class="description text-custom">
+                            To be declared soon
+                        </h5>
+                    </div>
+
+                    <div class="col-md-8 ml-auto mr-auto">
+                        <h2 class="title">
+                            Dignitaries
+                        </h2>
+                        <h3 class="description">Who are going to join us</h3>
+                        {%if not slist%}
+                        <h5 class="description text-custom">
+                            To be declared soon
+                        </h5>
+                        {%endif%}
+                        <div class="team">
+                            <div class="row">
+                               {%for s in slist%}
+                                 <div class="col-sm-4 col-md-3 ml-auto mr-auto">
+                                     <div class="team-player">
+                                        <div class="card card-plain">
+                                          <div class="col-md-10 ml-auto mr-auto">
+                                            <img src="{{s.pic.url}}" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                                          </div>
+                                          <h4 class="card-title">
+                                              {{s.name}}
+                                          </h4>
+                                          <div class="card-body">
+                                            <p class="card-description">
+                                               {{s.info}}
+                                              </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                 </div>
+                                {%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {%include 'footer.html' %}
+  <!--   Core JS Files   -->
+ {%include 'scripts.html'%}
+     <div class="modal fade" id="participantModal" tabindex="-1" role="dialog" aria-labelledby="participantModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+          <div class="row">
+              
+              <div class="col-sm-10 mr-auto ml-auto">
+                  <a class="btn btn-info btn-block" href="{% url 'vimarsh18:participant_reg' %}">Login</a>
+              </div>
+              <div class="col-sm-10 mr-auto ml-auto">
+                  <a class="btn btn-info btn-block" href="{% url 'account:register_yuva' %}?v=v">Register</a>
+              </div>
+          </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+</body>
+
+
+{% endblock %}

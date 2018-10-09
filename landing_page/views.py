@@ -15,3 +15,6 @@ def login_redirect(request):
     if not next_route:
         return redirect('landing:login')
     return redirect('/login/login/?next='+next_route)
+
+def vimarsh_redirect(request):
+    return redirect('vimarsh18:vimarsh18_home')

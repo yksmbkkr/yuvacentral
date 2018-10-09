@@ -13,6 +13,15 @@ from manage_dashboard import models as m_models
 from django.contrib.auth.models import User
 from vimarsh18 import id_generator as idg
 
+#Vimarsh Home
+
+def vimarsh18_home(request):
+    s_list = v18_models.speaker.objects.all()
+    args = {
+        'slist':s_list
+        }
+    return render(request, "vimarsh18.html",args)
+
 # Create your views here.
 @login_required
 @is_profile_created

@@ -3,3 +3,28 @@
     /*padding: 15px;*/
     width: auto;
 }
+
+.btn-yuva {
+    color: #ffffff;
+    background-color: #f69302; 
+    border-color: #2196f3;
+    box-shadow: none;
+}
+
+    .btn-yuva:hover {
+        color: #ffffff;
+        background-color: #e75621;
+        border-color: #0c7cd5;
+    }
+
+    .btn-yuva:focus,
+    .btn-yuva.focus {
+        box-shadow: none, 0 0 0 0.2rem rgba(33, 150, 243, 0.5);
+    }
+.text-custom {
+    color: #174752 !important;
+}
+
+.text-yuva {
+    color: #e75621 !important;
+}
