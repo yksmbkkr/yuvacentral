@@ -103,6 +103,7 @@ def participant_registration(request):
             p_obj = v18_models.participant(user = request.user, reg_no = reg_no, choice = choices, pay_mode = pay_mode)
             p_obj.save()
             email_sender.participant_email(user=request.user)
+            idg.participant_student_id(reg_no)
             if pay_mode == 'pay_online':
                 return HttpResponseRedirect('https://www.payumoney.com/paybypayumoney/#/3627569A7B7F8520CC840B9947D94BCA')
             messages.success(request,'Vimarsh 2018 registration successful check your inbox-spambox for further instructions, registration id.')
@@ -148,6 +149,7 @@ def participant_registration_false(request):
             p_obj = v18_models.participant(user = request.user, reg_no = reg_no, choice = choices, pay_mode = pay_mode)
             p_obj.save()
             email_sender.participant_email(user=request.user)
+            idg.participant_student_id(reg_no)
             if pay_mode == 'pay_online':
                 return HttpResponseRedirect('https://www.payumoney.com/paybypayumoney/#/3627569A7B7F8520CC840B9947D94BCA')
             messages.success(request,'Vimarsh 2018 registration successful check your inbox-spambox for further instructions, registration id.')

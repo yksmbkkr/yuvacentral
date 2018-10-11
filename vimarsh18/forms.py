@@ -22,7 +22,6 @@ areaOfInterest = (
 pay_mode_choices = (
     ('',' Select Payment Method'),
     ('pay_online', 'Pay Online'),
-    ('pay_college', 'Pay/Paid at my College'),
     ('pay_venue','Will pay at venue during the time of Vimarsh')
     )
 

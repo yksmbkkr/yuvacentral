@@ -47,7 +47,16 @@ def participant_student_id(reg_no = None):
     name = p_obj.user.profile.name
     #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/ps.png'
     #bg_url = StringIO(urllib.request.urlopen(static('icard/ps.png')).read())
-    bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/ps.png'
+    profession = p_obj.user.user_check.profession
+    if profession == 'student':
+        bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/ps.png'
+        #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/ps.png'
+    elif profession == 'teaching':
+        bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/pt.png'
+        #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/pt.png'
+    else:
+        bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/po.png'
+        #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/po.png'
     bg = Image.open(bg_url)
     if v18_models.qr_code_reg.objects.filter(user=p_obj.user).count() < 1:
         try_qr(p_obj.user)
@@ -59,6 +68,7 @@ def participant_student_id(reg_no = None):
     img_io = BytesIO()
     draw =  ImageDraw.Draw(bg)
     font = ImageFont.truetype(font='/home/adminyash/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
+    #font = ImageFont.truetype(font='C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
     draw.text((60,310),name.replace(' ','\n')[:40]+'\n'+'\n'+reg_no,fill = (1,72,174), font = font)
     bg.paste(qr,(260,350))
     bg.save(img_io, bg.format, quality=50)
