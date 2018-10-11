@@ -50,11 +50,14 @@ def participant_student_id(reg_no = None):
     profession = p_obj.user.user_check.profession
     if profession == 'student':
         bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/ps.png'
+        filename = 'student_'+reg_no+'.png'
         #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/ps.png'
     elif profession == 'teaching':
         bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/pt.png'
+        filename = 'academician_'+reg_no+'.png'
         #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/pt.png'
     else:
+        filename = 'other_'+reg_no+'.png'
         bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/po.png'
         #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/po.png'
     bg = Image.open(bg_url)
@@ -64,7 +67,7 @@ def participant_student_id(reg_no = None):
         pass
     qr_url = p_obj.user.qr_code_reg.qr_code
     qr = Image.open(qr_url)
-    filename = reg_no+'.png'
+    #filename = reg_no+'.png'
     img_io = BytesIO()
     draw =  ImageDraw.Draw(bg)
     font = ImageFont.truetype(font='/home/adminyash/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
