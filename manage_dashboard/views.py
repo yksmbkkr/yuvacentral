@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, Http404
+from django.shortcuts import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import send_mail, get_connection
@@ -326,3 +327,14 @@ def session_vim(request, id =None):
                 messages.success(request, "Session updated successfuly")
                 return redirect('dashboard:session_vim')
         return render(request, 'manage/session_vim.html', {'form':form, 'snvm':'active', 'slist':s_list})
+
+@login_required
+@is_profile_created
+@is_manager
+def get_non_participant_list(request):
+    list3 = User.objects.filter(participant__isnull = True, volunteer__isnull = True)
+    print(list3)
+    args = {
+        'list1':list3
+        }
+    return render(request,'manage/non_p_list.html',args)
