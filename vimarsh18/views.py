@@ -230,11 +230,12 @@ def change_payment_mode(request):
     return render(request, 'change_payment.html', {'form':form, 'cp' : current_method})
 
 @login_required
-def idtry(request):
-    image = idg.try_qr(request.user)
-    response = HttpResponse(content_type="image/png")
-    image.save(response, "PNG")
-    return response
+@is_manager
+def idtry(request,user_id = None):
+    image = idg.participant_student_id(user_id)
+    #response = HttpResponse(content_type="image/png")
+    #image.save(response, "PNG")
+    return HttpResponse('Success')
 
 def payment_successful(request):
     return render(request, 'payment_successful.html')

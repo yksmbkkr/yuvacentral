@@ -26,6 +26,13 @@ class qr_code_reg(models.Model):
     def __str__(self):
         return self.user.username
 
+class id_card(models.Model):
+    reg_no = models.CharField(max_length = 10)
+    name = models.CharField(max_length = 50)
+    id_img = models.ImageField(upload_to = 'id_cards', null = True)
+    def __str__(self):
+        return self.reg_no
+
 class participant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     reg_no = models.CharField(max_length=10, unique=True)
