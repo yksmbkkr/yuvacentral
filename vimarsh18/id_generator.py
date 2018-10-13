@@ -45,6 +45,7 @@ def participant_student_id(reg_no = None):
         #print("participant not exist")
         raise Http404
     name = p_obj.user.profile.name
+    name = name.title()
     #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/ps.png'
     #bg_url = StringIO(urllib.request.urlopen(static('icard/ps.png')).read())
     profession = p_obj.user.user_check.profession
