@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     #'pwa',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'rest_framework',
 ]
 
 MIDDLEWARE_CLASSES = [
