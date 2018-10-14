@@ -12,6 +12,10 @@ from django.shortcuts import HttpResponseRedirect
 from manage_dashboard import models as m_models
 from django.contrib.auth.models import User
 from vimarsh18 import id_generator as idg
+from rest_framework.views import APIView
+from rest_framework.response import Response as serial_response
+from rest_framework import status
+from vimarsh18.serializers import session_vimSerializer
 
 #Vimarsh Home
 
@@ -247,3 +251,12 @@ def payment_failed(request):
 
 def payment_pending(request):
     return render(request, 'payment_pending.html')
+
+class session_vimList(APIView):
+    def get(self,request):
+        sessions = v18_models.session_vim.objects.all()
+        serializer = session_vimSerializer(sessions, many = True)
+        return serial_response(serializer.data)
+
+    def post(self):
+        pass
