@@ -75,6 +75,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             input.oninvalid = function (event) {
                                 event.target.setCustomValidity('Username should not contain spaces. It could be alphanumeric only.');
                             }
+                            input.onchange = function (event) {
+                                try{
+                                    event.target.setCustomValidity('')
+                                }catch(e){}
+                            }
                         </script>
                         <div class="form-group">
                         {{form.email}}
