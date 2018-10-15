@@ -22,7 +22,7 @@ class profession_choice_form(forms.Form):
 
 
 class registration_form(UserCreationForm):
-    username = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Username'}))
+    username = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Username', 'pattern':'[a-zA-Z0-9@.]{1,30}'}))
     email = forms.EmailField(max_length=254, required=True, help_text='Required. Inform a valid email address.', widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Retype Password'}))
