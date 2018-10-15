@@ -16,6 +16,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response as serial_response
 from rest_framework import status
 from vimarsh18.serializers import session_vimSerializer
+from django.http import JsonResponse
 
 #Vimarsh Home
 
@@ -279,10 +280,18 @@ def mark_attendance(request, rid = None, sid = None):
         raise Http404
     if v18_models.attendance.objects.filter(rid = rid, sid = sid).count() > 0:
         #print('already here')
-        return HttpResponse(status = 200)
+        response_data = {
+            'status':200,
+            'data':'Already Marked',
+            }
+        return JsonResponse(response_data)
     a_obj = v18_models.attendance(rid = rid, sid = s_obj, user = user)
     a_obj.save()
-    return HttpResponse(status=200)
+    response_data = {
+        'satus':200,
+        'data':'Marked for '+user.profile.name+' OK'
+        }
+    return JsonResponse(response_data)
 
 
 
