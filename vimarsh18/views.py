@@ -253,6 +253,16 @@ def all_participant_idcard(request):
             idg.participant_student_id(num)
     return HttpResponse(v18_models.id_card.objects.all().count())
 
+@login_required
+@is_manager
+def all_volunteer_idcard(request):
+    list1 = v18_models.volunteer.objects.all()
+    for l in list1:
+        num = l.reg_no
+        if v18_models.id_card.objects.filter(reg_no = num).count() < 1:
+            idg.participant_student_id(num)
+    return HttpResponse(v18_models.id_card.objects.all().count())
+
 def payment_successful(request):
     return render(request, 'payment_successful.html')
 

@@ -65,9 +65,11 @@ class session_vim(models.Model):
     topic = models.CharField(max_length = 150)
     info = models.CharField(max_length = 250)
     day = models.CharField(max_length = 2)
-    domain = models.CharField(max_length = 20)
+    domain = models.CharField(max_length = 100)
     start_time = models.TimeField()
     end_time = models.TimeField()
 
     def __str__(self):
         return self.sid
+    class Meta:
+        ordering = ['day','start_time','end_time']

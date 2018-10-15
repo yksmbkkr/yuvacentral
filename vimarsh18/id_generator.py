@@ -79,3 +79,30 @@ def participant_student_id(reg_no = None):
     id_obj = v18_models.id_card(reg_no=reg_no, name = name)
     id_obj.id_img.save(filename, ContentFile(img_io.getvalue()), save=False)
     id_obj.save()
+
+def volunteer_general_id(reg_no = None):
+    if v18_models.id_card.objects.filter(reg_no=reg_no).count() > 0:
+        return
+    if reg_no == None:
+        #print("No reg_no")
+        raise Http404
+    try:
+        v_obj = v18_models.volunteer.objects.get(reg_no = reg_no)
+    except v18_models.volunteer.DoesNotExist:
+        #print("participant not exist")
+        raise Http404
+    name = v_obj.user.profile.name
+    name = name.title()
+    bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/vg.png'
+    #bg_url = StringIO(urllib.request.urlopen(static('icard/ps.png')).read())
+    bg = Image.open(bg_url)
+    filename = reg_no+'.png'
+    img_io = BytesIO()
+    draw =  ImageDraw.Draw(bg)
+    font = ImageFont.truetype(font='/home/adminyash/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
+    #font = ImageFont.truetype(font='C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
+    draw.text((60,310),name.replace(' ','\n')[:40]+'\n'+'\n'+reg_no,fill = (1,72,174), font = font)
+    bg.save(img_io, bg.format, quality=50)
+    id_obj = v18_models.id_card(reg_no=reg_no, name = name)
+    id_obj.id_img.save(filename, ContentFile(img_io.getvalue()), save=False)
+    id_obj.save()
