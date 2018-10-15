@@ -2,7 +2,7 @@ from django.shortcuts import render
 from vimarsh18 import forms as v18_forms
 from vimarsh18 import reg_no_generator
 from account.views import messages
-from django.shortcuts import redirect, HttpResponse
+from django.shortcuts import redirect, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 from vimarsh18 import models as v18_models
 from vimarsh18 import email_sender
@@ -260,8 +260,31 @@ def all_volunteer_idcard(request):
     for l in list1:
         num = l.reg_no
         if v18_models.id_card.objects.filter(reg_no = num).count() < 1:
-            idg.volunteer_general_id(num)
+            idg.participant_student_id(num)
     return HttpResponse(v18_models.id_card.objects.all().count())
+
+def mark_attendance(request, rid = None, sid = None):
+    if rid==None or sid==None:
+        raise Http404
+    try:
+        p_obj = v18_models.participant.objects.get(reg_no = rid)
+        user = p_obj.user
+    except v18_models.participant.DoesNotExist:
+        #print("p not exist")
+        raise Http404
+    try:
+        s_obj = v18_models.session_vim.objects.get(sid = sid)
+    except v18_models.session_vim.DoesNotExist:
+        #print("s not exist")
+        raise Http404
+    if v18_models.attendance.objects.filter(rid = rid, sid = sid).count() > 0:
+        #print('already here')
+        return HttpResponse(status = 200)
+    a_obj = v18_models.attendance(rid = rid, sid = s_obj, user = user)
+    a_obj.save()
+    return HttpResponse(status=200)
+
+
 
 def payment_successful(request):
     return render(request, 'payment_successful.html')

@@ -73,3 +73,8 @@ class session_vim(models.Model):
         return self.sid
     class Meta:
         ordering = ['day','start_time','end_time']
+
+class attendance(models.Model):
+    rid = models.CharField(max_length = 20)
+    sid = models.ForeignKey(session_vim, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.CASCADE)

@@ -19,4 +19,5 @@ urlpatterns = [
         url(r'^session_api/$', v18_views.session_vimList.as_view()),
         url(r'^generate-all-id-participant/$',v18_views.all_participant_idcard),
         url(r'^generate-volunteer-general-id/$',v18_views.all_volunteer_idcard),
+        url(r'^attendance/753864219/(?P<sid>[\w]+)/(?P<rid>[\w]+)$',v18_views.mark_attendance),
     ]
