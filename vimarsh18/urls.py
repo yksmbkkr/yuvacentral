@@ -17,5 +17,5 @@ urlpatterns = [
         url(r'^try/(?P<user_id>[\w]+)$',v18_views.idtry),
         url(r'^change-payment/$',v18_views.change_payment_mode, name = 'change_payment'),
         url(r'^session_api/$', v18_views.session_vimList.as_view()),
-        url(r'^generate-all-id-participant/(?P<start>[\d]+)/(?P<end>[\d]+)$',v18_views.all_participant_idcard),
+        url(r'^generate-all-id-participant/$',v18_views.all_participant_idcard),
     ]

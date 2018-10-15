@@ -245,11 +245,9 @@ def idtry(request,user_id = None):
 
 @login_required
 @is_manager
-def all_participant_idcard(request,start = 0, end = 0):
+def all_participant_idcard(request):
     list1 = v18_models.participant.objects.all()
-    start = int(start)
-    end = int(end)
-    for l in list1[start:end]:
+    for l in list1:
         num = l.reg_no
         if v18_models.id_card.objects.filter(reg_no = num).count() < 1:
             idg.participant_student_id(num)
