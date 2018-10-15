@@ -20,6 +20,14 @@ class participantAdmin(admin.ModelAdmin):
     def get_usrname(self, obj):
         return obj.user.username
 
+@admin.register(attendance)
+class attendanceAdmin(admin.ModelAdmin):
+    list_display = ('rid', 'get_session', 'sid')
+    list_filter = ('rid', 'sid__topic')
+    search_fields = ('rid', 'sid__topic', 'sid')
+    def get_session(self,obj):
+        return obj.sid.topic
+
 admin.site.register(qr_code_reg)
 admin.site.register(speaker)
 admin.site.register(id_card)
