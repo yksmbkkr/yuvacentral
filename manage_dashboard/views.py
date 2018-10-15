@@ -341,6 +341,8 @@ def get_non_participant_list(request):
 
 @login_required
 def offline_payment(request):
+    if not request.user.user_check.manager_status and not request.user.user_check.venue_payment_permission:
+        raise Http404
     form = a_forms.single_field_form()
     if request.method=='POST':
         form = a_forms.single_field_form(request.POST)

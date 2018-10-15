@@ -21,7 +21,6 @@ from django.http import HttpResponse
 from wsgiref.util import FileWrapper
 import csv, os
 from django.conf import settings
-
 from account import forms as a_forms
 from account import models as a_models
 from account.tokens import email_confirmation_token

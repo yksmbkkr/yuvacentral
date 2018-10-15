@@ -33,6 +33,12 @@ class venue_payment_statsAdmin(admin.ModelAdmin):
     list_display = ('collector', 'payee_id', 'created_at')
     search_fields = ('collector', 'payee_id', 'created_at')
 
+@admin.register(session_vim)
+class session_vimAdmin(admin.ModelAdmin):
+    list_display = ('sid', 'topic', 'domain', 'day')
+    list_filter = ('domain', 'day')
+    search_fields = ('sid', 'topic')
+
 admin.site.register(qr_code_reg)
 admin.site.register(speaker)
 admin.site.register(id_card)
