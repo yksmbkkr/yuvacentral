@@ -93,8 +93,9 @@ def volunteer_general_id(reg_no = None):
         raise Http404
     name = v_obj.user.profile.name
     name = name.title()
-    bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/vg.png'
+    #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/vg.png'
     #bg_url = StringIO(urllib.request.urlopen(static('icard/ps.png')).read())
+    bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/vg.png'
     bg = Image.open(bg_url)
     filename = reg_no+'.png'
     img_io = BytesIO()
