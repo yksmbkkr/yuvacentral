@@ -74,6 +74,14 @@
                 </a>
               </li>
             {%endif%}
+            {%if user.user_check.venue_payment_permission %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'dashboard:offline_payment'%}" >
+                    <i class="material-icons">settings_applications</i>
+                  Confirm Offline Payments
+                </a>
+              </li>
+            {%endif%}
        
         </ul>
       </div>

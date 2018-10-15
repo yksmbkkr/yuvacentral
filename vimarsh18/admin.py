@@ -28,6 +28,11 @@ class attendanceAdmin(admin.ModelAdmin):
     def get_session(self,obj):
         return obj.sid.topic
 
+@admin.register(venue_payment_stats)
+class venue_payment_statsAdmin(admin.ModelAdmin):
+    list_display = ('collector', 'payee_id', 'created_at')
+    search_fields = ('collector', 'payee_id', 'created_at')
+
 admin.site.register(qr_code_reg)
 admin.site.register(speaker)
 admin.site.register(id_card)

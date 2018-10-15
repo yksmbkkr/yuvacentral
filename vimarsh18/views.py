@@ -295,6 +295,7 @@ def mark_attendance(request, rid = None, sid = None):
 
 
 
+
 def payment_successful(request):
     return render(request, 'payment_successful.html')
 

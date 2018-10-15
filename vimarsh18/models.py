@@ -78,3 +78,11 @@ class attendance(models.Model):
     rid = models.CharField(max_length = 20)
     sid = models.ForeignKey(session_vim, on_delete = models.CASCADE)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
+
+class venue_payment_stats(models.Model):
+    collector = models.ForeignKey(User, on_delete = models.PROTECT)
+    payee_id = models.CharField(max_length = 20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        ordering = ['-created_at']

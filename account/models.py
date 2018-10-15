@@ -12,6 +12,7 @@ class user_check(models.Model):
     manager_status = models.BooleanField(default = False)
     reciept_manager_status = models.BooleanField(default = False)
     profession = models.CharField(default = 'student', max_length = 20)
+    venue_payment_permission = models.BooleanField(default = False)
 
     def __str__(self):
         return self.user.username

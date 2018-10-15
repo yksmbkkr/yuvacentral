@@ -338,3 +338,30 @@ def get_non_participant_list(request):
         'list1':list3
         }
     return render(request,'manage/non_p_list.html',args)
+
+@login_required
+def offline_payment(request):
+    form = a_forms.single_field_form()
+    if request.method=='POST':
+        form = a_forms.single_field_form(request.POST)
+        if form.is_valid():
+            reg_no = form.cleaned_data.get('field1')
+            if v18_models.participant.objects.filter(reg_no = reg_no).count() < 1:
+                messages.error(request, "No participant with registration number "+reg_no+" exists.")
+                return redirect('dashboard:offline_payment')
+            if v18_models.venue_payment_stats.objects.filter(payee_id = reg_no).count() > 0:
+                p_obj = v18_models.venue_payment_stats.obects.get(payee_id = reg_no)
+                messages.error(request, "Payment of participant with registration number "+reg_no+" is already done please report it to admin.")
+                return redirect('dashboard:offline_payment')
+            p_obj = v18_models.venue_payment_stats(collector = request.user, payee_id = reg_no)
+            p_obj.save()
+            v18_models.participant.objects.filter(reg_no = reg_no).update(payment_status = True)
+            messages.success(request, "Payment of participant with registration number "+reg_no+" is confirmed.")
+            usr = v18_models.participant.objects.get(reg_no = reg_no).user
+            subject = 'VIMARSH 2018 - Payment Confirmation'
+            message = render_to_string('manage/online_payment_confirmation_email.html',{
+                    'user':usr,
+                    })
+            usr.email_user(subject,message)
+            return redirect('dashboard:offline_payment')
+    return render(request, 'manage/offline_payment.html', {'form':form, 'ofc':'active'})
