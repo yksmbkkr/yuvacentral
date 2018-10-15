@@ -33,6 +33,9 @@ class id_card(models.Model):
     def __str__(self):
         return self.reg_no
 
+    class Meta:
+        ordering = ['reg_no']
+
 class participant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     reg_no = models.CharField(max_length=10, unique=True)
