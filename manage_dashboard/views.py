@@ -383,19 +383,19 @@ def id_creator(request):
             id_type = form.cleaned_data['id_type']
             filename = slugify(name)+'.png'
             if id_type == 'guest':
-                #bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/guest.png'
-                bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/guest.png'
+                bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/guest.png'
+                #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/guest.png'
             elif id_type == 'organiser':
-                #bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/organiser.png'
-                bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/organiser.png'
+                bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/organiser.png'
+                #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/organiser.png'
             else:
-                #bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/vsn.png'
-                bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/vsn.png'
+                bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/vsn.png'
+                #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/vsn.png'
             bg = Image.open(bg_url)
             img_io = BytesIO()
             draw =  ImageDraw.Draw(bg)
-            #font = ImageFont.truetype(font='/home/adminyash/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
-            font = ImageFont.truetype(font='C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
+            font = ImageFont.truetype(font='/home/adminyash/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
+            #font = ImageFont.truetype(font='C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
             text_data = text_wrap(name[:40],font,310)
             draw.text((60,310),text_data,fill = (1,72,174), font = font)
             bg.save(img_io, bg.format, quality=50)

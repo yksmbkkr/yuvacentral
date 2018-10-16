@@ -42,3 +42,4 @@ class session_vimAdmin(admin.ModelAdmin):
 admin.site.register(qr_code_reg)
 admin.site.register(speaker)
 admin.site.register(id_card)
+admin.site.register(id_special)
