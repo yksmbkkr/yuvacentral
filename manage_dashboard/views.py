@@ -13,7 +13,11 @@ from manage_dashboard import models as m_models
 from django.contrib.auth.models import User
 from account import forms as a_forms
 from vimarsh18 import models as v18_models
-
+from slugify import slugify
+from PIL import Image, ImageDraw, ImageFont
+from io import BytesIO
+from vimarsh18.id_generator import text_wrap
+from django.core.files.base import ContentFile
 # Create your views here.
 
 def template_test(request):
@@ -367,3 +371,39 @@ def offline_payment(request):
             usr.email_user(subject,message)
             return redirect('dashboard:offline_payment')
     return render(request, 'manage/offline_payment.html', {'form':form, 'ofc':'active'})
+
+@login_required
+@is_manager
+def id_creator(request):
+    form = m_forms.id_choice_form()
+    if request.method == 'POST':
+        form = m_forms.id_choice_form(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            id_type = form.cleaned_data['id_type']
+            filename = slugify(name)+'.png'
+            if id_type == 'guest':
+                #bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/guest.png'
+                bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/guest.png'
+            elif id_type == 'organiser':
+                #bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/organiser.png'
+                bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/organiser.png'
+            else:
+                #bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/vsn.png'
+                bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/vsn.png'
+            bg = Image.open(bg_url)
+            img_io = BytesIO()
+            draw =  ImageDraw.Draw(bg)
+            #font = ImageFont.truetype(font='/home/adminyash/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
+            font = ImageFont.truetype(font='C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
+            text_data = text_wrap(name[:40],font,310)
+            draw.text((60,310),text_data,fill = (1,72,174), font = font)
+            bg.save(img_io, bg.format, quality=50)
+            id_obj = v18_models.id_special(name = name)
+            id_obj.id_img.save(filename, ContentFile(img_io.getvalue()), save=False)
+            id_obj.save()
+            response = HttpResponse(content_type="image/png")
+            image = bg
+            image.save(response, "PNG")
+            return response
+    return render(request,'manage/id_special.html',{'form':form,'id_creator':'active'})

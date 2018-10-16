@@ -86,3 +86,9 @@ class venue_payment_stats(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         ordering = ['-created_at']
+
+class id_special(models.Model):
+    name = models.CharField(max_length = 100)
+    id_img = models.ImageField(upload_to = 'id_cards_special', null = True)
+    def __str__(self):
+        return self.name

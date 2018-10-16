@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^non-participant-profile/$', m_views.get_non_participant_list, name='nplist'),
     url(r'^online-payment-confirmation/$', m_views.online_payment_confirmation, name='online_payment_confirmation'),
     url(r'^offline-payment/$', m_views.offline_payment, name='offline_payment'),
+    url(r'^id-generator/$', m_views.id_creator, name='id_special'),
 ]

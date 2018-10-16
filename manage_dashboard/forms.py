@@ -7,7 +7,12 @@ from django.utils.safestring import mark_safe
 boolean_choices = (
     (False,'No'),
     (True,'Yes')
-    
+    )
+
+id_card_choice = (
+    ('guest','Guest'),
+    ('organiser','Organizer'),
+    ('volunteer_guest','Volunteer managing dignitaries')
     )
 
 areaOfInterest = (
@@ -84,7 +89,10 @@ class session_vim_form(forms.ModelForm):
     domain = forms.CharField(label='Domain', widget=forms.Select(choices=areaOfInterest, attrs={'class':'form-control'}))
     start_time = forms.TimeField(label = 'Start Time', widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Start Time'}))
     end_time = forms.TimeField(label = 'End Time', widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'End Time'}))
-
     class Meta:
         model = v18_models.session_vim
         fields = ('topic', 'info', 'day', 'domain', 'start_time', 'end_time')
+
+class id_choice_form(forms.Form):
+    id_type = forms.CharField(required = True, label='Select Type of ICard', widget=forms.Select(choices=id_card_choice, attrs={'class':'form-control'}))
+    name = forms.CharField(required=True, label='Name', widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Name'}))
