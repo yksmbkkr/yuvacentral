@@ -261,7 +261,7 @@ def all_volunteer_idcard(request):
     for l in list1:
         num = l.reg_no
         if v18_models.id_card.objects.filter(reg_no = num).count() < 1:
-            idg.participant_student_id(num)
+            idg.volunteer_general_id(num)
     return HttpResponse(v18_models.id_card.objects.all().count())
 
 def mark_attendance(request, rid = None, sid = None):
