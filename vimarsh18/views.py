@@ -22,8 +22,10 @@ from django.http import JsonResponse
 
 def vimarsh18_home(request):
     s_list = v18_models.speaker.objects.all()
+    session_list = v18_models.session_vim.objects.all()
     args = {
-        'slist':s_list
+        'slist':s_list,
+        'svlist':session_list
         }
     return render(request, "vimarsh18.html",args)
 

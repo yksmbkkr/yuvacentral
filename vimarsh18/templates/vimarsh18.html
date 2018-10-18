@@ -94,9 +94,380 @@
                         <h2 class="title">
                             Agenda for October 22-23-24, 2018
                         </h2>
-                        <h5 class="description text-custom">
-                            To be declared soon
-                        </h5>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card card-nav-tabs">
+                                    <div class="card-header card-header-warning">
+                                      <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                                      <div class="nav-tabs-navigation">
+                                        <div class="nav-tabs-wrapper">
+                                          <ul class="nav nav-tabs" data-tabs="tabs">
+                                            <li class="nav-item">
+                                              <a class="nav-link active" href="#domain" data-toggle="tab">
+                                                <i class="material-icons">list</i> Domain-wise
+                                              </a>
+                                            </li>
+                                            <li class="nav-item">
+                                              <a class="nav-link" href="#date" data-toggle="tab">
+                                                <i class="material-icons">today</i> Date-wise
+                                              </a>
+                                            </li>
+                        
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="card-body ">
+                                      <div class="tab-content text-center">
+                                        <div class="tab-pane active" id="domain">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div id="accordion">
+                                                      <div class="card card-collapse">
+                                                        <div class="card-header-collapse" id="headingDomainOne">
+                                                          <h5 class="mb-0">
+                                                            <button class="btn btn-link text-primary" data-toggle="collapse" data-target="#collapseDomainOne" aria-expanded="true" aria-controls="collapseDomainOne">
+                                                              Law and Polity
+                                                            </button>
+                                                          </h5>
+                                                        </div>
+
+                                                        <div id="collapseDomainOne" class="collapse show" aria-labelledby="headingDomainOne" data-parent="#accordion">
+                                                          <div class="card-body">
+                                                              <p class="text-success text-left"><b>October 22</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'law_and_polity' and s.day == '22' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>October 23</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'law_and_polity' and s.day == '23' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>October 24</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'law_and_polity' and s.day == '24' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <div class="card card-collapse">
+                                                        <div class="card-header-collapse" id="headingDomainTwo">
+                                                          <h5 class="mb-0">
+                                                            <button class="btn btn-link collapsed text-primary" data-toggle="collapse" data-target="#collapseDomainTwo" aria-expanded="false" aria-controls="collapseDomainTwo">
+                                                              Science and Technology
+                                                            </button>
+                                                          </h5>
+                                                        </div>
+                                                        <div id="collapseDomainTwo" class="collapse" aria-labelledby="headingDomainTwo" data-parent="#accordion">
+                                                          <div class="card-body">
+                                                              <p class="text-success text-left"><b>October 22</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'science_and_technology' and s.day == '22' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>October 23</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'science_and_technology' and s.day == '23' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>October 24</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'science_and_technology' and s.day == '24' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <div class="card card-collapse">
+                                                        <div class="card-header-collapse" id="headingDomainThree">
+                                                          <h5 class="mb-0">
+                                                            <button class="btn btn-link collapsed text-primary" data-toggle="collapse" data-target="#collapseDomainThree" aria-expanded="false" aria-controls="collapseDomainThree">
+                                                              Language, Literature and Journalism
+                                                            </button>
+                                                          </h5>
+                                                        </div>
+                                                        <div id="collapseDomainThree" class="collapse" aria-labelledby="headingDomainThree" data-parent="#accordion">
+                                                          <div class="card-body">
+                                                              <p class="text-success text-left"><b>October 22</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'language_literature_and_journalism' and s.day == '22' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>October 23</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'language_literature_and_journalism' and s.day == '23' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>October 24</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'language_literature_and_journalism' and s.day == '24' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                        <div class="card card-collapse">
+                                                        <div class="card-header-collapse" id="headingDomainDomainFour">
+                                                          <h5 class="mb-0">
+                                                            <button class="btn btn-link collapsed text-primary" data-toggle="collapse" data-target="#collapseDomainDomainFour" aria-expanded="false" aria-controls="collapseDomainDomainFour">
+                                                              General Awareness
+                                                            </button>
+                                                          </h5>
+                                                        </div>
+                                                        <div id="collapseDomainDomainFour" class="collapse" aria-labelledby="headingDomainDomainFour" data-parent="#accordion">
+                                                          <div class="card-body">
+                                                              <p class="text-success text-left"><b>October 22</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'general_awareness' and s.day == '22' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>October 23</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'general_awareness' and s.day == '23' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>October 24</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'general_awareness' and s.day == '24' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="date">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div id="accordion2">
+                                                      <div class="card card-collapse">
+                                                        <div class="card-header-collapse" id="headingDateOne">
+                                                          <h5 class="mb-0">
+                                                            <button class="btn btn-link text-primary" data-toggle="collapse" data-target="#collapseDateOne" aria-expanded="true" aria-controls="collapseDateOne">
+                                                              22<sup>nd</sup> October
+                                                            </button>
+                                                          </h5>
+                                                        </div>
+
+                                                        <div id="collapseDateOne" class="collapse show" aria-labelledby="headingDateOne" data-parent="#accordion2">
+                                                          <div class="card-body">
+                                                              <p class="text-success text-left"><b>Law &amp; Polity</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'law_and_polity' and s.day == '22' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>Science &amp; Technology</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'science_and_technology' and s.day == '22' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>Language, Literature &amp; Journalism</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'language_literature_and_journalism' and s.day == '22' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>General Awareness</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'general_awareness' and s.day == '22' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <div class="card card-collapse">
+                                                        <div class="card-header-collapse" id="headingDateTwo">
+                                                          <h5 class="mb-0">
+                                                            <button class="btn btn-link collapsed text-primary" data-toggle="collapse" data-target="#collapseDateTwo" aria-expanded="false" aria-controls="collapseDateTwo">
+                                                              23<sup>rd</sup> October
+                                                            </button>
+                                                          </h5>
+                                                        </div>
+                                                        <div id="collapseDateTwo" class="collapse" aria-labelledby="headingDateTwo" data-parent="#accordion2">
+                                                          <div class="card-body">
+                                                              <p class="text-success text-left"><b>Law &amp; Polity</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'law_and_polity' and s.day == '23' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>Science &amp; Technology</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'science_and_technology' and s.day == '23' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>Language, Literature &amp; Journalism</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'language_literature_and_journalism' and s.day == '23' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>General Awareness</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'general_awareness' and s.day == '23' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <div class="card card-collapse">
+                                                        <div class="card-header-collapse" id="headingDateThree">
+                                                          <h5 class="mb-0">
+                                                            <button class="btn btn-link collapsed text-primary" data-toggle="collapse" data-target="#collapseDateThree" aria-expanded="false" aria-controls="collapseDateThree">
+                                                              24<sup>th</sup> October
+                                                            </button>
+                                                          </h5>
+                                                        </div>
+                                                        <div id="collapseDateThree" class="collapse" aria-labelledby="headingDateThree" data-parent="#accordion2">
+                                                          <div class="card-body">
+                                                              <p class="text-success text-left"><b>Law &amp; Polity</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'law_and_polity' and s.day == '24' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>Science &amp; Technology</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'science_and_technology' and s.day == '24' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>Language, Literature &amp; Journalism</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'language_literature_and_journalism' and s.day == '24' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                              <hr />
+                                                              <p class="text-success text-left"><b>General Awareness</b></p>
+                                                              <hr />
+                                                              <p class="text-custom text-left">
+                                                                  {%for s in svlist%}
+                                                                  {%if s.domain == 'general_awareness' and s.day == '24' %}
+                                                                  <b>{{s.start_time}} - {{s.end_time}} :</b> {{s.topic}} <br />
+                                                                  {%endif%}
+                                                                  {%endfor%}
+                                                              </p>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                        
                     </div>
 
                     <div class="col-md-8 ml-auto mr-auto">

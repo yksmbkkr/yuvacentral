@@ -20,7 +20,9 @@ i=0
 j=0
 byte_read = BytesIO()
 z = zipfile.ZipFile('new_zip.zip','a')
+z2 = zipfile.ZipFile('new_zip2.zip','a')
 alist = z.namelist()
+alist2 = z2.namelist()
 #print(alist)
 for o in obj_list:
         filename = o.key.split('/')[-1]
@@ -28,10 +30,10 @@ for o in obj_list:
         #file1 = s3.get_object(bucket = BUCKET_NAME, Key = o.key)
         #print(type(s3))
         #print(type(bucket))
-        if not filename in alist:
+        if not filename in alist and not filename in alist2:
             with open('temp.png', 'wb') as data:
                 s3_client.download_fileobj(BUCKET_NAME, o.key, data)
-            z.write('temp.png',arcname=filename, compress_type = zipfile.ZIP_DEFLATED )
+            z2.write('temp.png',arcname=filename, compress_type = zipfile.ZIP_DEFLATED )
             j+=1
         #s3_client.download_fileobj(BUCKET_NAME, o.key, byte_read)
         #z = zipfile.ZipFile('new_zip.zip','w')
