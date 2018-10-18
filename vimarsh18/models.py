@@ -62,8 +62,8 @@ class speaker(models.Model):
 
 class session_vim(models.Model):
     sid = models.CharField(max_length = 10, primary_key = True)
-    topic = models.CharField(max_length = 150)
-    info = models.CharField(max_length = 250)
+    topic = models.CharField(max_length = 250)
+    info = models.CharField(max_length = 350)
     day = models.CharField(max_length = 2)
     domain = models.CharField(max_length = 100)
     start_time = models.TimeField()
