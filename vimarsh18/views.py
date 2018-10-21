@@ -315,3 +315,11 @@ class session_vimList(APIView):
 
     def post(self):
         pass
+
+def schedule_download(request):
+    #file_path = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/schedule.pdf'
+    file_path = '/home/adminyash/yuvacentral/vimarsh18/static/icard/schedule.pdf'
+    with open(file_path, 'rb') as fh:
+        response = HttpResponse(fh.read(), content_type="application/pdf")
+        response['Content-Disposition'] = 'inline; filename=' + 'schedule.pdf'
+        return response

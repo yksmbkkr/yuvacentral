@@ -20,4 +20,5 @@ urlpatterns = [
         url(r'^generate-all-id-participant/$',v18_views.all_participant_idcard),
         url(r'^generate-volunteer-general-id/$',v18_views.all_volunteer_idcard),
         url(r'^attendance/753864219/(?P<sid>[\w]+)/(?P<rid>[\w]+)$',v18_views.mark_attendance),
+        url(r'^download-schedule/$', v18_views.schedule_download, name="download_schedule"),
     ]
