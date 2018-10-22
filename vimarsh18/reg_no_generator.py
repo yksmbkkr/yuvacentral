@@ -12,7 +12,7 @@ def volunteer_reg_no_generator():
         return reg_no
 
 def participant_reg_no_generator():
-    reg_no = str(random.randint(1000,9999))
+    reg_no = str(random.randint(10000,99999))
 
     try:
         participant.objects.get(reg_no=reg_no)

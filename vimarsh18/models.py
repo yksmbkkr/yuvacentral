@@ -38,7 +38,7 @@ class id_card(models.Model):
 
 class participant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    reg_no = models.CharField(max_length=10, unique=True)
+    reg_no = models.CharField(max_length=15, unique=True)
     choice = models.CharField(max_length=200)
     pay_mode = models.CharField(max_length = 20, default = 'pay_venue')
     payment_status = models.BooleanField(default = False)
