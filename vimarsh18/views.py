@@ -1,414 +1,325 @@
-from django.shortcuts import render, redirect, Http404
-from django.shortcuts import HttpResponse
-from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
-from django.core.mail import send_mail, get_connection
+from django.shortcuts import render
+from vimarsh18 import forms as v18_forms
+from vimarsh18 import reg_no_generator
+from account.views import messages
+from django.shortcuts import redirect, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
-from random import *
-import string
-from manage_dashboard import forms as m_forms
-from manage_dashboard.custom_generators import *
+from vimarsh18 import models as v18_models
+from vimarsh18 import email_sender
 from account.decorators import *
+from account import forms as a_forms
+from django.shortcuts import HttpResponseRedirect
 from manage_dashboard import models as m_models
 from django.contrib.auth.models import User
-from account import forms as a_forms
-from vimarsh18 import models as v18_models
-from slugify import slugify
-from PIL import Image, ImageDraw, ImageFont
-from io import BytesIO
-from vimarsh18.id_generator import text_wrap
-from django.core.files.base import ContentFile
-# Create your views here.
+from vimarsh18 import id_generator as idg
+from rest_framework.views import APIView
+from rest_framework.response import Response as serial_response
+from rest_framework import status
+from vimarsh18.serializers import session_vimSerializer
+from django.http import JsonResponse
 
-def template_test(request):
-    return render(request, 'manage/upcoming-events.html',{'form':m_forms.upcoming_events_form()})
+#Vimarsh Home
 
-@login_required
-@is_profile_created
-@is_manager
-def add_upcoming_events(request, id = None):
-    if request.user.is_authenticated()==False:
-        return redirect('landing:login')
-    if id != None:
-        id = int(id)
-        try:
-            event_obj = m_models.up_events.objects.get(event_id = id)
-        except m_models.up_events.DoesNotExist:
-            messages.error(request,"No such event exists")
-            return redirect('dashboard:list_upcoming_events')
-        form = m_forms.upcoming_events_form(instance = event_obj)
-        if request.method=='POST':
-            form = m_forms.upcoming_events_form(request.POST, request.FILES, instance = event_obj)
-            if form.is_valid():
-                form.save()
-                messages.success(request,"Changes in event saved successfuly.")
-                return redirect('dashboard:list_upcoming_events')
-        return render(request,'manage/upcoming-events.html',{'form':form,'u_eve':'active'})
-    form = m_forms.upcoming_events_form()
-    if request.method=='POST':
-        form = m_forms.upcoming_events_form(request.POST, request.FILES)
-        if form.is_valid():
-            finalform=form.save(commit=False)
-            eid = event_id_generator()
-            finalform.event_id = eid
-            finalform.save()
-            return redirect('dashboard:list_upcoming_events')
-    return render(request,'manage/upcoming-events.html',{'form':form,'u_eve':'active'})
-
-@login_required
-@is_profile_created
-@is_manager
-def upcoming_events_list(request):
-    up_eve_posted = m_models.up_events.objects.filter(to_post = True)
-    up_eve_not_posted = m_models.up_events.objects.filter(to_post = False)
-    return render(request, 'manage/up-events-list.html', {'u_eve':'active','up_eve':up_eve_posted,'up_eve_not':up_eve_not_posted})
-
-@login_required
-@is_profile_created
-@is_manager
-def make_event_live(request, id = None, status = None):
-    status = int(status)
-    id = int(id)
-    try:
-        event_obj = m_models.up_events.objects.get(event_id=id)
-    except m_models.up_events.DoesNotExist:
-        messages.error(request,"No such event exists")
-        return redirect('dashboard:list_upcoming_events')
-    if status == 1:
-        event_obj.to_post = True
-        event_obj.save()
-        #event_obj.update(to_post = True)
-        messages.success(request,"Event "+event_obj.name+" is live now.")
-    else:
-        event_obj.to_post = False
-        event_obj.save()
-        #event_obj.update(to_post = False)
-        messages.warning(request,"Event "+event_obj.name+" is offline now.")
-    return redirect('dashboard:list_upcoming_events')
-
-@login_required
-@is_profile_created
-@is_manager
-def dash_home(request):
-    live_count = m_models.up_events.objects.filter(to_post = True).count()
-    offline_count = m_models.up_events.objects.filter(to_post = False).count()
-    total_count = live_count+offline_count
-    user_count = User.objects.all().count()
-    user_with_email_confirmed = a_models.user_check.objects.filter(email_confirmation_status = True).count()
-    user_profile_completed = a_models.user_check.objects.filter(profile_status = True).count()
-    user_managers = a_models.user_check.objects.filter(manager_status = True).count()
-    participants = v18_models.participant.objects.all().count()
-    participants_paid = v18_models.participant.objects.filter(payment_status = True).count()
-    participants_pay_online = v18_models.participant.objects.filter(pay_mode = 'pay_online').count()
-    participants_pay_college = v18_models.participant.objects.filter(pay_mode = 'pay_college').count()
-    participants_pay_venue = v18_models.participant.objects.filter(pay_mode = 'pay_venue').count()
-    participants_pay_online_paid = v18_models.participant.objects.filter(pay_mode = 'pay_online', payment_status = True).count()
-    participants_pay_college_paid = v18_models.participant.objects.filter(pay_mode = 'pay_college', payment_status = True).count()
-    participants_pay_venue_paid = v18_models.participant.objects.filter(pay_mode = 'pay_venue', payment_status = True).count()
-    reciepts_generated = m_models.vimarsh18_reciept.objects.all().count()
-    reciepts_used = m_models.vimarsh18_reciept.objects.filter(status = True).count()
-    arg = {
-        'lc':live_count,
-        'oc':offline_count,
-        'tc':total_count,
-        'dh':'active',
-        'uc':user_count,
-        'uec':user_with_email_confirmed,
-        'upc':user_profile_completed,
-        'umc':user_managers,
-        'participants':participants,
-        'participants_paid':participants_paid,
-        'participants_pay_online':participants_pay_online,
-        'participants_pay_college':participants_pay_college,
-        'participants_pay_venue':participants_pay_venue,
-        'participants_pay_online_paid':participants_pay_online_paid,
-        'participants_pay_college_paid':participants_pay_college_paid,
-        'participants_pay_venue_paid':participants_pay_venue_paid,
-        'reciepts_generated':reciepts_generated,
-        'reciepts_used':reciepts_used
-        }
-    return render(request,'manage/dashboard.html',arg)
-
-@login_required
-@is_profile_created
-@is_manager
-def add_manager(request):
-    form = a_forms.single_field_form()
-    if request.method=='POST':
-        form = a_forms.single_field_form(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['field1']
-            if User.objects.filter(username = email).count()<1:
-                username = email
-            else:
-                messages.error(request,"Unable to verify. Use defferent email address")
-                return redirect('dashboard:add_manager')
-            try:
-                usr = User.objects.get(email=email)
-                usr.manager_status = True
-                usr.save()
-                subject = 'YUVA Account - Admin level privileges granted'
-                message = render_to_string('manage/existing_add_manager_email.html',{
-                    'user':usr,
-                    })
-                usr.email_user(subject,message)
-                messages.success(request, "Admin privileges granted to the user")
-            except User.DoesNotExist:
-                min_char = 12
-                max_char = 20
-                allchar = string.ascii_letters + string.punctuation + string.digits
-                passwd = "".join(choice(allchar) for x in range(randint(min_char, max_char)))
-                usr = User.objects.create_user(username = username, email = email, password=passwd)
-                user_check_obj = a_models.user_check(user=usr, manager_status=True, email_confirmation_status=True)
-                user_check_obj.save()
-                subject = 'YUVA Account - Account created | Admin level privileges granted'
-                message = render_to_string('manage/new_add_manager_email.html',{
-                    'user':usr,
-                    })
-                usr.email_user(subject,message)
-                messages.success(request, "Account with admin level privileges created and mail is sent.")
-    return render(request,'manage/add_manager.html', {'am':'active'})
-
-@login_required
-@is_profile_created
-@is_manager
-def add_reciept_manager(request):
-    form = a_forms.single_field_form()
-    if request.method=='POST':
-        form = a_forms.single_field_form(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['field1']
-            if User.objects.filter(email = email).count()<1:
-                messages.error(request,"No such user is registered.")
-                return redirect('dashboard:add_reciept_manager')
-            usr = User.objects.get(email = email)
-            a_models.user_check.objects.filter(user = usr).update(reciept_manager_status = True)
-            subject = 'YUVA Account - Reciept generation privileges granted'
-            message = render_to_string('manage/add_reciept_manager_email.html',{
-                    'user':usr,
-                    })
-            usr.email_user(subject,message)
-            messages.success(request, "Reciept generation privileges granted to the user")
-            return redirect('dashboard:add_reciept_manager')
-    return render(request, 'manage/add_reciept_manager.html', {'arm': 'active'})
-
-@login_required
-@is_profile_created
-def generate_reciept(request):
-    if not request.user.user_check.reciept_manager_status == True:
-        messages.error(request,"You don't have permission to generate reciepts. Contact admin at admin@yuva.net.in ")
-        return redirect('account:activities')
-    form = a_forms.single_field_form()
-    if request.method=='POST':
-        form = a_forms.single_field_form(request.POST)
-        if form.is_valid():
-            creator = request.user
-            reciept_number = form.cleaned_data.get('field1')
-            if m_models.vimarsh18_reciept.objects.filter(number = reciept_number).count() >0:
-                reciept = m_models.vimarsh18_reciept.objects.get(number = reciept_number)
-                messages.error(request, "Reciept with number "+reciept_number+" already exists. It is created by "+
-                               reciept.creator.username+". You can contact him or her at "+reciept.creator.email)
-                return redirect('dashboard:generate_reciept')
-            reciept_obj = m_models.vimarsh18_reciept(number = reciept_number, creator = creator)
-            reciept_obj.save()
-            messages.success(request, "Reciept with number "+reciept_number+" is created successfully by "+creator.username)
-            return redirect('dashboard:generate_reciept')
-    return render(request, 'manage/generate_reciept.html',{'gr':'active'})
-
-@login_required
-@is_profile_created
-@is_manager
-def online_payment_confirmation(request):
-    form = a_forms.single_field_form()
-    if request.method=='POST':
-        form = a_forms.single_field_form(request.POST)
-        if form.is_valid():
-            reg_no = form.cleaned_data.get('field1')
-            if v18_models.participant.objects.filter(reg_no = reg_no).count() < 1:
-                messages.error(request, "No participant with registration number "+reg_no+" exists.")
-                return redirect('dashboard:online_payment_confirmation')
-            v18_models.participant.objects.filter(reg_no = reg_no).update(payment_status = True)
-            messages.success(request, "Payment of participant with registration number "+reg_no+" is confirmed.")
-            usr = v18_models.participant.objects.get(reg_no = reg_no).user
-            subject = 'VIMARSH 2018 - Payment Confirmation'
-            message = render_to_string('manage/online_payment_confirmation_email.html',{
-                    'user':usr,
-                    })
-            usr.email_user(subject,message)
-            return redirect('dashboard:online_payment_confirmation')
-    return render(request, 'manage/online_payment_confirmation.html', {'opc':'active'})
-
-@login_required
-@is_profile_created
-@is_manager
-def volunteer_list(request):
-    v_list = v18_models.volunteer.objects.all()
-    return render(request,'manage/vv_list.html',{'vvl':'active', 'vlist':v_list})
-
-@login_required
-@is_profile_created
-@is_manager
-def participant_list(request):
-    p_list = v18_models.participant.objects.all()
-    return render(request, 'manage/plist.html',{'plist':p_list, 'pl':'active'})
-
-@login_required
-@is_profile_created
-@is_manager
-def reciept_list(request):
-    r_list = m_models.vimarsh18_reciept.objects.all()
-    return render(request, 'manage/rlist.html',{'rlist':r_list, 'rl':'active'})
-
-def reciept_manager_list(request):
-    rm_llist = a_models.profile.objects.filter(user__user_check__reciept_manager_status = True)
-    rm_list = []
-    for r in rm_llist:
-        c = r.user.reciept_manager.all().filter(status=True).count()
-        temp = {
-            'r':r,
-            'c':c
-            }
-        rm_list.append(temp)
-    return render(request, 'manage/rmlist.html',{'rmlist':rm_list, 'rml':'active'})
-
-@login_required
-@is_profile_created
-@is_manager
-def speaker(request, id = None):
+def vimarsh18_home(request):
     s_list = v18_models.speaker.objects.all()
-    if id==None:
-        form = m_forms.speaker_form()
-        if request.method == 'POST':
-            form = m_forms.speaker_form(request.POST, request.FILES)
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Speaker added successfully")
-                return redirect('dashboard:speaker')
-        return render(request, 'manage/speaker.html', {'form':form, 'spk':'active', 'slist':s_list})
-    else:
-        try:
-            speaker_obj = v18_models.speaker.objects.get(id = id)
-        except v18_models.speaker.DoesNotExist:
-            messages.error(request, "No such speaker exists")
-            return redirect('dashboard:speaker')
-        form = m_forms.speaker_form(instance = speaker_obj)
-        if request.method == 'POST':
-            form = m_forms.speaker_form(request.POST, request.FILES,  instance = speaker_obj)
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Speaker updated successfully")
-                return redirect('dashboard:speaker')
-        return render(request, 'manage/speaker.html', {'form':form, 'spk':'active', 'slist':s_list})
-
-@login_required
-@is_profile_created
-@is_manager
-def session_vim(request, id =None):
-    s_list = v18_models.session_vim.objects.all()
-    if id == None:
-        form = m_forms.session_vim_form()
-        if request.method=='POST':
-            form = m_forms.session_vim_form(request.POST)
-            if form.is_valid():
-                sid = session_vim_id_generator()
-                finalform = form.save(commit = False)
-                finalform.sid = sid
-                finalform.save()
-                messages.success(request, "Session created successfully")
-                return redirect('dashboard:session_vim')
-        return render(request, 'manage/session_vim.html', {'form':form, 'snvm':'active','slist':s_list})
-    else:
-        try:
-            session_vim_obj = v18_models.session_vim.objects.get(sid = str(id))
-        except v18_models.session_vim.DoesNotExist:
-            messages.error(request,"Session does not exist.")
-            return redirect('dashboard:session_vim')
-        form = m_forms.session_vim_form(instance = session_vim_obj)
-        if request.method == 'POST':
-            form = m_forms.session_vim_form(request.POST, instance = session_vim_obj)
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Session updated successfuly")
-                return redirect('dashboard:session_vim')
-        return render(request, 'manage/session_vim.html', {'form':form, 'snvm':'active', 'slist':s_list})
-
-@login_required
-@is_profile_created
-@is_manager
-def get_non_participant_list(request):
-    list3 = User.objects.filter(participant__isnull = True, volunteer__isnull = True)
-    print(list3)
+    session_list = v18_models.session_vim.objects.all()
     args = {
-        'list1':list3
+        'slist':s_list,
+        'svlist':session_list
         }
-    return render(request,'manage/non_p_list.html',args)
+    return render(request, "vimarsh18.html",args)
+
+# Create your views here.
+@login_required
+@is_profile_created
+def volunteer_registration(request):
+    messages.error(request,"As of now we have received enough registrations for volunteering therefore volunteer registrations are suspended temporarily. If you are interested leave a mail to cantact@yuva.net.in")
+    return redirect('account:activities')
+    if v18_models.volunteer.objects.filter(user=request.user).count()>0 :
+        messages.warning(request, 'You have already registered as voluteer. Your volunteer registration number is '+request.user.volunteer.reg_no+'. This is also emailed to your registered email ID.')
+        return redirect('account:activities')
+    form=v18_forms.volunteer_form()
+    if request.method=='POST':
+        form = v18_forms.volunteer_form(request.POST)
+        if form.is_valid:
+            finalform = form.save(commit=False)
+            finalform.user = request.user
+            reg_no = reg_no_generator.volunteer_reg_no_generator()
+            finalform.reg_no = reg_no
+            
+            email_sender.volunteer_email(user=request.user)
+            messages.success(request,'Your volunteering application accepted successfully check your inbox-spambox for further instructions.')
+            finalform.save()
+            return redirect('account:activities')
+    return render(request,'volunteer.html',{'form':form})
 
 @login_required
-def offline_payment(request):
-    if not request.user.user_check.manager_status and not request.user.user_check.venue_payment_permission:
-        raise Http404
-    form = a_forms.single_field_form()
+def volunteer_registration_false(request):
+    messages.error(request,"As of now we have received enough registrations for volunteering therefore volunteer registrations are suspended temporarily. If you are interested leave a mail to cantact@yuva.net.in")
+    return redirect('account:activities')
+    if v18_models.volunteer.objects.filter(user=request.user).count()>0 :
+        messages.warning(request, 'You have already registered as voluteer. Your volunteer registration number is '+request.user.volunteer.reg_no+'. This is also emailed to your registered email ID.')
+        return redirect('account:activities')
+    if a_models.profile.objects.filter(user=request.user).count()>0:
+        return redirect('vimarsh18:volunteer_reg')
+    profile_form = a_forms.profile_form()
+    volunteer_form = v18_forms.volunteer_form()
     if request.method=='POST':
-        form = a_forms.single_field_form(request.POST)
-        if form.is_valid():
-            reg_no = form.cleaned_data.get('field1')
-            reg_no = str(reg_no)
-            if not 'VIM18' in reg_no:
-                reg_no = 'VIM18'+reg_no
-            if v18_models.participant.objects.filter(reg_no = reg_no).count() < 1:
-                messages.error(request, "No participant with registration number "+reg_no+" exists.")
-                return redirect('dashboard:offline_payment')
-            if v18_models.venue_payment_stats.objects.filter(payee_id = reg_no).count() > 0:
-                p_obj = v18_models.venue_payment_stats.objects.get(payee_id = reg_no)
-                messages.error(request, "Payment of participant with registration number "+reg_no+" is already done please report it to admin.")
-                return redirect('dashboard:offline_payment')
-            p_obj = v18_models.venue_payment_stats(collector = request.user, payee_id = reg_no)
+        profile_form = a_forms.profile_form(request.POST)
+        volunteer_form = v18_forms.volunteer_form(request.POST)
+        if profile_form.is_valid() and volunteer_form.is_valid():
+            profile_final = profile_form.save(commit=False)
+            volunteer_final = volunteer_form.save(commit=False)
+            profile_final.user = request.user
+            profile_final.save()
+            a_models.user_check.objects.filter(user=request.user).update(profile_status=True)
+            messages.success(request,"Profile saved successfully")
+            volunteer_final.user = request.user
+            reg_no = reg_no_generator.volunteer_reg_no_generator()
+            volunteer_final.reg_no = reg_no
+            email_sender.volunteer_email(user=request.user)
+            messages.success(request,'Your volunteering application accepted successfully check your inbox-spambox for further instructions.')
+            volunteer_final.save()
+            return redirect('account:activities')
+    return render(request,  'volunteer_false.html',{'form1':profile_form, 'form2':volunteer_form})
+
+@login_required
+@is_profile_created
+def participant_registration(request):
+    if v18_models.participant.objects.filter(user=request.user).count()>0 :
+        messages.warning(request, 'You have already registered for VIMARSH18. Your registration number is '+request.user.participant.reg_no+'. This is also emailed to your registered email ID.')
+        return redirect('account:activities')
+    if request.user.user_check.profession == 'student':
+        form = a_forms.student_info_form()
+    else:
+        form = a_forms.other_info_form()
+    form2 = v18_forms.multiple_choice_form()
+    if request.method=='POST':
+        if request.user.user_check.profession == 'student':
+            form = a_forms.student_info_form(request.POST)
+        else:
+            form = a_forms.other_info_form(request.POST)
+        form2 = v18_forms.multiple_choice_form(request.POST)
+        if form.is_valid() and form2.is_valid():
+            finalform = form.save(commit=False)
+            finalform.user = request.user
+            finalform.save()
+            choices = form2.cleaned_data.get('choice')
+            pay_mode = form2.cleaned_data.get('pay_choice')
+            reg_no = reg_no_generator.participant_reg_no_generator()
+            p_obj = v18_models.participant(user = request.user, reg_no = reg_no, choice = choices, pay_mode = pay_mode)
             p_obj.save()
-            v18_models.participant.objects.filter(reg_no = reg_no).update(payment_status = True)
-            usr_obj = v18_models.participant.objects.get(reg_no = reg_no)
-            usr_name = usr_obj.user.profile.name
-            messages.success(request, "Payment of " +usr_name+" with registration number "+reg_no+" is confirmed.")
-            usr = v18_models.participant.objects.get(reg_no = reg_no).user
-            subject = 'VIMARSH 2018 - Payment Confirmation'
-            message = render_to_string('manage/online_payment_confirmation_email.html',{
-                    'user':usr,
+            email_sender.participant_email(user=request.user)
+            idg.participant_student_id(reg_no)
+            if pay_mode == 'pay_online':
+                return HttpResponseRedirect('https://www.payumoney.com/paybypayumoney/#/3627569A7B7F8520CC840B9947D94BCA')
+            messages.success(request,'Vimarsh 2018 registration successful check your inbox-spambox for further instructions, registration id.')
+            if pay_mode == 'pay_college':
+                return redirect('vimarsh18:pay_reciept')
+            if pay_mode == 'pay_venue':
+                return redirect('account:activities')
+            return redirect('account:activities')
+    return render(request,'participant.html',{'form':form, 'form2':form2})
+
+@login_required
+def participant_registration_false(request):
+    if v18_models.participant.objects.filter(user=request.user).count()>0 :
+        messages.warning(request, 'You have already registered for VIMARSH18. Your registration number is '+request.user.participant.reg_no+'. This is also emailed to your registered email ID.')
+        return redirect('account:activities')
+    if a_models.profile.objects.filter(user=request.user).count()>0:
+        return redirect('vimarsh18:participant_reg')
+    if request.user.user_check.profession == 'student':
+        form = a_forms.student_info_form()
+    else:
+        form = a_forms.other_info_form()
+    form2 = v18_forms.multiple_choice_form()
+    profile_form = a_forms.profile_form()
+    if request.method=='POST':
+        if request.user.user_check.profession == 'student':
+            form = a_forms.student_info_form(request.POST)
+        else:
+            form = a_forms.other_info_form(request.POST)
+        form2 = v18_forms.multiple_choice_form(request.POST)
+        profile_form = a_forms.profile_form(request.POST)
+        if form.is_valid() and form2.is_valid() and profile_form.is_valid():
+            profile_final = profile_form.save(commit=False)
+            profile_final.user = request.user
+            profile_final.save()
+            a_models.user_check.objects.filter(user=request.user).update(profile_status=True)
+            messages.success(request,"Profile saved successfully")
+            finalform = form.save(commit=False)
+            finalform.user = request.user
+            finalform.save()
+            choices = form2.cleaned_data.get('choice')
+            pay_mode = form2.cleaned_data.get('pay_choice')
+            reg_no = reg_no_generator.participant_reg_no_generator()
+            p_obj = v18_models.participant(user = request.user, reg_no = reg_no, choice = choices, pay_mode = pay_mode)
+            p_obj.save()
+            email_sender.participant_email(user=request.user)
+            idg.participant_student_id(reg_no)
+            if pay_mode == 'pay_online':
+                return HttpResponseRedirect('https://www.payumoney.com/paybypayumoney/#/3627569A7B7F8520CC840B9947D94BCA')
+            messages.success(request,'Vimarsh 2018 registration successful check your inbox-spambox for further instructions, registration id.')
+            if pay_mode == 'pay_college':
+                return redirect('vimarsh18:pay_reciept')
+            if pay_mode == 'pay_venue':
+                return redirect('account:activities')
+            return redirect('account:activities')
+    return render(request,'participant_false.html',{'form':form, 'form2':form2, 'form3':profile_form})
+
+@login_required
+def pay_reciept(request):
+    if v18_models.participant.objects.filter(user = request.user).count() <1:
+        messages.error(request, "You have not yet registered for vimarsh. Please register first")
+        return redirect('account:activities')
+    if request.user.participant.payment_status:
+        messages.info(request, "We have already recieved your payment. ")
+        return redirect('account:activities')
+    if not request.user.participant.pay_mode == 'pay_college':
+        messages.warning(request, "Before proceeding change your payment method. ")
+        return redirect('account:activities')
+    form = v18_forms.single_field_form()
+    if request.method == 'POST':
+        form = v18_forms.single_field_form(request.POST)
+        if form.is_valid():
+            num = form.cleaned_data.get('field1')
+            if m_models.vimarsh18_reciept.objects.filter(number = num).count() > 1 :
+                messages.error(request, "Invalid reciept. Contact yuva team of your college or contact@yuva.net.in")
+                return redirect('vimarsh18:pay_reciept')
+            if m_models.vimarsh18_reciept.objects.filter(number = num).count() < 1 :
+                messages.error(request, "This reciept has not yet been generated. Ask yuva co-ordinator of your college to generate reciept or mail us at contact@yuva.net.in")
+                return redirect('vimarsh18:pay_reciept')
+            reciept_obj = m_models.vimarsh18_reciept.objects.get(number = num)
+            if reciept_obj.status:
+                messages.error(request, "This reciept is already redeemed. Report this issue at contact@yuva.net.in immedietly.")
+                return redirect('vimarsh18:pay_reciept')
+            m_models.vimarsh18_reciept.objects.filter(number = num).update(used_by = request.user, status = True)
+            v18_models.participant.objects.filter(user = request.user).update(payment_status = True)
+            subject = 'VIMARSH - Payment Confirmed'
+            message = render_to_string('emails/payment_confirmed_email.html',{
+                    'user':request.user,
+                    'number':num,
                     })
-            usr.email_user(subject,message)
-            return redirect('dashboard:offline_payment')
-    return render(request, 'manage/offline_payment.html', {'form':form, 'ofc':'active'})
+            request.user.email_user(subject,message)
+            messages.success(request, "Your payment is confirmed.")
+            return redirect('account:activities')
+    return render(request, 'pay_reciept.html')
+
+@login_required
+@is_profile_created
+def change_payment_mode(request):
+    if v18_models.participant.objects.filter(user = request.user).count() <1:
+        messages.error(request, "You have not yet registered for vimarsh. Please register first")
+        return redirect('account:activities')
+    if request.user.participant.payment_status:
+        messages.info(request, "We have already recieved your payment. ")
+        return redirect('account:activities')
+    form = v18_forms.single_choice_form()
+    current_method = request.user.participant.pay_mode
+    if current_method == 'pay_online':
+        current_method = "Pay Online"
+    elif current_method == 'pay_college':
+        current_method = "Pay/Paid at College"
+    else:
+        current_method = "Will pay at venue during Vimarsh"
+    if request.method == 'POST':
+        form = v18_forms.single_choice_form(request.POST)
+        if form.is_valid():
+            current_method = request.user.participant.pay_mode
+            if current_method == 'pay_online':
+                current_method = "Pay Online"
+            elif current_method == 'pay_college':
+                current_method = "Pay/Paid at College"
+            else:
+                current_method = "Will pay at venue during Vimarsh"
+            new_method = form.cleaned_data.get('pay_choice')
+            v18_models.participant.objects.filter(user = request.user).update(pay_mode = new_method)
+            messages.success(request, "Payment Method changed successfully.")
+            return redirect('account:activities')
+    return render(request, 'change_payment.html', {'form':form, 'cp' : current_method})
 
 @login_required
 @is_manager
-def id_creator(request):
-    form = m_forms.id_choice_form()
-    if request.method == 'POST':
-        form = m_forms.id_choice_form(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            id_type = form.cleaned_data['id_type']
-            filename = slugify(name)+'.png'
-            if id_type == 'guest':
-                bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/guest.png'
-                #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/guest.png'
-            elif id_type == 'organiser':
-                bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/organiser.png'
-                #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/organiser.png'
-            else:
-                bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/vsn.png'
-                #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/vsn.png'
-            bg = Image.open(bg_url)
-            img_io = BytesIO()
-            draw =  ImageDraw.Draw(bg)
-            font = ImageFont.truetype(font='/home/adminyash/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
-            #font = ImageFont.truetype(font='C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
-            text_data = text_wrap(name[:40],font,310)
-            draw.text((60,310),text_data,fill = (1,72,174), font = font)
-            bg.save(img_io, bg.format, quality=50)
-            id_obj = v18_models.id_special(name = name)
-            id_obj.id_img.save(filename, ContentFile(img_io.getvalue()), save=False)
-            id_obj.save()
-            response = HttpResponse(content_type="image/png")
-            image = bg
-            image.save(response, "PNG")
-            return response
-    return render(request,'manage/id_special.html',{'form':form,'id_creator':'active'})
+def idtry(request,user_id = None):
+    image = idg.participant_student_id(user_id)
+    #response = HttpResponse(content_type="image/png")
+    #image.save(response, "PNG")
+    return HttpResponse('Success')
+
+@login_required
+@is_manager
+def all_participant_idcard(request):
+    list1 = v18_models.participant.objects.all()
+    for l in list1:
+        num = l.reg_no
+        if v18_models.id_card.objects.filter(reg_no = num).count() < 1:
+            idg.participant_student_id(num)
+    return HttpResponse(v18_models.id_card.objects.all().count())
+
+@login_required
+@is_manager
+def all_volunteer_idcard(request):
+    list1 = v18_models.volunteer.objects.all()
+    for l in list1:
+        num = l.reg_no
+        if v18_models.id_card.objects.filter(reg_no = num).count() < 1:
+            idg.volunteer_general_id(num)
+    return HttpResponse(v18_models.id_card.objects.all().count())
+
+def mark_attendance(request, rid = None, sid = None):
+    if rid==None or sid==None:
+        raise Http404
+    try:
+        p_obj = v18_models.participant.objects.get(reg_no = rid)
+        user = p_obj.user
+    except v18_models.participant.DoesNotExist:
+        #print("p not exist")
+        raise Http404
+    try:
+        s_obj = v18_models.session_vim.objects.get(sid = sid)
+    except v18_models.session_vim.DoesNotExist:
+        #print("s not exist")
+        raise Http404
+    if v18_models.attendance.objects.filter(rid = rid, sid = sid).count() > 0:
+        #print('already here')
+        response_data = {
+            'status':200,
+            'data':'Already Marked',
+            }
+        return JsonResponse(response_data)
+    a_obj = v18_models.attendance(rid = rid, sid = s_obj, user = user)
+    a_obj.save()
+    response_data = {
+        'satus':200,
+        'data':'Marked for '+user.profile.name+' OK'
+        }
+    return JsonResponse(response_data)
+
+
+
+
+def payment_successful(request):
+    return render(request, 'payment_successful.html')
+
+def payment_failed(request):
+    return render(request, 'payment_failed.html')
+
+def payment_pending(request):
+    return render(request, 'payment_pending.html')
+
+class session_vimList(APIView):
+    def get(self,request):
+        sessions = v18_models.session_vim.objects.all()
+        serializer = session_vimSerializer(sessions, many = True)
+        return serial_response(serializer.data)
+
+    def post(self):
+        pass
+
+def schedule_download(request):
+    #file_path = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/schedule.pdf'
+    file_path = '/home/adminyash/yuvacentral/vimarsh18/static/icard/schedule.pdf'
+    with open(file_path, 'rb') as fh:
+        response = HttpResponse(fh.read(), content_type="application/pdf")
+        response['Content-Disposition'] = 'inline; filename=' + 'schedule.pdf'
+        return response

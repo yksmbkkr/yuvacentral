@@ -365,7 +365,9 @@ def offline_payment(request):
             p_obj = v18_models.venue_payment_stats(collector = request.user, payee_id = reg_no)
             p_obj.save()
             v18_models.participant.objects.filter(reg_no = reg_no).update(payment_status = True)
-            messages.success(request, "Payment of participant with registration number "+reg_no+" is confirmed.")
+            usr_obj = v18_models.participant.objects.get(reg_no = reg_no)
+            usr_name = usr_obj.user.profile.name
+            messages.success(request, "Payment of " +usr_name+" with registration number "+reg_no+" is confirmed.")
             usr = v18_models.participant.objects.get(reg_no = reg_no).user
             subject = 'VIMARSH 2018 - Payment Confirmation'
             message = render_to_string('manage/online_payment_confirmation_email.html',{
