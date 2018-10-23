@@ -352,6 +352,9 @@ def offline_payment(request):
         form = a_forms.single_field_form(request.POST)
         if form.is_valid():
             reg_no = form.cleaned_data.get('field1')
+            reg_no = str(reg_no)
+            if not 'VIM18' in reg_no:
+                reg_no = 'VIM18'+reg_no
             if v18_models.participant.objects.filter(reg_no = reg_no).count() < 1:
                 messages.error(request, "No participant with registration number "+reg_no+" exists.")
                 return redirect('dashboard:offline_payment')
