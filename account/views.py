@@ -54,7 +54,7 @@ def register_yuva(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            user_check_obj = a_models.user_check(user=request.user, profession = prof)
+            user_check_obj = a_models.user_check(user=request.user, profession = prof, email_confirmation_status = True)
             user_check_obj.save()
             current_site = get_current_site(request)
             subject = 'YUVA Account - Confirm Your Email Address'
