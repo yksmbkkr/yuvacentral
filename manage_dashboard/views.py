@@ -359,7 +359,7 @@ def offline_payment(request):
                 messages.error(request, "No participant with registration number "+reg_no+" exists.")
                 return redirect('dashboard:offline_payment')
             if v18_models.venue_payment_stats.objects.filter(payee_id = reg_no).count() > 0:
-                p_obj = v18_models.venue_payment_stats.obects.get(payee_id = reg_no)
+                p_obj = v18_models.venue_payment_stats.objects.get(payee_id = reg_no)
                 messages.error(request, "Payment of participant with registration number "+reg_no+" is already done please report it to admin.")
                 return redirect('dashboard:offline_payment')
             p_obj = v18_models.venue_payment_stats(collector = request.user, payee_id = reg_no)
