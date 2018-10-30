@@ -92,3 +92,19 @@ class id_special(models.Model):
     id_img = models.ImageField(upload_to = 'id_cards_special', null = True)
     def __str__(self):
         return self.name
+
+class hardcopy(models.Model):
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    reg_no = models.CharField(max_length = 20)
+    def __str__(self):
+        return self.reg_no
+
+class feedback(models.Model):
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    reg_no = models.CharField(verbose_name='Registration Number', max_length = 20)
+    content_use = models.CharField(max_length = 5, default = 'NA')
+    admin_satisfaction = models.CharField(max_length = 5, default = 'NA')
+    overall_satisfaction = models.CharField(max_length = 5, default = 'NA')
+    comment = models.CharField(max_length = 1000, default = 'NA')
+    def __str__(self):
+        return self.reg_no

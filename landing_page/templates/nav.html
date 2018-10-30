@@ -28,11 +28,7 @@
                 </a>
               </li>
             {%if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'vimarsh18:participant_reg'%}" >
-                 <i class="material-icons">assignment_ind</i> VIMARSH18 Participant Registration
-                </a>
-              </li>
+            
             
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'account:profile'%}" >
@@ -45,11 +41,7 @@
                 </a>
               </li>
             {%else%}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'account:register_yuva'%}?v=v" >
-                 <i class="material-icons">assignment_ind</i> VIMARSH18 Participant Registration
-                </a>
-              </li>
+            
            
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'landing:login'%}" >
@@ -66,19 +58,19 @@
                 </a>
               </li>
             {%endif%}
-            {%if user.user_check.reciept_manager_status %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'dashboard:generate_reciept'%}" >
-                    <i class="material-icons">settings_applications</i>
-                  Generate Reciept
-                </a>
-              </li>
-            {%endif%}
+            
             {%if user.user_check.venue_payment_permission %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'dashboard:offline_payment'%}" >
                     <i class="material-icons">settings_applications</i>
                   Confirm Offline Payments
+                </a>
+              </li>
+            {%endif%}
+            {%if request.user.participant.payment_status %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'vimarsh18:feedback'%}" >
+                  Vimarsh'18 Feedback
                 </a>
               </li>
             {%endif%}

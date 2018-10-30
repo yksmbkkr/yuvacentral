@@ -10,13 +10,9 @@
           <h1 class="title">VIMARSH '18</h1>
           <h4>Vimarsh is back with its Edition 3.0. Get Ready for power pact 3 days!</h4>
           <br>
-            {%if user.is_authenticated%}
-            <a href="{%url 'vimarsh18:participant_reg' %}" target="_blank" class="btn btn-yuva btn-raised btn-lg">
-            Register Now
-          </a>
-            {%else%}
-          <a data-toggle="modal" data-target="#participantModal" class="btn btn-yuva btn-raised btn-lg">
-            Register Now
+             {%if request.user.participant.payment_status %}
+            <a href="{%url 'vimarsh18:feedback' %}" target="_blank" class="btn btn-yuva btn-raised btn-lg">
+            Give Feedback
           </a>
             {%endif%}
         </div>

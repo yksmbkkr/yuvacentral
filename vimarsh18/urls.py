@@ -21,4 +21,6 @@ urlpatterns = [
         url(r'^generate-volunteer-general-id/$',v18_views.all_volunteer_idcard),
         url(r'^attendance/753864219/(?P<sid>[\w]+)/(?P<rid>[\w]+)$',v18_views.mark_attendance),
         url(r'^download-schedule/$', v18_views.schedule_download, name="download_schedule"),
+        url(r'^request-certificate-hardcopy/$',v18_views.hardcopy_request, name = 'hardcopy_request'),
+        url(r'^feedback/$', v18_views.feedback, name="feedback"),
     ]

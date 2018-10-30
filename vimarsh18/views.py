@@ -17,6 +17,7 @@ from rest_framework.response import Response as serial_response
 from rest_framework import status
 from vimarsh18.serializers import session_vimSerializer
 from django.http import JsonResponse
+from vimarsh18.certi_generator import p_create
 
 #Vimarsh Home
 
@@ -86,6 +87,8 @@ def volunteer_registration_false(request):
 @login_required
 @is_profile_created
 def participant_registration(request):
+    messages.error(request, "Registrations are closed.")
+    return redirect('account:activities')
     if v18_models.participant.objects.filter(user=request.user).count()>0 :
         messages.warning(request, 'You have already registered for VIMARSH18. Your registration number is '+request.user.participant.reg_no+'. This is also emailed to your registered email ID.')
         return redirect('account:activities')
@@ -123,6 +126,8 @@ def participant_registration(request):
 
 @login_required
 def participant_registration_false(request):
+    messages.error(request, "Registrations are closed.")
+    return redirect('vimarsh18:vimarsh18_home')
     if v18_models.participant.objects.filter(user=request.user).count()>0 :
         messages.warning(request, 'You have already registered for VIMARSH18. Your registration number is '+request.user.participant.reg_no+'. This is also emailed to your registered email ID.')
         return redirect('account:activities')
@@ -239,6 +244,26 @@ def change_payment_mode(request):
     return render(request, 'change_payment.html', {'form':form, 'cp' : current_method})
 
 @login_required
+@is_profile_created
+def hardcopy_request(request):
+    user = request.user
+    try:
+        p_obj = v18_models.participant.objects.get(user = user)
+    except v18_models.participant.DoesNotExist:
+        messages.error(request,"You are not registered as participant.")
+        return redirect('account:activities')
+    if not p_obj.payment_status:
+        messages.error(request,"You have not paid the participation fee.")
+        return redirect('account:activities')
+    if v18_models.hardcopy.objects.filter(user = user).count() > 0:
+        messages.warning(request, "You have already requested")
+        return redirect('account:activities')
+    req_obj = v18_models.hardcopy(user = user, reg_no = p_obj.reg_no)
+    req_obj.save()
+    messages.success(request,"Your request is submitted successfuly")
+    return redirect('account:activities')
+
+@login_required
 @is_manager
 def idtry(request,user_id = None):
     image = idg.participant_student_id(user_id)
@@ -323,3 +348,24 @@ def schedule_download(request):
         response = HttpResponse(fh.read(), content_type="application/pdf")
         response['Content-Disposition'] = 'inline; filename=' + 'schedule.pdf'
         return response
+
+def feedback(request):
+    form = v18_forms.feedback_form()
+    if request.method == 'POST':
+        form = v18_forms.feedback_form(request.POST)
+        if form.is_valid():
+            reg_no = form.cleaned_data['reg_no'].upper()
+            if v18_models.feedback.objects.filter(reg_no = reg_no).count() > 0:
+                messages.error(request, 'You have already submitted the feedback. Thank You.')
+                return redirect('vimarsh18:feedback')
+            p_obj = v18_models.participant.objects.get(reg_no = reg_no)
+            if not p_obj.payment_status:
+                messages.error(request,"You have not paid the participation fee. Send mail to contact@yuva.net.in if you have paid but still getting this error.")
+                return redirect('vimarsh18:feedback')
+            form_final = form.save(commit = False)
+            form_final.user = p_obj.user
+            form_final.save()
+            p_create(p_obj.user.profile.name,p_obj.user.email,reg_no)
+            messages.success(request, 'Feddback submitted successfully. Your participation certificate is now mailed to your registered email id.')
+            return redirect('account:activities')
+    return render(request, 'feedback.html', {'form':form})

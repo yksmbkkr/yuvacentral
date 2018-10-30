@@ -79,19 +79,8 @@
                                           If you have already paid online please don't try again.</b></p>
                                 </div>
                                 {%endif%}
-                                <div class="col-sm-12 col-md-4 float-left">
-                                    <a class="btn btn-info btn-block" href="{% url 'vimarsh18:change_payment' %}">Change Payment Mode</a>
-                                </div>
-                                {%if request.user.participant.pay_mode == "pay_college" and not request.user.participant.payment_status %}
-                                <div class="col-sm-12 col-md-4 float-left">
-                                    <a class="btn btn-info btn-block" href="{% url 'vimarsh18:pay_reciept' %}">Confirm Payment Here</a>
-                                </div>
-                                {%endif%}
-                                {%if request.user.participant.pay_mode == "pay_online" and not request.user.participant.payment_status %}
-                                <div class="col-sm-12 col-md-4 float-left">
-                                    <a class="btn btn-info btn-block" href="https://www.payumoney.com/paybypayumoney/#/3627569A7B7F8520CC840B9947D94BCA">Pay Online Here</a>
-                                </div>
-                                {%endif%}
+                                
+                                
                             </div>
                         </div>
                         <div class="col-sm-12 ml-auto mr-auto">

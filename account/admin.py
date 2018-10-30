@@ -35,3 +35,4 @@ class other_infoAdmin(admin.ModelAdmin):
     search_fields = ('user__username',)
     def user_username(self,obj):
         return obj.user.username
+

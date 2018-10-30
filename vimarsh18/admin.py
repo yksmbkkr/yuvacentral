@@ -39,7 +39,12 @@ class session_vimAdmin(admin.ModelAdmin):
     list_filter = ('domain', 'day')
     search_fields = ('sid', 'topic')
 
+@admin.register(feedback)
+class feedbackAdmin(admin.ModelAdmin):
+    search_fields = ('reg_no',)
+
 admin.site.register(qr_code_reg)
 admin.site.register(speaker)
 admin.site.register(id_card)
 admin.site.register(id_special)
+admin.site.register(hardcopy)

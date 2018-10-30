@@ -104,7 +104,7 @@ def participant_student_id(reg_no = None):
     #font = ImageFont.truetype(font='C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
     text_data = text_wrap(name[:30],font,190)
     print(text_data)
-    draw.text((60,310),text_data+'\n'+reg_no,fill = (1,72,174), font = font)
+    draw.text((60,310),text_data+'\n'+reg_no,fill = (36,99,177), font = font)
     bg.paste(qr,(260,325))
     bg.save(img_io, bg.format, quality=50)
     id_obj = v18_models.id_card(reg_no=reg_no, name = name)

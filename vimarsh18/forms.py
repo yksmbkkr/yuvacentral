@@ -12,6 +12,19 @@ year_choice = (
     ('5','5'),
     )
 
+ratings = (
+    ('10', '10'),
+    ('9', '9'),
+    ('8', '8'),
+    ('7', '7'),
+    ('6', '6'),
+    ('5', '5'),
+    ('4', '4'),
+    ('3', '3'),
+    ('2', '2'),
+    ('1', '1'),
+    )
+
 areaOfInterest = (
     ('','Select area of Interest'),
     ('Law and Polity', 'Law and Polity'),
@@ -48,3 +61,26 @@ class single_field_form(forms.Form):
 
 class single_choice_form(forms.Form):
     pay_choice = forms.ChoiceField(choices=pay_mode_choices, required=True, widget=forms.Select(attrs={'class':'js-example-basic-single form-control', 'data-placeholder':'Select Payment Method'}))
+
+class feedback_form(forms.ModelForm):
+    reg_no = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control'}))
+    content_use = forms.ChoiceField(choices=ratings, widget=forms.Select(attrs={'class':'form-control selectpicker', 'data-style':'btn btn-link'}))
+    admin_satisfaction  = forms.ChoiceField(choices=ratings,  widget=forms.Select(attrs={'class':'form-control selectpicker', 'data-style':'btn btn-link'}))
+    overall_satisfaction = forms.ChoiceField(choices=ratings,  widget=forms.Select(attrs={'class':'form-control selectpicker', 'data-style':'btn btn-link'}))
+    comment = forms.CharField(required = False, widget=forms.Textarea(attrs={'class':'form-control', 'rows':'3'}))
+
+    def clean_reg_no(self):
+        reg_no = self.cleaned_data['reg_no'].upper()
+        if not v18.participant.objects.filter(reg_no = reg_no).exists():
+            raise forms.ValidationError('There is no participant with registration number '+reg_no+'. Please enter valid registration number')
+        return reg_no
+
+    class Meta:
+        model = v18.feedback
+        fields = {
+            'reg_no',
+            'content_use',
+            'admin_satisfaction',
+            'overall_satisfaction',
+            'comment',
+            }

@@ -153,41 +153,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="container">
       <div class="section text-center">
         <div class="row">
-            <div class="col-md-8 ml-auto mr-auto">
-                <div class="card">
-                    <div class="card-header card-header-warning">
-                        <h4 class="card-title">Vimarsh '18</h4>
-                    </div>
-                    <div class="card-body">
-                        <p class="h5 text-yuva">
-                            <b><u>
-                             Vimarsh - The three-day annual student conclave of YUVA is back with its Edition 3.0, 
-                            which is scheduled for 22nd to 24th October 2018 at the heart of Delhi, Dr. Ambedkar International Centre.
-                                </u></b>
-                        </p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                {%if request.user.is_authenticated %}
-                                <a class="btn btn-raised btn-warning btn-block" href="{%url 'vimarsh18:participant_reg' %}" target="_blank">
-                                    Register Now
-                                </a>
-                                
-                                {%else%}
-                                <a class="btn btn-raised btn-warning btn-block" data-toggle="modal" data-target="#participantModal">
-                                    Register Now
-                                </a>
-                                {%endif%}
-                            </div>
-                            <div class="col-md-6">
-                                <a class="btn btn-raised btn-info btn-block" href="{%url 'vimarsh18:vimarsh18_home' %}" target="_blank">
-                                    Know More...
-                                </a>
-                            </div>
-                    </div>
-                    
-                    </div>
-                </div>
-            </div>
+           
           <div class="col-md-8 ml-auto mr-auto">
             <h2 class="title">Who We Are </h2>
             <h5 class="description">From the very dawn of any civilization, youth have played a pivotal role in determining the course of the society. The contemporary youth is full of energy, but a large chunk of it goes wasted for lack of Channelization. To catalyse the vitality of the youth and to provide a platform whereby the youth may engage into constructive activism, Youth United for Vision and Action (YUVA) was established in the year 2016. YUVA is a youth based- youth run pedestal upon which the effigy of Academic, Social and Cultural endeavors are carried out. Over the years, YUVA has escalated unto all the major academic institutions pan Delhi-NCR including DU, GGSIPU, JNU, NLU, Ambedkar University, IIT-D, AIIMS,IIMC etc and finds its companionship across more than 1 lakh students, academicians and professionals, committed towards the positive construct of society with the spirit of patriotism. The only membership fee to be a part of YUVA is sincerity, dedication, a positive outlook and a vision to contribute for the society and nation. </h5>
@@ -256,13 +222,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                               </p>
                               <hr />
                              
-                              {%if request.user.is_authenticated %}
-                              <a class="btn btn-warning btn-block" href="{% url 'vimarsh18:participant_reg' %}">Register for Vimarsh</a>
                               
-                              {%else%}
-                               <a class="btn btn-block btn-warning" data-toggle="modal" data-target="#participantModal">Register for Vimarsh</a>
-                              
-                              {%endif%}
                           </div>
                       </div>
                    </div>   
