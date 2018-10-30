@@ -366,6 +366,6 @@ def feedback(request):
             form_final.user = p_obj.user
             form_final.save()
             p_create(p_obj.user.profile.name,p_obj.user.email,reg_no)
-            messages.success(request, 'Feddback submitted successfully. Your participation certificate is now mailed to your registered email id.')
+            messages.success(request, 'Feedback submitted successfuly. Your participation certificate is now mailed to your registered email id - '+p_obj.user.email+'.')
             return redirect('account:activities')
     return render(request, 'feedback.html', {'form':form})
