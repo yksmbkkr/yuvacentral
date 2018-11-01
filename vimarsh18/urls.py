@@ -23,4 +23,5 @@ urlpatterns = [
         url(r'^download-schedule/$', v18_views.schedule_download, name="download_schedule"),
         url(r'^request-certificate-hardcopy/$',v18_views.hardcopy_request, name = 'hardcopy_request'),
         url(r'^feedback/$', v18_views.feedback, name="feedback"),
+        url(r'^volunteer-certificate/$', v18_views.certi_volunteer_request, name="v_certi"),
     ]

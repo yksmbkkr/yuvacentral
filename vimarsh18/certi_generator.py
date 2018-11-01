@@ -42,3 +42,32 @@ def p_create(name, email,reg_no):
     msg.send(fail_silently=False)  
     #################EMAIL CLOSE########################
     bg.close()
+
+def v_create(name, email,reg_no):
+    name = format_name(name)
+    bg_url = '/home/adminyash/yuvacentral/vimarsh18/static/icard/bgv.png'
+    #bg_url = 'C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/bgv.png'
+    font = ImageFont.truetype(font='/home/adminyash/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
+    #font = ImageFont.truetype(font='C:/Users/Yash Kulshreshtha/source/repos/yuvacentral/yuvacentral/vimarsh18/static/icard/calibri.ttf',size = 22)
+    bg = Image.open(bg_url)
+    draw =  ImageDraw.Draw(bg)
+    img_io = BytesIO()
+    draw.text((490,225),name.upper(),fill = (36,99,177), font = font)
+    bg.save(img_io, 'PNG')
+
+    #################EMAIL#############################
+    plaintext = get_template('emails/certi_volunteer.txt')
+    htmly = get_template('emails/certi_volunteer.html')
+    fail_silently=False
+    d = {'name':name}
+    subject, from_email = 'Volunteer Certificate - Vimarsh 2018', 'Vimarsh - YUVA <vimarsh@yuva.net.in>'
+    to = [str(email),]
+    text_content = plaintext.render(d)
+    html_content = htmly.render(d)
+    msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+    msg.attach_alternative(html_content, "text/html")
+    img_io_get = img_io.getvalue()
+    msg.attach(reg_no+'.png', img_io_get, 'image/png')
+    msg.send(fail_silently=False)  
+    #################EMAIL CLOSE########################
+    bg.close()

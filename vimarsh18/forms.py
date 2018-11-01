@@ -61,6 +61,15 @@ class single_field_form(forms.Form):
 
 class single_choice_form(forms.Form):
     pay_choice = forms.ChoiceField(choices=pay_mode_choices, required=True, widget=forms.Select(attrs={'class':'js-example-basic-single form-control', 'data-placeholder':'Select Payment Method'}))
+    
+class volunteer_certi_form(forms.Form):
+    reg_no = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control'}))
+    email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class':'form-control'}))
+    def clean_reg_no(self):
+        reg_no = self.cleaned_data['reg_no'].upper()
+        if not v18.volunteer.objects.filter(reg_no = reg_no).exists():
+            raise forms.ValidationError('There is no volunteer with registration number '+reg_no+'. Please enter valid registration number')
+        return reg_no
 
 class feedback_form(forms.ModelForm):
     reg_no = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control'}))

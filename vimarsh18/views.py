@@ -17,7 +17,7 @@ from rest_framework.response import Response as serial_response
 from rest_framework import status
 from vimarsh18.serializers import session_vimSerializer
 from django.http import JsonResponse
-from vimarsh18.certi_generator import p_create
+from vimarsh18.certi_generator import p_create, v_create
 
 #Vimarsh Home
 
@@ -369,3 +369,20 @@ def feedback(request):
             messages.success(request, 'Feedback submitted successfuly. Your participation certificate is now mailed to your registered email id - '+p_obj.user.email+'.')
             return redirect('account:activities')
     return render(request, 'feedback.html', {'form':form})
+
+def certi_volunteer_request(request):
+    form = v18_forms.volunteer_certi_form()
+    if request.method == 'POST':
+        form = v18_forms.volunteer_certi_form(request.POST)
+        if form.is_valid():
+            reg_no = form.cleaned_data['reg_no'].upper()
+            email = form.cleaned_data['email']
+            v_obj = v18_models.volunteer.objects.get(reg_no = reg_no)
+            u_e = v_obj.user.email
+            if u_e.lower() != email.lower():
+                messages.error(request, "Given email address doesn't match with the registered email address for the provided registration number. Try Again!")
+                return redirect('vimarsh18:v_certi')
+            v_create(v_obj.user.profile.name, v_obj.user.email, reg_no)
+            messages.success(request, 'Your certificate is now mailed to your registered email id - '+v_obj.user.email+'.')
+            return redirect('account:activities')
+    return render(request, 'certi_volunteer_form.html', {'form':form})
