@@ -1,0 +1,75 @@
+{% load staticfiles%}   
+ 
+	<div class="container">
+        <div class="navbar-header">
+	    	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index">
+	        	<span class="sr-only">Toggle navigation</span>
+	        	<span class="icon-bar"></span>
+	        	<span class="icon-bar"></span>
+	        	<span class="icon-bar"></span>
+	    	</button>
+	    	<a href="#">
+	        	<div class="logo-container">
+	                <div class="logo">
+	                    <img src="{%static 'intern/assets/img/logo.png'%}" alt="YUVA" rel="tooltip" title="<b>YUVA</b> Internship Programe" data-placement="bottom" data-html="true">
+	                </div>
+				</div>
+	      	</a>
+	    </div>
+
+	    <div class="collapse navbar-collapse" id="navigation-index">
+	    	<ul class="nav navbar-nav navbar-right">
+                <li>
+					<a href="mailto:contact@yuva.net.in" >
+						<i class="material-icons">dashboard</i> Contact Us
+					</a>
+				</li>
+				{%if user.is_authenticated %}
+                 <li>
+					<a href="{%url 'account:profile'%}" >
+						<i class="material-icons">dashboard</i> Profile
+					</a>
+				</li>
+                <li>
+					<a href="{%url 'landing:logout'%}" >
+						<i class="material-icons">dashboard</i> Logout
+					</a>
+				</li>
+                {%else%}
+                <li>
+					<a href="{%url 'account:register_yuva'%}?next=intern" >
+						<i class="material-icons">dashboard</i> Register
+					</a>
+				</li>
+                <li>
+					<a href="{%url 'landing:login'%}?next=intern" >
+						<i class="material-icons">dashboard</i> Login
+					</a>
+				</li>
+                {%endif%}
+				<li>
+					<a href="{%url 'intern:home'%}" >
+						<i class="material-icons">unarchive</i> Home
+					</a>
+				</li>
+                <!--
+				<li>
+					<a rel="tooltip" title="Follow us on Twitter" data-placement="bottom" href="#"  class="btn btn-white btn-simple btn-just-icon">
+						<i class="fa fa-twitter"></i>
+					</a>
+				</li>
+				<li>
+					<a rel="tooltip" title="Like us on Facebook" data-placement="bottom" href="#"  class="btn btn-white btn-simple btn-just-icon">
+						<i class="fa fa-facebook-square"></i>
+					</a>
+				</li>
+				<li>
+					<a rel="tooltip" title="Follow us on Instagram" data-placement="bottom" href="#"  class="btn btn-white btn-simple btn-just-icon">
+						<i class="fa fa-instagram"></i>
+					</a>
+				</li>
+                -->
+	    	</ul>
+	    </div>
+	</div>
+

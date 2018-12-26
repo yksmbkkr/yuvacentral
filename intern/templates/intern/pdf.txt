@@ -1,0 +1,25 @@
+Dear {{name}},<br />
+Thank you for showing interest in YUVA internship programme,<br />
+in one of our associated institutions/organisations.<br />
+We will let you know about the organisation,<br />
+you will be placed with in due course of time.<br />
+<br />
+You have applied for {{area}} internship in {{field}} field.<br />
+<br />
+Registration Information : <br />
+Registration No. : {{reg_no}}<br />
+Name : {{name}}<br />
+Phone No : {{phone}}<br />
+College : {{college}}<br />
+Course : {{course}}<br />
+University : {{university}}<br />
+Area of residence : {{city}}<br />
+<br />
+If you have any further questions on the internship,<br />
+please do not hesitate to contact us at yuva.vision.action@gmail.com<br />
+For further updates you can visit our Facebook page<br />
+ https://www.facebook.com/YouthUnitedForVisionAndAction/<br />
+ <br />
+ <br />
+ Kind regards<br />
+Team YUVA

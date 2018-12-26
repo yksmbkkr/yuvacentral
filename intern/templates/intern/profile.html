@@ -1,0 +1,179 @@
+{%extends 'intern/skeleton.html' %}
+{% load staticfiles%}
+{% block body%}
+
+<body style="background-image: url('{%static 'intern/assets/img/container.jpg'%}') !important; background-size: cover; background-position: top center; background-attachment: fixed !important;">
+    <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
+        {% include 'intern/navbar.html' %}
+     </nav>
+    <div class="wrapper">
+	<div class="header-sm">
+
+	</div>
+	<!-- you can use the class main-raised if you want the main area to be as a page with shadows -->
+	<div class="main main-raised">
+		<div class="container">
+           <div class="row text-center">
+               <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+                   
+                       <h3 class="title">Hi {{name}}</h3>
+                  
+               </div>
+           </div>
+			<!-- here you can add your content -->
+            <br />
+			<div class="row">
+					<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+						<div class="card card-signup">
+							
+								<div class="header header-info text-center">
+									<h4>Info provided by you</h4>
+								</div>
+								{%for message in messages%}
+                                <div class="alert alert-{{ message.tags }}">
+                                    <div class="container-fluid">
+	                                     <div class="alert-icon">
+	                                        <i class="material-icons">error_outline</i>
+	                                      </div>
+	                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		                                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+	                                      </button>
+                                          <b>{{ message.tags }} Alert:</b> {{message}}
+                                        </div>
+                                    </div>
+                                {%endfor%}
+								<div class="content">
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-4">
+                                            <p>Email</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-8">
+                                            <p>: {{email}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-4">
+                                            <p>Phone No.</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-8">
+                                            <p>: {{phone}}</p>
+                                        </div>
+                                    </div>
+									<div class="row">
+                                        <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-4">
+                                            <p>College</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-8">
+                                            <p>: {{college}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-4">
+                                            <p>University</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-8">
+                                            <p>: {{university}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-4">
+                                            <p>Course</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-8">
+                                            <p>: {{course}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-4">
+                                            <p>Area of residence</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-8">
+                                            <p>: {{area_living}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-4">
+                                            <p>Gender</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-8">
+                                            <p>: {{gender}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-4">
+                                            <p>Days prefered</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-8">
+                                            <p>: {{p.days}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-4">
+                                            <p>Starting Date Prefered</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-8">
+                                            <p>: {{p.from_date}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-4">
+                                            <p>End Date Prefered</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-8">
+                                            <p>: {{p.to_date}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-4">
+                                            <p>SOP</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-8">
+                                            <p>: {{p.sop}}</p>
+                                        </div>
+                                    </div>
+                                    
+								</div>
+								<div class="footer text-center">
+                                    <div class="row text-center">
+                                         <div class="col-md-10 col-md-offset-1 sol-sm-12">
+                                             {%if applied%}
+                                            <ul>
+                                                {%for apply in applied%}
+                                                <li><h4 class="title">You have applied for {{apply.code.intern}} internship in {{apply.code.field}} field under registration number {{apply.reg_no}} .</h4></li>
+                                                {%endfor%}
+                                            </ul>
+                                            {%else%}
+                                            <h3 class="title">You have not applied for any internship yet.</h3>
+                                         {%endif%}
+                                         </div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div><a href="{%url 'download'%}" class="btn btn-primary btn-simple btn-lg">Download Your Resume</a></div>
+                                    </div>
+                                     <div class="row text-center">
+                                        <div><a href="{%url 'home'%}" class="btn btn-primary btn-simple btn-lg">Apply for Intern</a></div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div><a href="{%url 'edit_profile'%}" class="btn btn-primary btn-lg">Edit Profile</a></div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div><a href="{%url 'mod_pass'%}" class="btn btn-warning btn-lg">Change Password</a></div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div><a href="{%url 'edit_email'%}" class="btn btn-info btn-lg">Change Email</a></div>
+                                    </div>
+								</div>
+						</div>
+					</div>
+				</div>
+            <br />
+		</div>
+	</div>
+</div>
+    <footer class="footer">
+		        {% include 'intern/footer.html'%}
+		    </footer>
+</body>
+
+{%endblock%}

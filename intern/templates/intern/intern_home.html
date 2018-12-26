@@ -1,0 +1,19 @@
+{%extends 'intern/skeleton.html' %}
+{% load staticfiles%}
+{% block body%}
+<body class="landing-page">
+    <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
+        {% include 'intern/navbar.html' %}
+        </nav>
+    <!---->
+    {%include 'intern/intern_home_body.html' %}
+    {%include 'intern/contact_model.html' %}
+    {%include 'intern/lawModal.html' %}
+    {%include 'intern/socialModal.html' %}
+    {%include 'intern/mediaModal.html' %}
+    {%include 'intern/policyModal.html' %}
+    {%include 'intern/commerceModal.html' %}
+    {%include 'intern/scienceModal.html' %}
+</body>
+{%endblock%}
+

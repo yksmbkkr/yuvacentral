@@ -1,0 +1,54 @@
+﻿{%extends 'intern/notice.html'%}
+{%block notice%}
+<div class="row text-center">
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Created on</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone No</th>
+                    <th>Gender</th>
+                    <th>College</th>
+                    <th>Course</th>
+                    <th>Year</th>
+                    <th>Username</th>
+                    <th>Resume</th>
+                    <th>Internships</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for l in list%}
+                    <tr>
+                        <td>{{l.a.updated_at}}</td>
+                        <td>{{l.p.name}}</td>
+                        <td>{{l.e}}</td>
+                        <td>{{l.p.phone}}</td>
+                        <td>{{l.a.gender}}</td>
+                        <td>{{l.p.college}}</td>
+                        <td>{{l.a.course}}</td>
+                        <td>{{l.n}}</td>
+                        <td><a href="/resume_download/{{l.p.user.id}}" class="btn btn-sm ptn-info">Download</a></td>
+                        <td>
+                            <ul>
+                            {%for r in l.i%}
+                                <li>{{r.code.intern}} - {{r.code.field}} - {{r.reg_no}} - {{r.updated_at}}</li>
+                            {%endfor%}
+                            </ul>
+                        </td>
+                    </tr>
+    
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row text-center">
+    <div>
+        <a href="{%url 'intern:download_list'%}" class="btn btn-primary btn-lg">Download</a>
+    </div>
+</div>
+
+
+{%endblock%}

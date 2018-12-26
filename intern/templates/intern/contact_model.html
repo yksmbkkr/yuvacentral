@@ -1,0 +1,56 @@
+<div class="modal fade" id="contactus" tabindex="-1" role="dialog" aria-labelledby="contactusLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      
+      </div>
+      <div class="modal-body">
+          {%if messages%}
+          <div class="alert alert-success">
+    <div class="container-fluid">
+	  <div class="alert-icon">
+		<i class="material-icons">check</i>
+	  </div>
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true"><i class="material-icons">clear</i></span>
+	  </button>
+        {% for message in messages %}
+      <b>Form Success Alert:</b> {{message}}
+        {%endfor%}
+    </div>
+</div>
+          {%endif%}
+           {%if form.errors%}
+	        <div class="alert alert-danger">
+	             <div class="container-fluid">
+					 <div class="alert-icon">
+						<i class="material-icons">error_outline</i>
+					</div>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true"><i class="material-icons">clear</i></span>
+					</button>
+	                 <b>Form Error Alert:</b><ul class="errorlist"><li>{{form.errors}}</li></ul>
+	            </div>
+	        </div>
+	        <div class="clearfix"></div>
+	   
+                                {%endif%}
+         
+        <div class="section landing-section">
+	                <div class="row">
+	                    <div class="col-md-8 col-md-offset-2">
+	                        <h2 class="text-center title">Contact Us</h2>
+							<h4 class="text-success">In case of any query feel free to write us at <a href="mailto:contact@yuva.net.in">contact@yuva.net.in</a></h4>
+	                    </div>
+	                </div>
+
+	            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!---->

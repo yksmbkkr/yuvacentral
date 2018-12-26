@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'account',
     'manage_dashboard',
     'vimarsh18',
+    'intern',
     'django_cleanup',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -175,6 +176,9 @@ EMAIL_PORT = 587
 LOGIN_URL = 'landing:login'
 LOGOUT_REDIRECT_URL = 'landing:login'
 LOGIN_REDIRECT_URL='account:profile'
+
+CONTENT_TYPES = ['pdf', 'pdf']
+MAX_UPLOAD_SIZE = 1048576
 
 #----------------AWS----------------------------
 

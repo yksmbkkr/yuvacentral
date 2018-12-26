@@ -1,0 +1,11 @@
+﻿{%extends 'intern/notice.html'%}
+{%block notice%}
+
+                <p class="text-info">Your account is not yet activated. First activate your account then proceed.</p>
+                
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <a href="{%url 'resend_confirmation'%}" class="btn btn-primary">Resend Activation E-Mail</a>
+                </div>
+
+{%endblock%}

@@ -1,0 +1,124 @@
+{%extends 'intern/skeleton.html' %}
+{% load staticfiles%}
+{% block body%}
+<body class="signup-page">
+     <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
+        {% include 'intern/navbar.html' %}
+     </nav>
+    <div class="wrapper">
+		<div class="header header-filter" style="background-image: url('{%static 'intern/assets/img/city.jpg'%}'); background-size: cover; background-position: top center;">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+						<div class="card card-signup">
+							<form class="form" method="post" action="" enctype="multipart/form-data">
+								<div class="header header-primary text-center">
+									<h4>Sign Up</h4>
+									
+								</div>
+								{%for message in messages%}
+                                <div class="alert alert-danger">
+                                    <div class="container-fluid">
+	                                     <div class="alert-icon">
+	                                        <i class="material-icons">error_outline</i>
+	                                      </div>
+	                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		                                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+	                                      </button>
+                                          <b>Error Alert:</b> {{message}}
+                                        </div>
+                                    </div>
+                                {%endfor%}
+                                {%if form.errors%}
+                                    <div class="alert alert-danger">
+                                        <div class="container-fluid">
+	                                      <div class="alert-icon">
+	                                        <i class="material-icons">error_outline</i>
+	                                      </div>
+	                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		                                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+	                                      </button>
+                                            <ul>
+                                          {%for field in form%}
+                                            
+                                            {%for error in field.errors%}
+                                            <li>{{field.label}} - {{error}}</li>
+                                            {%endfor%}
+                                            
+                                            {%endfor%}
+                                                </ul>
+                                        </div>
+                                    </div>
+                                {%endif%}
+								<div class="content">
+
+									
+
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">perm_identity</i>
+										</span>
+										{{form.gender}}
+									</div>
+
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">description</i>
+										</span>
+										{{form.sop}}
+									</div>
+
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">low_priority</i>
+										</span>
+										{{form.days}}
+									</div>
+
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">date_range</i>
+										</span>
+										{{form.from_date}}
+									</div>
+
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">date_range</i>
+										</span>
+										{{form.to_date}}
+									</div>
+
+                                    <div class="text-center"><h5> Select Resume</h5></div>
+                                    <div class="input-group text-center">
+										{{form.resume}}
+                                       
+									</div>
+                                    {%csrf_token%}
+									<!-- If you want to add a checkbox to this form, uncomment this code
+
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" name="optionsCheckboxes" checked>
+											Subscribe to newsletter
+										</label>
+									</div> -->
+								</div>
+								<div class="footer text-center">
+									<button type="submit" class="btn btn-primary btn-lg">Save</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<footer class="footer">
+		        {% include 'intern/footer.html'%}
+		    </footer>
+
+		</div>
+
+    </div>
+</body>
+{%endblock%}

@@ -1,0 +1,18 @@
+﻿{%extends 'intern/notice.html'%}
+
+{%block notice%}
+
+                <p class="text-info">Activation mail sent again to</p><p class="text-danger"> {{user.email}}.</p><p class="text-info"> First activate your account then proceed.</p>
+<div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <a href="https://gmail.com" class="btn btn-primary">Continue</a>
+                </div>
+    </div>
+<div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <a href="{%url 'edit_email'%}" class="btn btn-warning">Edit Email Address</a>
+                </div>
+    </div>
+{%endblock%}

@@ -1,0 +1,140 @@
+{% load staticfiles%}
+
+    <div class="wrapper">
+        <div class="header header-filter" style="background-image: url('{% static 'intern/assets/img/container.jpg' %}');">
+            <div class="container">
+                <div class="row">
+					<div class="col-md-6">
+						<h1 class="title">YUVA Internship Programme</h1>
+	                    <h4>Youth United for Vision and Action(YUVA) brings you "YUVA Internship Programme". 
+                            It offers an opportunity to intern and learn. </h4>
+	                    
+                        <br />
+	                    <a  class="btn btn-danger btn-raised btn-lg" data-toggle="modal" data-target="#contactus">
+							<i class="fa fa-play"></i> Contact Us
+						</a>
+					</div>
+                </div>
+            </div>
+        </div>
+
+		<div class="main main-raised">
+			<div class="container">
+		    	<div class="section text-center section-landing">
+	                <div class="row">
+	                    <div class="col-md-8 col-md-offset-2">
+	                        <h2 class="title">Introduction</h2>
+	                        <h5 class="description">Youth United for Vision and Action(YUVA) brings you "YUVA Internship Programme". 
+                            It offers an opportunity to intern and learn the intricacies of different domains spread 
+                            over Law, Policy Research, Social Work, Science and Technology, Journalism, Commerce, Economics and 
+                            various other genres at some of the most well established and celebrated institutions across Delhi NCR and also some 
+                            field studies across the nation.
+This Scheme seeks to engage students pursuing Under 
+                            Graduate/Graduate/Post Graduate Degrees or are Research Scholars enrolled in 
+                            recognized University/Institution within Delhi, as "Interns".<br />
+                            We at YUVA, assure a productive and learning endeavor of yours throughout the period you devote at these internships.</h5>
+	                    </div>
+	                </div>
+                    <div class="row">
+	                    <div class="col-md-8 col-md-offset-2">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#contactus">
+                Contact Us
+            </button>
+                            </div>
+                        </div>
+                    <h2 class="title">Select field of your interest</h2>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4 mb-5">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="text-center">
+                                        <img src="{%static 'intern/assets/img/law.jpg'%}" alt="Raised Image" class="img-rounded img-responsive img-raised">
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary btn-raised btn-block mt-5" data-toggle="modal" data-target="#lawModal">Law</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-5">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="text-center">
+                                        <img src="{%static 'intern/assets/img/commerce.png'%}" alt="Raised Image" class="img-rounded img-responsive img-raised" width=100% height=auto>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary btn-raised btn-block mt-5" data-toggle="modal" data-target="#commerceModal">Commerce Economics &amp; Finance</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4 mb-5">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="text-center">
+                                        <img src="{%static 'intern/assets/img/science.jpg'%}" alt="Raised Image" class="img-rounded img-responsive img-raised">
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary btn-raised btn-block  mt-5" data-toggle="modal" data-target="#scienceModal">Science &amp; Technology</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-5">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="text-center">
+                                        <img src="{%static 'intern/assets/img/policy.jpg'%}" alt="Raised Image" class="img-rounded img-responsive img-raised" width=100% height=auto>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary btn-raised btn-block mt-5" data-toggle="modal" data-target="#policyModal">Policy Research</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4 mb-5">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="text-center">
+                                        <img src="{%static 'intern/assets/img/media.jpeg'%}" alt="Raised Image" class="img-rounded img-responsive img-raised">
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary btn-raised btn-block  mt-5" data-toggle="modal" data-target="#mediaModal">Media &amp; Journalism</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-5">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="text-center">
+                                        <img src="{%static 'intern/assets/img/social.jpeg'%}" alt="Raised Image" class="img-rounded img-responsive img-raised" width=100% height=auto>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary btn-raised btn-block mt-5" data-toggle="modal" data-target="#socialModal">Social Work</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+	            </div> 
+	        </div>
+
+
+		</div>
+        <footer class="footer">
+	   {% include 'intern/footer.html'%}
+            </footer>
+	</div>
