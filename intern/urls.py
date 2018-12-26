@@ -16,5 +16,5 @@ urlpatterns = [
     url(r'^resume_download/(.{1,150})/$',views.resume_download),
     ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
