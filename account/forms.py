@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, AdminPasswordChangeForm
 from django.contrib.auth.models import User
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
@@ -61,3 +61,16 @@ class other_info_form(forms.ModelForm):
     class Meta:
         model = a_models.other_info
         fields = ('designation', 'institution',)
+
+class PasswordChangeCustomForm(PasswordChangeForm):
+    def __init__(self, user, *args, **kwargs):
+        super(PasswordChangeCustomForm, self).__init__(user, *args, **kwargs)
+        self.fields['old_password'].widget.attrs.update({'class': 'form-control', 'placeholder':'Old Password'})
+        self.fields['new_password1'].widget.attrs.update({'class': 'form-control', 'placeholder':'New Password'})
+        self.fields['new_password2'].widget.attrs.update({'class': 'form-control', 'placeholder':'Confirm Password'})
+
+class AdminPasswordChangeCustomForm(AdminPasswordChangeForm):
+    def __init__(self, user, *args, **kwargs):
+        super(AdminPasswordChangeCustomForm, self).__init__(user, *args, **kwargs)
+        self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder':'New Password'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder':'Confirm Password'})

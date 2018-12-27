@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^vimarsh18/', include('vimarsh18.urls', namespace = 'vimarsh18')),
     url(r'^admin-dash/', include('manage_dashboard.urls', namespace = 'dashboard')),
     url(r'^intern/', include('intern.urls', namespace = 'intern')),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^password_reset/done/$', auth_views.password_reset_done, {'template_name':'password_reset_done.html'}, name='password_reset_done'),
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_views.password_reset_confirm, {'template_name':'password_reset_confirm.html'}, name='password_reset_confirm'),
