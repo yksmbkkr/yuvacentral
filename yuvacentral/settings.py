@@ -14,6 +14,7 @@ import os
 import posixpath
 from .aws_key import *
 from django.contrib.messages import constants as messages
+from .social_key import *
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -30,10 +31,10 @@ SECRET_KEY = 'db4ed6e0-d452-4efc-88b9-85d802a554ca'
 if os.name=='nt':
     DEBUG = True
 else:
-    DEBUG = True
+    DEBUG = False
 #DEBUG=True
 
-ALLOWED_HOSTS = ['206.189.141.255', 'yuva.net.in','www.yuva.net.in','localhost','yuvainternship.com']
+ALLOWED_HOSTS = ['206.189.141.255', 'yuva.net.in','www.yuva.net.in','localhost']
 SITE_ID = 1
 
 
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
     'imagekit',
     'storages',
     #'pwa',
@@ -70,6 +72,8 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #social auth
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'yuvacentral.urls'
@@ -86,6 +90,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                ##social-auth
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -136,6 +143,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    #'social_core.backends.github.GithubOAuth2',
+    #'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -174,11 +189,54 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
 LOGIN_URL = 'landing:login'
+LOGOUT_URL = 'landing:logout'
 LOGOUT_REDIRECT_URL = 'landing:login'
 LOGIN_REDIRECT_URL='account:profile'
 
 CONTENT_TYPES = ['pdf', 'pdf']
 MAX_UPLOAD_SIZE = 1048576
+
+#-----------------------secure SSL----------------------
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+#------------------social auth pipeline-----------------
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    'account.pipeline.add_email',
+)
+
+#------------------------socialAuth---------------------
+
+SOCIAL_AUTH_FACEBOOK_KEY = fb_key
+SOCIAL_AUTH_FACEBOOK_SECRET = fb_secret
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'fields': 'id, name, email'
+}
+
+
+#SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '173736679026-hmpl3jph2eap4t36cctg2mft590q3ji8.apps.googleusercontent.com'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = google_key
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = google_secret
+
+#SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'qBBoKioyvtFmyh_gy-5kiJCl'
+
+
 
 #----------------AWS----------------------------
 

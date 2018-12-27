@@ -105,6 +105,74 @@
                       <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
+                
+                <div class="col-md-12 ml-auto mr-auto border border-info rounded">
+                    <h4 class="title text-info">Credentials' Management</h4>
+                    <div class="row">
+                        <div class="col-md-4 ml-auto mr-auto">
+                            <a class="btn btn-info btn-block btn-round btn-sm btn-raised" href="{% url 'account:change_password'%}">Change Password</a>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        {% if facebook_login %}
+                        <div class="col-md-4 offset-md-4">
+                        <p class="text-center text-info">Connected as <a href="https://facebook.com/{{ facebook_login.extra_data.id }}/" target="_blank">{{ facebook_loginextra_data.id }}</a> through Facebook.</p>
+                        </div>
+                        <div class="col-md-4"></div>
+                        {% if can_disconnect %}
+                        <div class="col-md-4 offset-md-4">
+                          <form method="post" action="{% url 'social:disconnect' 'facebook' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-warning btn-sm btn-block" type="submit">Disconnect from Facebook</button>
+                          </form>
+                        </div>
+                        <div class="col-md-4"></div>
+                        {% else %}
+                        <div class="col-md-4 offset-md-4 ">
+                        <button class="btn btn-danger btn-sm btn-block" type="button" disabled>Disconnect from Facebook</button>
+                        <p class="text-danger">You must <a href="{% url 'account:change_password' %}">define a password</a> for your account before disconnecting from Facebook.</p>
+                        </div>
+                        <div class="col-md-4"></div>
+                        {% endif %}
+                      {% else %}
+                        <div class="col-md-4 offset-md-4 ">
+                        <a href="{% url 'social:begin' 'facebook' %}">Connect to Facebook (Must be same email address as your account)</a>
+                        </div>
+                        <div class="col-md-4"></div>
+                      {% endif %}
+                    </div>
+                     <br />
+                    <div class="row">
+                        {% if google_login %}
+                        <div class="col-md-4 offset-md-4">
+                        <p class="text-center text-info">Connected to Google.</p>
+                        </div>
+                        <div class="col-md-4"></div>
+                        {% if can_disconnect %}
+                        <div class="col-md-4 offset-md-4">
+                          <form method="post" action="{% url 'social:disconnect' 'google-oauth2' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-warning btn-sm btn-block" type="submit">Disconnect from Google</button>
+                          </form>
+                        </div>
+                        <div class="col-md-4"></div>
+                        {% else %}
+                        <div class="col-md-4 offset-md-4 ">
+                        <button class="btn btn-danger btn-sm btn-block" type="button" disabled>Disconnect from Google </button>
+                        <p class="text-danger">You must <a href="{% url 'account:change_password' %}">define a password</a> for your account before disconnecting from Google.</p>
+                        </div>
+                        <div class="col-md-4"></div>
+                        {% endif %}
+                      {% else %}
+                        <div class="col-md-4 offset-md-4 ">
+                        <a href="{% url 'social:begin' 'google-oauth2' %}">Connect to Google (Must be same email address as your account)</a>
+                        </div>
+                        <div class="col-md-4"></div>
+                      {% endif %}
+                    </div>
+                </div>
+                  
             </div>
           </div>
         </div>

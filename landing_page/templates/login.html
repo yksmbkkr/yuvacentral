@@ -17,7 +17,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <form id="login-form" class="form" method="post" action="{%url 'landing:login'%}">
               <div class="card-header card-header-primary text-center">
                 <h4 class="card-title">Login</h4>
+                  <div class="social-line">
+                      <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-just-icon btn-link">
+                        <i class="fa fa-facebook-square"></i>
+                      </a>
+                     
+                      <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-just-icon btn-link">
+                        <i class="fa fa-google"></i>
+                      </a>
+                </div>
               </div>
+                <p class="description text-center">Or Be Classical</p>
               <div class="card-body">
                   {%if form.errors%}
                      <div class="row">

@@ -27,6 +27,8 @@ from account.tokens import email_confirmation_token
 from account.decorators import *
 from vimarsh18 import models as v18_models
 from intern import models as intern_model
+from social_django.models import UserSocialAuth
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 
@@ -90,6 +92,15 @@ def activation(request, uidb64, token):
 @login_required
 @is_confirm_mail
 def profile(request):
+    try:
+        facebook_login = request.user.social_auth.get(provider='facebook')
+    except UserSocialAuth.DoesNotExist:
+        facebook_login = None
+    try:
+        google_login = request.user.social_auth.get(provider='google-oauth2')
+    except UserSocialAuth.DoesNotExist:
+        google_login = None
+    can_disconnect = (request.user.social_auth.count() > 1 or request.user.has_usable_password())
     if a_models.profile.objects.filter(user=request.user).count()>0:
         form=a_forms.profile_form(instance = a_models.profile.objects.get(user = request.user))
         if request.method=='POST':
@@ -98,7 +109,8 @@ def profile(request):
                 form.save()
                 messages.success(request,"Changes in your profile saved successfully")
                 return redirect('account:profile')
-        return render(request,'profile.html',{'form':form, 'profile_pill':'active'})
+        return render(request,'profile.html',{'form':form, 'profile_pill':'active', 
+                                              'facebook_login': facebook_login, 'google_login':google_login,'can_disconnect': can_disconnect})
     form = a_forms.profile_form()
     if request.method=='POST':
         form = a_forms.profile_form(request.POST)
@@ -109,7 +121,31 @@ def profile(request):
             a_models.user_check.objects.filter(user=request.user).update(profile_status=True)
             messages.success(request,"Profile saved successfully")
             return redirect('account:profile')
-    return render(request,'profile.html',{'form':form, 'profile_pill':'active'})
+    return render(request,'profile.html',{'form':form, 'profile_pill':'active',
+                                          'facebook_login': facebook_login, 'google_login':google_login,'can_disconnect': can_disconnect})
+
+@login_required
+def change_password(request):
+    if request.user.has_usable_password():
+        form = a_forms.PasswordChangeCustomForm(request.user)
+        if request.method == 'POST':
+            form = a_forms.PasswordChangeCustomForm(request.user, request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('account:activities')
+        return render(request, 'changepass.html', {'form':form})
+    else:
+        form = a_forms.AdminPasswordChangeCustomForm(request.user)
+        if request.method == 'POST':
+            form = a_forms.AdminPasswordChangeCustomForm(request.user, request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Your password was set successfuly!')
+                return redirect('account:activities')
+        return render(request, 'setpass.html', {'form':form})
 
 @login_required
 def activation_status(request):

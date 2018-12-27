@@ -65,6 +65,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   </div>
                   {%endif%}
             <div class="row">
+                <div class="offset-md-2 col-md-4 col-sm-12">
+                    <a class="btn btn-info btn-round btn-block" href="{% url 'social:begin' 'google-oauth2' %}">Register with Google</a>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <a class="btn btn-info btn-round btn-block" href="{% url 'social:begin' 'facebook' %}">Register with Facebook</a>
+                </div>
+                <div class="col-md-2"></div>
                 <div class="col-md-8 col-sm-12 ml-auto mr-auto">
                     <form method="post">
                       <div class="form-group">
