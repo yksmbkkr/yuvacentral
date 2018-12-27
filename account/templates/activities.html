@@ -103,6 +103,19 @@
                             <p>No data available</p>
                             {%endif%}
                         </div>
+                        <div class="col-sm-12 ml-auto mr-auto">
+                            <h4 class="title">Internship Applications</h4>
+                            {% if intern_list %}
+                            <ul>
+                                                {%for apply in intern_list%}
+                                                <li><h4>You have applied for {{apply.code.intern}} internship in {{apply.code.field}} field under registration number {{apply.reg_no}} .</h4></li>
+                                                {%endfor%}
+                                            </ul>
+                             {% else %}
+                            <p>No data available</p>
+                            <p><a class="btn btn-sm btn-success" href="{% url 'intern:home' %}">Apply for internship now</a></p>
+                            {%endif%}
+                        </div>
                     </div>
                 </div>
             </div>

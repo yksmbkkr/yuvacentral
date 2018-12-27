@@ -33,7 +33,7 @@ else:
     DEBUG = True
 #DEBUG=True
 
-ALLOWED_HOSTS = ['206.189.141.255', 'yuva.net.in','www.yuva.net.in','localhost']
+ALLOWED_HOSTS = ['206.189.141.255', 'yuva.net.in','www.yuva.net.in','localhost','yuvainternship.com']
 SITE_ID = 1
 
 

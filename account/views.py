@@ -26,6 +26,7 @@ from account import models as a_models
 from account.tokens import email_confirmation_token
 from account.decorators import *
 from vimarsh18 import models as v18_models
+from intern import models as intern_model
 
 # Create your views here.
 
@@ -175,4 +176,5 @@ def change_mail(request):
 def activities(request):
     volunteering_list = v18_models.volunteer.objects.filter(user=request.user)
     p_list = v18_models.participant.objects.filter(user=request.user)
-    return render(request, 'activities.html',{'activities_pill':'active','vol_list':volunteering_list, 'plist':p_list})
+    interns = intern_model.intern_registration.objects.filter(user=request.user)
+    return render(request, 'activities.html',{'activities_pill':'active','vol_list':volunteering_list, 'plist':p_list, 'intern_list':interns})

@@ -3,6 +3,9 @@ from manage_dashboard import models as m_models
 
 # Create your views here.
 
+def privacy_policy(request):
+    return render(request,'privacy-policy.html')
+
 def home(request):
     upcoming_event_list = m_models.up_events.objects.filter(to_post = True)
     elist=False
