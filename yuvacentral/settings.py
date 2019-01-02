@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'fcm_django',
     'social_django',
     'imagekit',
     'storages',
@@ -63,13 +64,13 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE= [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    #'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     #social auth
@@ -284,3 +285,8 @@ else:
 #         'sizes': '196x196'
 #     }
 # ]
+
+#--------------------FCM---------------------------------
+FCM_DJANGO_SETTINGS = {
+        "FCM_SERVER_KEY": fcm_server_key
+}
