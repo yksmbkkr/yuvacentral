@@ -21,7 +21,7 @@ jmespath==0.9.3
 oauthlib==2.1.0
 openpyxl==2.5.9
 pilkit==2.0
-Pillow==5.3.0
+Pillow==9.0.0
 pip==9.0.3
 psycopg2==2.7.5
 pyfcm==1.4.5
